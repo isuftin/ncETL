@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package gov.usgs.cida.threddsmanage;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -30,6 +26,7 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 	public static final long DEFAULT_RESCAN_PERIOD = 1000 * 60 * 60;
 	public static final String DEFAULT_PASSWORD = "anonymous";
 	public static final String DEFAULT_USER = "anonymous";
+	public static final boolean DEFAULT_ACTIVE = false;
 	public static final String EVERYTHING_REGEX = ".*";
 
 	private FTPIngestTask() {
@@ -41,8 +38,24 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 		return rescanEvery;
 	}
 
+	public String toJSONString() {
+		StringBuilder str = new StringBuilder();
+		str.append("{")
+			.append("ftpLocation: '").append(ftpLocation).append("', ")
+			.append("rescanEvery: ").append(rescanEvery).append(", ")
+			.append("filePattern: '").append(fileRegex.pattern()).append("', ")
+			.append("lastSuccess: '").append(lastSuccessfulRun.toString()).append("', ")
+			.append("username: '").append(username).append("', ")
+			.append("password: '").append(password.replaceAll(".", "\\*")).append("'")
+			.append("}");
+		return str.toString();
+	}
+
 	@Override
 	public void run() {
+		if (!active) {
+			return;
+		}
 		boolean everythingIsGood = false;
 		try {
 			int port = (ftpLocation.getPort() != -1) ? ftpLocation.getPort() : ftpLocation.getDefaultPort();
@@ -72,14 +85,14 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 		FTPFile[] files = client.listFiles(dir, new ModifiedSinceFilter(lastSuccessfulRun));
 		for (FTPFile file : files) {
 			if (file.isDirectory()) {
-				if (!ingestDirectory(file.getName())) {
+				if (!ingestDirectory(dir + File.separator + file.getName())) {
 					completedSuccessfully = false;
 				}
 			}
 			else {
 				Matcher matcher = fileRegex.matcher(file.getName());
 				if (matcher.matches()) {
-					if (!client.retrieveFile(dir, new FileOutputStream(file.getName()))) {
+					if (!client.retrieveFile(file.getName(), new FileOutputStream(DCPTConfig.FILE_STORE + File.separator + file.getName()))) {
 						// TODO keep a list of files that failed to try to correct next time
 						completedSuccessfully = false;
 					}
@@ -96,6 +109,7 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 	private DateTime lastSuccessfulRun;
 	private String username;
 	private String password;
+	private boolean active;
 
 
 	public static class Builder {
@@ -125,6 +139,16 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 			return this;
 		}
 
+		public Builder password(String password) {
+			this.password = password;
+			return this;
+		}
+
+		public Builder active(boolean active) {
+			this.active = active;
+			return this;
+		}
+
 		private URL ftpLocation;
 		private long rescanEvery;
 		private FTPClient client;
@@ -132,6 +156,7 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 		private DateTime startDate;
 		private String username;
 		private String password;
+		private boolean active;
 
 		public Builder(String ftpLocation) throws MalformedURLException {
 			location(ftpLocation);
@@ -141,6 +166,7 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 			startDate = new DateTime(0L);
 			username = DEFAULT_USER;
 			password = DEFAULT_PASSWORD;
+			active = DEFAULT_ACTIVE;
 		}
 
 		public FTPIngestTask build() {
