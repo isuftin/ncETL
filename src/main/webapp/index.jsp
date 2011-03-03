@@ -23,10 +23,14 @@
         <meta name="language" content="EN">
         <meta name="expiration date" content="Never">
 		<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
+
 		<script type="text/javascript" language="JavaScript" src="js/ext/adapter/ext/ext-base.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ext/ext-all.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ext/ext-all-debug.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/RowEditor.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/CheckColumn.js"></script>
+
+		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -34,226 +38,41 @@
 			Ext.BLANK_IMAGE_URL = 'images/s.gif';
 
 			Ext.onReady(function(){
-
-				var Ingestor = Ext.data.Record.create([{
-//						name: 'id',
-//						type: 'int'
-//					},{
-						name: 'ftpLocation',
-						type: 'string'
-					}, {
-						name: 'rescanEvery',
-						type: 'int'
-					}, {
-						name: 'filePattern',
-						type: 'string'
-					},{
-						name: 'lastSuccess',
-						type: 'date',
-						dateFormat: 'c'
-					},{
-						name: 'username',
-						type: 'string'
-					},{
-						name: 'password',
-						type: 'string'
-					},{
-						name: 'active',
-						type: 'bool'
-					}]);
-
-				var proxy = new Ext.data.HttpProxy({
-					api: {
-						read    : 'ingestors?action=read',
-						create  : 'ingestors?action=create',
-						update  : 'ingestors?action=update',
-						destroy : 'ingestors?action=destroy'
-					}
-				});
-
-				var store = new Ext.data.XmlStore({
-					fields : ['id', 'ftpLocation', 'rescanEvery', 'filePattern', 'lastSuccess' , 'username', 'password', 'active'],
-					proxy : proxy,
-					root : 'ingestors',
-					totalProperty : 'count',
-					successProperty : 'success',
-					autoLoad : true,
-					autoSave : false,
-					autoCreate : true,
-					autoDestroy : true,
-					idProperty : 'id',
-					writer : writer
-				});
-
-				var writer = new Ext.data.XmlWriter({
-					writeAllFields : true
-				});
-
-//				var jsonReader = new Ext.data.JsonReader({
-//					idProperty : 'ftpLocation',
-//					root : 'rows',
-//					totalProperty : 'results',
-//					fields : [
-//						{name : 'ftpLocation', mapping : 'ftpLocation'},
-//						{name : 'rescanEvery', mapping : 'rescanEvery'},
-//						{name : 'filePattern', mapping : 'filePattern'},
-//						{name : 'lastSuccess', mapping : 'lastSuccess'},
-//						{name : 'username', mapping : 'username'},
-//						{name : 'password', mapping : 'password'},
-//						{name : 'active', mapping : 'active'}
-//					]
-//				});
-
-
-				var editor = new Ext.ux.grid.RowEditor({
-					saveText: 'Update'
-				});
-
 				var tabs = new Ext.TabPanel({
 					title : "Dataset options",
 					renderTo : document.body,
 					activeTab : 0,
-					defaults : {autoScroll: true},
+					defaults : {
+						autoScroll: true
+					},
 					autoHeight : true,
 					items : [{
 							title : "Ingest",
-							html : '<div id="ingest"></div>'
+							contentEl : "ingest"
 						},{
 							title : "Verify",
-							html : '<div id="verify"></div>'
+							contentEl : "verify"
 						},{
 							title : "Cleanup",
-							html : '<div id="cleanup"></div>'
+							contentEl : "cleanup"
 						},{
 							title : "Decorate",
-							html : '<div id="decorate"></div>'
+							contentEl : "decorate"
 						},{
 							title : "Publish",
-							html : '<div id="publish"></div>'
+							contentEl : "publish"
 						}
 					]
 				});
 
-				var grid = new Ext.grid.EditorGridPanel({
-					title : "Ingestors",
-					renderTo : 'ingest',
-					store : store,
-					autoHeight : true,
-					tbar: [{
-							//iconCls: 'icon-user-add',
-							text: 'Add',
-							handler: function(){
-								var e = new Ingestor({
-									ftpLocation: '',
-									rescanEvery: '300000',
-									filePattern: '.*',
-									lastSuccess: '2011-01-01',
-									username: '',
-									password: '',
-									active: false
-								});
-								editor.stopEditing();
-								store.insert(0, e);
-								grid.getView().refresh();
-								grid.getSelectionModel().selectRow(0);
-								editor.startEditing(0);
-							}
-						},{
-							ref: '../removeBtn',
-							//iconCls: 'icon-user-delete',
-							text: 'Remove',
-							disabled: true,
-							handler: function(){
-								editor.stopEditing();
-								var s = grid.getSelectionModel().getSelections();
-								for(var i = 0, r; r = s[i]; i++){
-									store.remove(r);
-								}
-							}
-						}],
-					colModel : new Ext.grid.ColumnModel({
-						defaults : {
-							width : 120,
-							sortable : true
-						},
-						columns : [
-//							{
-//								id : 'id',
-//								dataIndex : 'id',
-//								hidden : true
-//							},
-							{
-								//id : 'ftpLocation',
-								header : 'Location',
-								xtype : 'gridcolumn',
-								dataIndex : 'ftpLocation',
-								editor :
-									{
-									xtype: 'textfield',
-									allowBlank: false,
-									vtype: 'url'
-								}
-							},{
-								header : 'Rescan (ms)',
-								xtype : 'numbercolumn',
-								format : '0',
-								dataIndex : 'rescanEvery',
-								editor:
-									{
-									xtype: 'numberfield',
-									allowBlank: false
-								}
-							},{
-								header : 'Pattern (regex)',
-								xtype : 'gridcolumn',
-								dataIndex : 'filePattern',
-								editor :
-									{
-									xtype: 'textfield',
-									allowBlank: false
-								}
-							},{
-								header : 'Username',
-								xtype : 'gridcolumn',
-								dataIndex : 'username',
-								editor :
-									{
-									xtype: 'textfield',
-									allowBlank: true
-								}
-							},{
-								header : 'Password',
-								//xtype : 'gridcolumn',
-								//inputType : 'password',
-								dataIndex : 'password',
-								editor :
-									{
-									xtype: 'textfield',
-									inputType: 'password'
-								},
-								renderer : function(value){
-									return (value.length > 0) ? "******" : "";
-								}
-							},{
-								header : 'Active',
-								xtype : 'checkcolumn',
-								dataIndex : 'active'
-							},{
-								header : 'Last Success',
-								xtype : 'datecolumn',
-								dataIndex : 'lastSuccess',
-								format : 'c',
-								editable : false
-							}
-						]
-					}),
-					viewConfig : {
-						forceFit: true
-					},
-					sm : new Ext.grid.RowSelectionModel({singleSelect : true})
-				});
-
+				ingest();
+				decorate();
 			}); //end onReady
         </script>
+		<div id="ingest" class="x-hidden"></div>
+		<div id="verify" class="x-hidden"></div>
+		<div id="cleanup" class="x-hidden"></div>
+		<div id="decorate" class="x-hidden"></div>
+		<div id="publish" class="x-hidden"></div>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package gov.usgs.cida.threddsmanage;
 
+import gov.usgs.cida.dcpt.FTPIngestTask;
 import org.junit.Ignore;
 import java.io.File;
 import java.net.MalformedURLException;

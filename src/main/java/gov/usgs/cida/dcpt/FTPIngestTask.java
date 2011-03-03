@@ -1,4 +1,4 @@
-package gov.usgs.cida.threddsmanage;
+package gov.usgs.cida.dcpt;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +14,7 @@ import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.joda.time.DateTime;
 import org.apache.log4j.Logger;
+import javax.xml.bind.JAXB;
 
 /**
  *
@@ -48,6 +49,12 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 			.append("username: '").append(username).append("', ")
 			.append("password: '").append(password.replaceAll(".", "\\*")).append("'")
 			.append("}");
+		return str.toString();
+	}
+
+	public String toXMLString() {
+		StringBuilder str = new StringBuilder();
+		str.append("<?xml");
 		return str.toString();
 	}
 

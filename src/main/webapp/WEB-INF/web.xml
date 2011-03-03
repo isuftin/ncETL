@@ -4,10 +4,18 @@
     <description>Data Cleaning &amp; Publishing Toolkit</description>
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.threddsmanage.servlet.IngestControlServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.dcpt.IngestControlServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DecorateServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.dcpt.servlet.DecorateServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
         <url-pattern>/ingestors</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DecorateServlet</servlet-name>
+        <url-pattern>/decorate</url-pattern>
     </servlet-mapping>
 </web-app>

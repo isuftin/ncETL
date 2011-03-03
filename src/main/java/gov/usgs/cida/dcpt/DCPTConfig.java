@@ -1,4 +1,4 @@
-package gov.usgs.cida.threddsmanage;
+package gov.usgs.cida.dcpt;
 
 /**
  *
