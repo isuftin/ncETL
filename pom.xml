@@ -39,6 +39,11 @@
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
+	<dependency>
+		<groupId>edu.ucar</groupId>
+		<artifactId>netcdf</artifactId>
+        <version>4.2</version>
+    </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
