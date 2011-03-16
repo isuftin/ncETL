@@ -1,5 +1,8 @@
 var decorate = function() {
 
+	var results = Ext.getCmp('nciso');
+	results.removeAll();
+
 	var summaryPanel = new Ext.Panel({
 		title : "Summary",
 		id : 'summaryTab',
@@ -56,25 +59,46 @@ var decorate = function() {
 		contentEl : "otherAttributes"
 	});
 
-	var tabpanel = new Ext.TabPanel({
-		activeTab : 0,
-		border: false,
+//	var tabpanel = new Ext.TabPanel({
+//		activeTab : 0,
+//		border: false,
 //		defaults : {
 //			autoScroll: true
 //		},
-		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
-			creatorForm, contribForm, publisherForm, otherForm]
-	});
+//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
+//			creatorForm, contribForm, publisherForm, otherForm]
+//	});
+	
+	results.add([
+		summaryPanel,
+		identificationForm,
+		textForm,
+		extentForm,
+		otherExtentForm,
+		creatorForm,
+		contribForm,
+		publisherForm,
+		otherForm,
+		
+	]);
+	results.activate(0);
 
-	var decoratePanel = new Ext.Panel({
-		renderTo : 'decorate',
-		layout: 'fit',
-		border: false,
-		items: [tabpanel,
-			{
-				contentEl: 'rubricVersion'
-			}]
-	})
+	var sb = Ext.getCmp('statusBar');
+	sb.add({contentEl: 'rubricVersion'});
+	var viewport = Ext.getCmp('viewport');
+	viewport.doLayout();
+	//results.render();
+	//results.doLayout();
+//	var decoratePanel = new Ext.Panel({
+//		renderTo : 'decorate',
+//		layout: 'anchor',
+//		region: 'center',
+//		border: false,
+//		items: [tabpanel,
+//			{
+//				contentEl: 'rubricVersion'
+//			}]
+//	})
 
 	//var table = Ext.get("identificationTab");
 

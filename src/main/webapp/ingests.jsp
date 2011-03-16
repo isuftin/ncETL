@@ -28,6 +28,12 @@
 
 		<script type="text/javascript" language="JavaScript" src="js/ext/adapter/ext/ext-base.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/ext-all-debug.js"></script>
+
+		<script type="text/javascript" language="JavaScript" src="js/ext/RowEditor.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ext/CheckColumn.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ext/TableGrid.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -37,67 +43,65 @@
 			Ext.onReady(function(){
 				var main = new Ext.Panel({
 					title : "Dataset options",
+					layout: 'accordion',
 					region: 'center',
-					layout: 'anchor',
+					//activeTab : 0,
+					margins: '2 2 2 2',
 					border: false,
 					defaults : {
 						autoScroll: true
 					},
 					items : [{
-							autoEl : {
-								tag : 'a',
-								href : 'ingests.jsp',
-								html : 'Ingestors'
-							},
-							border : false
+							title : "Ingest",
+							layout: 'fit',
+							contentEl : "ingest"
 						},{
-							autoEl : {
-								tag : 'a',
-								href : 'decorate.jsp',
-								html : 'ncISO tools'
-							},
-							border : false
-					}]
-//					items : [{
-//							title : "Ingest",
-//							layout: 'fit',
-//							contentEl : "ingest"
-//						},{
-//							title : "Verify",
-//							layout: 'fit',
-//							contentEl : "verify"
-//						},{
-//							title : "Cleanup",
-//							layout: 'fit',
-//							contentEl : "cleanup"
-//						},{
-//							title : "Decorate",
-//							layout: 'fit',
-//							contentEl : "decorate"
-//						},{
-//							title : "Publish",
-//							layout: 'fit',
-//							contentEl : "publish"
-//						}
-//					]
+							title : "Verify",
+							layout: 'fit',
+							contentEl : "verify"
+						},{
+							title : "Cleanup",
+							layout: 'fit',
+							contentEl : "cleanup"
+						},{
+							title : "Decorate",
+							layout: 'fit',
+							contentEl : "decorate"
+						},{
+							title : "Publish",
+							layout: 'fit',
+							contentEl : "publish"
+						}
+					]
+				});
+
+				var datasets = new Ext.Panel({
+					region: 'west',
+					width: 50,
+					maxSize: 200,
+					split: true,
+					border: false,
+					items: [
+						{title: 'test'}
+					]
 				});
 
 				var p = new Ext.Viewport({
-					layout: 'fit',
+					layout: 'border',
 					renderTo : document.body,
-					items: [main]
+					items: [main, datasets]
 				});
 
-//				ingest();
-//				loadContent('/home/scratch/QPE.20040102.009.157.grb');
+				ingest();
+				loadContent('/home/scratch/QPE.20040102.009.157.grb');
 			}); //end onReady
         </script>
-<!--		<div id="ingest" class="x-hidden"></div>
+		<div id="ingest" class="x-hidden"></div>
 		<div id="verify" class="x-hidden"></div>
 		<div id="cleanup" class="x-hidden"></div>
 		<div id="decorate" class="x-hidden"></div>
 		<div id="publish" class="x-hidden"></div>
 
-		<div id="decorateContent" class="x-hidden"></div>-->
+		<div id="decorateContent" class="x-hidden"></div>
     </body>
 </html>

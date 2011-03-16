@@ -14,6 +14,10 @@
         <servlet-name>GenerateRubricServlet</servlet-name>
         <servlet-class>gov.usgs.cida.dcpt.servlet.GenerateRubricServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DatasetServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.dcpt.servlet.DatasetServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
         <url-pattern>/ingestors</url-pattern>
@@ -25,5 +29,9 @@
     <servlet-mapping>
         <servlet-name>GenerateRubricServlet</servlet-name>
         <url-pattern>/nciso</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatasetServlet</servlet-name>
+        <url-pattern>/datasets</url-pattern>
     </servlet-mapping>
 </web-app>
