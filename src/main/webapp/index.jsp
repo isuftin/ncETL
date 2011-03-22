@@ -11,9 +11,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Data Cleanup &amp; Publishing Toolkit</title>
-		<meta name="title" content="DCPT">
-        <meta name="description" content="DCPT">
+        <title>Data Cleanup &amp; Load Tools</title>
+		<meta name="title" content="DCLT">
+        <meta name="description" content="DCLT">
         <meta name="author" content="Jordan Walker">
         <meta name="keywords" content="Department of the Interior,hazards, hazard,earth, USGS,U.S. Geological Survey, water, earthquakes, volcanoes, volcanos,
 			  tsunami, tsunamis, flood, floods, wildfire, wildfires, natural hazards, environment, science, jobs, USGS Library, Ask USGS, maps, map">
