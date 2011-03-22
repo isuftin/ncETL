@@ -5,7 +5,12 @@
   <artifactId>dclt</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
+<<<<<<< HEAD
   <name>Data Cleaning &amp; Load Tools</name>
+=======
+  <name>dcpt</name>
+  <!-- Ivan is cool -->
+>>>>>>> for Ivan
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
