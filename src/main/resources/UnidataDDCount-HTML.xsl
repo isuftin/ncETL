@@ -322,12 +322,14 @@
 				also important.
 				</p>
 				<table id="identificationTab" width="95%" border="1" cellpadding="2" cellspacing="2">
+					<form name="identification" id="identificationForm" action="ncisoAdd" method="post">
 					<tr>
 						<th valign="top">Score</th>
 						<th valign="top">Attribute</th>
 						<th valign="top">Description</th>
 						<th valign="top">THREDDS</th>
 						<th valign="top">ISO 19115-2</th>
+						<th valign="top">Add Metadata</th>
 					</tr>
 					<tr>
 						<xsl:call-template name="showScore">
@@ -346,6 +348,10 @@
 						<td colspan="1" valign="top">/gmi:MI_Metadata/gmd:fileIdentifier/gco:CharacterString
 							<br/>
 						</td>
+						<td colspan="1" valign="top">
+							<input type="text" name="dataset_id" value="" />
+						</td>
+							<br/>
 					</tr>
 					<tr>
 						<xsl:call-template name="showScore">
@@ -359,6 +365,10 @@
 						<td colspan="1" valign="top">/gmi:MI_Metadata/gmd:fileIdentifier/gco:CharacterString
 							<br/>
 						</td>
+						<td colspan="1" valign="top">
+							<input type="text" name="dataset_id" value="" />
+						</td>
+							<br/>
 					</tr>
 					<tr>
 						<xsl:call-template name="showScore">

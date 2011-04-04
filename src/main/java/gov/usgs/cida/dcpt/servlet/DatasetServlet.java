@@ -35,7 +35,7 @@ public class DatasetServlet extends HttpServlet {
         try {
             out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<Datasets>");
-			File [] datasets = getDirContents("/opt/tomcat/instance/default/content/demo");
+			File [] datasets = getDirContents("/home/scratch");
 			for (File dataset : datasets) {
 				out.println("<Dataset><path>"+dataset.toString()+"</path></Dataset>");
 			}
