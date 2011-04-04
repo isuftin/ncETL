@@ -2,15 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>gov.usgs.cida</groupId>
-  <artifactId>dclt</artifactId>
+  <artifactId>ncETL</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-<<<<<<< HEAD
-  <name>Data Cleaning &amp; Load Tools</name>
-=======
-  <name>dcpt</name>
-  <!-- Ivan is cool -->
->>>>>>> for Ivan
+  <name>ncETL</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -76,6 +71,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>dclt</finalName>
+        <finalName>ncETL</finalName>
     </build>
 </project>
