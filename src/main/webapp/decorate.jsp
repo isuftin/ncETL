@@ -31,6 +31,7 @@
 		<script type="text/javascript" language="JavaScript" src="js/ext/RowEditor.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/CheckColumn.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/TableGrid.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ext/XmlTreeLoader.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
     </head>
@@ -110,5 +111,6 @@
 		<div id="decorate" class="x-hidden"></div>
 
 		<div id="decorateContent" class="x-hidden"></div>
+		<div id="tempDiv" class="x-hidden"></div>
     </body>
 </html>

@@ -4,3 +4,19 @@ root {
 table {
 	empty-cells:show;
 }
+
+.dimension {
+	background-image: url(../images/tree/dimension.gif) !important;
+}
+.variable {
+	background-image: url(../images/tree/variable.gif) !important;
+}
+.remove {
+	background-image: url(../images/tree/remove.gif) !important;
+}
+.attribute {
+	background-image: url(../images/tree/attribute.gif) !important;
+}
+.group {
+	background-image: url(../images/tree/group.gif) !important;
+}

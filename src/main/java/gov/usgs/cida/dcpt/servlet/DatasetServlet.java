@@ -1,15 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package gov.usgs.cida.dcpt.servlet;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +28,7 @@ public class DatasetServlet extends HttpServlet {
         try {
             out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<Datasets>");
-			File [] datasets = getDirContents("/home/scratch");
+			File [] datasets = getDirContents("/home/scratch/dclt");
 			for (File dataset : datasets) {
 				out.println("<Dataset><path>"+dataset.toString()+"</path></Dataset>");
 			}

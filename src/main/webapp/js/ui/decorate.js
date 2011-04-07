@@ -160,23 +160,61 @@ var decorate_ncml = function(filename) {
 
 };
 
+Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
+	processAttributes: function(attr){
+		attr.text = '';
+		for (var key in attr) {
+			if (key === 'tagName') {
+				attr.iconCls = attr[key];
+			}
+//			else if (attr.hasOwnProperty(key) && key !== 'text') {
+//				attr.text += '[' + key + '=' + attr[key] + '] ';
+//			}
+			else if (key === 'name') {
+				attr.text = attr[key];
+			}
+		}
+		attr.loaded = true;
+		attr.expanded = false;
+	}
+})
+
 var loadContent = function(filename) {
 
-	var p = new Ext.data.HttpProxy({
-		url: 'nciso',
-		params:{
-			file: filename,
-			output: 'ncml'
-		}
-	});
 	var results = Ext.getCmp('nciso');
-	results.add(createXmlTree({
-		title: filename,
-		layout: 'fit'
-	},
-	p
-	));
+	var treepanel = new Ext.tree.TreePanel({
+		columnWidth: .45,
+		title: 'Ncml Source',
+		rootVisible: false,
+	    root: new Ext.tree.AsyncTreeNode(),
+		loader: new Ext.app.NcmlLoader({
+			url: 'nciso',
+			baseParams: {
+				file: filename,
+				output: 'ncml'
+			}
+		})
+	});
+	var ncmlpanel = new Ext.Panel({
+		columnWidth: .45,
+		items: [{
+				title: 'Ncml Wrapper',
+				html: '&lt;ncml location="' + filename + '"&gt;<br />&lt;/ncml&gt;'
+		}]
+	});
 
+	var ncisopanel = new Ext.Panel({
+		title: filename,
+		closable: true,
+		layout: 'column',
+		autoScroll:true,
+		margins: '35 5 5 0'
+	});
+
+	ncisopanel.add([treepanel, ncmlpanel]);
+
+	results.add(ncisopanel);
+	results.activate(ncisopanel);
 //	Ext.Ajax.request({
 //		url: 'nciso',
 //		params: {
@@ -189,71 +227,19 @@ var loadContent = function(filename) {
 //			//decorate_ncml(filename, response);
 //			var results = Ext.getCmp('nciso');
 //
-//			var otherForm = new Ext.tree.TreePanel({
+//			document.getElementById("tempDiv").innerHTML = response.responseText;
+//
+//			var otherForm = new Ext.Panel({
 //				title : filename,
-//				//id : 'otherTab',
+//				closable: true,
 //				layout: 'fit',
-//				data: response.responseText
+//				contentEl: 'tempDiv'
 //			});
 //
 //			results.add(otherForm);
-//		}
+//			results.activate(otherForm);
+//		},
+//		failure: function(){alert("failure");}
 //	});
 
 };
-
-function createXmlTree(el, p, callback) {
-		var tree = new Ext.tree.TreePanel(el);
-
-		p.on("loadexception", function(o, response, e) {
-			if (e) throw e;
-		});
-		p.doRequest({
-			action: 'read',
-			params: p.params,
-			reader: {
-				read: function(response) {
-					var doc = response.responseXML;
-					tree.setRootNode(treeNodeFromXml(doc.documentElement || doc));
-				}
-			},
-			callback: callback || tree.render,
-			scope: tree});
-		return tree;
-	}
-
-function treeNodeFromXml(XmlEl) {
-//	Text is nodeValue to text node, otherwise it's the tag name
-	var t = ((XmlEl.nodeType == 3) ? XmlEl.nodeValue : XmlEl.tagName);
-
-//	No text, no node.
-	if (t.replace(/\s/g,'').length == 0) {
-		return null;
-	}
-	var result = new Ext.tree.TreeNode({
-        text : t
-    });
-
-//	For Elements, process attributes and children
-	if (XmlEl.nodeType == 1) {
-		Ext.each(XmlEl.attributes, function(a) {
-			var c = new Ext.tree.TreeNode({
-				text: a.nodeName
-			});
-			c.appendChild(new Ext.tree.TreeNode({
-				text: a.nodeValue
-			}));
-			result.appendChild(c);
-		});
-		Ext.each(XmlEl.childNodes, function(el) {
-//		Only process Elements and TextNodes
-			if ((el.nodeType == 1) || (el.nodeType == 3)) {
-				var c = treeNodeFromXml(el);
-				if (c) {
-					result.appendChild(c);
-				}
-			}
-		});
-	}
-	return result;
-}
