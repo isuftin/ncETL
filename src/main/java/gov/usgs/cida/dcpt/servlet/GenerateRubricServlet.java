@@ -31,13 +31,20 @@ public class GenerateRubricServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
+
 		String xslt = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
 		PrintWriter out = response.getWriter();
 
 
 
 		try {
+			String output = request.getParameter("output");
+			if (output == null) {
+				response.setStatus(response.SC_BAD_REQUEST);
+				out.print("Must supply outputType");
+				return;
+			}
+
 			String filename = request.getParameter("file");
 			if (filename == null) {
 				response.setStatus(response.SC_BAD_REQUEST);
@@ -55,7 +62,20 @@ public class GenerateRubricServlet extends HttpServlet {
 			String tmpName = "/tmp/" + UUID.randomUUID().toString();
 			File ncml = ThreddsTranslatorUtil.getNcml(filename, tmpName + ".ncml");
 			File html = ThreddsTranslatorUtil.transform(xslt, tmpName + ".ncml", tmpName + ".html");
-			BufferedReader reader = new BufferedReader(new FileReader(html));
+			BufferedReader reader = null;
+			if ("ncml".equalsIgnoreCase(output)) {
+				response.setContentType("text/xml;charset=UTF-8");
+				reader = new BufferedReader(new FileReader(ncml));
+			}
+			else if ("rubric".equalsIgnoreCase(output)) {
+				response.setContentType("text/html;charset=UTF-8");
+				reader = new BufferedReader(new FileReader(html));
+			}
+			else {
+				response.setStatus(response.SC_NOT_IMPLEMENTED);
+				out.print("This output type is not supported");
+				return;
+			}
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				out.println(line);

@@ -321,8 +321,9 @@
 				namespace to ensure that the identifiers in that namespace are unique. Identifying the Metadata Convention being used in the file and providing a link to more complete metadata, possibly using a different convention, are
 				also important.
 				</p>
+				<form name="identification" id="identificationForm" action="ncisoAdd" method="post">
 				<table id="identificationTab" width="95%" border="1" cellpadding="2" cellspacing="2">
-					<form name="identification" id="identificationForm" action="ncisoAdd" method="post">
+					
 					<tr>
 						<th valign="top">Score</th>
 						<th valign="top">Attribute</th>
@@ -366,7 +367,7 @@
 							<br/>
 						</td>
 						<td colspan="1" valign="top">
-							<input type="text" name="dataset_id" value="" />
+							<input type="text" name="naming_authority" value="" />
 						</td>
 							<br/>
 					</tr>
@@ -378,6 +379,10 @@
 						<td valign="top">This attribute should be set to "Unidata Dataset Discovery v1.0" for NetCDF files that follow this convention.</td>
 						<td valign="top"/>
 						<td valign="top"/>
+						<td colspan="1" valign="top">
+							<input type="text" name="conventions" value="" />
+						</td>
+							<br/>
 					</tr>
 					<tr>
 						<xsl:call-template name="showScore">
@@ -392,8 +397,19 @@
 						</td>
 						<td valign="top"/>
 						<td valign="top"/>
+						<td colspan="1" valign="top">
+							<input type="text" name="metadata_link" value="" />
+						</td>
+							<br/>
 					</tr>
+					<tr>
+						<td colspan="6" halign="left">
+							<input type="submit" value="Submit" />
+						</td>
+					</tr>
+					
 				</table>
+				</form>
 			</div>
 			
 			<div id="textSearch" class="x-hidden">
