@@ -59,15 +59,15 @@ var decorate = function() {
 		contentEl : "otherAttributes"
 	});
 
-//	var tabpanel = new Ext.TabPanel({
-//		activeTab : 0,
-//		border: false,
-//		defaults : {
-//			autoScroll: true
-//		},
-//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
-//			creatorForm, contribForm, publisherForm, otherForm]
-//	});
+	//	var tabpanel = new Ext.TabPanel({
+	//		activeTab : 0,
+	//		border: false,
+	//		defaults : {
+	//			autoScroll: true
+	//		},
+	//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
+	//			creatorForm, contribForm, publisherForm, otherForm]
+	//	});
 	
 	results.add([
 		summaryPanel,
@@ -80,15 +80,17 @@ var decorate = function() {
 		publisherForm,
 		otherForm,
 		
-	]);
+		]);
 	results.activate(0);
 
 	var sb = Ext.getCmp('statusBar');
-	sb.add({contentEl: 'rubricVersion'});
+	sb.add({
+		contentEl: 'rubricVersion'
+	});
 	var viewport = Ext.getCmp('viewport');
 	viewport.doLayout();
-	//results.render();
-	//results.doLayout();
+//results.render();
+//results.doLayout();
 //	var decoratePanel = new Ext.Panel({
 //		renderTo : 'decorate',
 //		layout: 'anchor',
@@ -100,7 +102,7 @@ var decorate = function() {
 //			}]
 //	})
 
-	//var table = Ext.get("identificationTab");
+//var table = Ext.get("identificationTab");
 
 };
 
@@ -115,15 +117,15 @@ var decorate_ncml = function(filename) {
 		contentEl : "otherAttributes"
 	});
 
-//	var tabpanel = new Ext.TabPanel({
-//		activeTab : 0,
-//		border: false,
-//		defaults : {
-//			autoScroll: true
-//		},
-//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
-//			creatorForm, contribForm, publisherForm, otherForm]
-//	});
+	//	var tabpanel = new Ext.TabPanel({
+	//		activeTab : 0,
+	//		border: false,
+	//		defaults : {
+	//			autoScroll: true
+	//		},
+	//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
+	//			creatorForm, contribForm, publisherForm, otherForm]
+	//	});
 
 	results.add([
 		summaryPanel,
@@ -136,15 +138,17 @@ var decorate_ncml = function(filename) {
 		publisherForm,
 		otherForm,
 
-	]);
+		]);
 	results.activate(0);
 
 	var sb = Ext.getCmp('statusBar');
-	sb.add({contentEl: 'rubricVersion'});
+	sb.add({
+		contentEl: 'rubricVersion'
+	});
 	var viewport = Ext.getCmp('viewport');
 	viewport.doLayout();
-	//results.render();
-	//results.doLayout();
+//results.render();
+//results.doLayout();
 //	var decoratePanel = new Ext.Panel({
 //		renderTo : 'decorate',
 //		layout: 'anchor',
@@ -156,7 +160,7 @@ var decorate_ncml = function(filename) {
 //			}]
 //	})
 
-	//var table = Ext.get("identificationTab");
+//var table = Ext.get("identificationTab");
 
 };
 
@@ -167,39 +171,104 @@ Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 			if (key === 'tagName') {
 				attr.iconCls = attr[key];
 			}
-//			else if (attr.hasOwnProperty(key) && key !== 'text') {
-//				attr.text += '[' + key + '=' + attr[key] + '] ';
-//			}
+			//			else if (attr.hasOwnProperty(key) && key !== 'text') {
+			//				attr.text += '[' + key + '=' + attr[key] + '] ';
+			//			}
 			else if (key === 'name') {
 				attr.text = attr[key];
+			}
+			else if (key === 'value') {
+				attr.value = attr[key];
 			}
 		}
 		attr.loaded = true;
 		attr.expanded = false;
 	}
-})
+});
+var editElement = function() {
+	var treePanel = Ext.getCmp('treepanel');
+	var selectedNode = treePanel.getSelectionModel().getSelectedNode();
+	var win = new Ext.Window({
+		layout: 'fit',
+		title: selectedNode.text,
+		width: 500,
+		height: 300,
+		closeAction: 'hide',
+		plain: true,
+		items: new Ext.FormPanel({
+			title: 'Edit Element',
+			items: [{
+				fieldLabel: 'name',
+				xtype: 'textfield',
+				name: 'name',
+				value: selectedNode.attributes.name,
+				allowBlank: false
+			},{
+				fieldLabel: 'value',
+				xtype: 'textfield',
+				value: selectedNode.attributes.value,
+				name: 'value'
+			}],
+			border:false
+		}),
+
+		buttons: [{
+			text:'Submit'
+		},{
+			text: 'Close',
+			handler: function(){
+				win.hide();
+			}
+		}]
+	});
+	win.show();
+};
+
+var menu;
+var rightClick = function(node, event) {
+	if (!menu) {
+		menu = new Ext.menu.Menu({
+			items: [{
+				itemId: 'edit',
+				text: 'Edit',
+				scope: editElement,
+				handler: editElement
+			}]
+		});
+	}
+	menu.showAt(event.getXY());
+	this.getSelectionModel().select(node);
+};
 
 var loadContent = function(filename) {
 
 	var results = Ext.getCmp('nciso');
 	var treepanel = new Ext.tree.TreePanel({
-		columnWidth: .45,
+		id: 'treepanel',
+		columnWidth: .48,
 		title: 'Ncml Source',
-		rootVisible: false,
-	    root: new Ext.tree.AsyncTreeNode(),
+		rootVisible: true,
+		root: new Ext.tree.AsyncTreeNode({
+			text: filename,
+			iconCls: 'netcdf'
+		}),//treeNode,
 		loader: new Ext.app.NcmlLoader({
 			url: 'nciso',
 			baseParams: {
 				file: filename,
 				output: 'ncml'
 			}
-		})
+		}),
+		listeners: {
+			contextmenu: rightClick
+		}
 	});
+
 	var ncmlpanel = new Ext.Panel({
-		columnWidth: .45,
+		columnWidth: .48,
 		items: [{
-				title: 'Ncml Wrapper',
-				html: '&lt;ncml location="' + filename + '"&gt;<br />&lt;/ncml&gt;'
+			title: 'Ncml Wrapper',
+			html: '&lt;ncml location="' + filename + '"&gt;<br />&lt;/ncml&gt;'
 		}]
 	});
 
