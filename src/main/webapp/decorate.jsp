@@ -43,7 +43,6 @@
 			Ext.onReady(function(){
 				var main = new Ext.TabPanel({
 					title : "ncISO",
-					id : 'nciso',
 					activeTab : 0,
 					//renderTo: 'decorate',
 					region: 'center',
@@ -87,7 +86,9 @@
 						rowclick: function(thisGrid, rowIndex, event) {
 							var record = thisGrid.selModel.getSelected();
 							var dataset = record.get('path');
-							loadContent(dataset);
+							main.items.each(function(c){main.remove(c)});
+							modifyNetCDF(dataset, main);
+							generateRubric(dataset, main);
 						}
 					}
 				});

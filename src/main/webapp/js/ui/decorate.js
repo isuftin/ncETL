@@ -1,7 +1,4 @@
-var decorate = function() {
-
-	var results = Ext.getCmp('nciso');
-	results.removeAll();
+var decorate = function(results) {
 
 	var summaryPanel = new Ext.Panel({
 		title : "Summary",
@@ -78,17 +75,16 @@ var decorate = function() {
 		creatorForm,
 		contribForm,
 		publisherForm,
-		otherForm,
-		
-		]);
-	results.activate(0);
+		otherForm	
+	]);
+	//results.activate(0);
 
 	var sb = Ext.getCmp('statusBar');
 	sb.add({
 		contentEl: 'rubricVersion'
 	});
-	var viewport = Ext.getCmp('viewport');
-	viewport.doLayout();
+//	var viewport = Ext.getCmp('viewport');
+//	viewport.doLayout();
 //results.render();
 //results.doLayout();
 //	var decoratePanel = new Ext.Panel({
@@ -167,6 +163,7 @@ var decorate_ncml = function(filename) {
 Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 	processAttributes: function(attr){
 		attr.text = '';
+		attr.qtip = '';
 		for (var key in attr) {
 			if (key === 'tagName') {
 				attr.iconCls = attr[key];
@@ -176,13 +173,19 @@ Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 			//			}
 			else if (key === 'name') {
 				attr.text = attr[key];
+				attr.qtip += '<em>'+attr.text+'</em><br/>';
 			}
 			else if (key === 'value') {
 				attr.value = attr[key];
+				attr.qtip += key + ': ' + attr[key] + '<br/>';
+			}
+			else if (key !== 'qtip' && key !== 'text') {
+				attr.qtip += key + ': ' + attr[key] + '<br/>';
 			}
 		}
 		attr.loaded = true;
 		attr.expanded = false;
+		
 	}
 });
 var editElement = function() {
@@ -240,14 +243,15 @@ var rightClick = function(node, event) {
 	this.getSelectionModel().select(node);
 };
 
-var loadContent = function(filename) {
+var modifyNetCDF = function(filename, tabPanel) {
 
-	var results = Ext.getCmp('nciso');
+	Ext.QuickTips.init();
+
 	var treepanel = new Ext.tree.TreePanel({
 		id: 'treepanel',
-		columnWidth: .48,
 		title: 'Ncml Source',
 		rootVisible: true,
+		autoScroll:true,
 		root: new Ext.tree.AsyncTreeNode({
 			text: filename,
 			iconCls: 'netcdf'
@@ -265,50 +269,50 @@ var loadContent = function(filename) {
 	});
 
 	var ncmlpanel = new Ext.Panel({
-		columnWidth: .48,
-		items: [{
 			title: 'Ncml Wrapper',
 			html: '&lt;ncml location="' + filename + '"&gt;<br />&lt;/ncml&gt;'
-		}]
 	});
 
-	var ncisopanel = new Ext.Panel({
-		title: filename,
-		closable: true,
-		layout: 'column',
-		autoScroll:true,
-		margins: '35 5 5 0'
-	});
-
-	ncisopanel.add([treepanel, ncmlpanel]);
-
-	results.add(ncisopanel);
-	results.activate(ncisopanel);
-//	Ext.Ajax.request({
-//		url: 'nciso',
-//		params: {
-//			file: filename,
-//			output: 'ncml'
-//		},
-//		success: function(response) {
-//			//document.getElementById("decorateContent").innerHTML = response.responseText;
-//			//decorate();
-//			//decorate_ncml(filename, response);
-//			var results = Ext.getCmp('nciso');
-//
-//			document.getElementById("tempDiv").innerHTML = response.responseText;
-//
-//			var otherForm = new Ext.Panel({
-//				title : filename,
-//				closable: true,
-//				layout: 'fit',
-//				contentEl: 'tempDiv'
-//			});
-//
-//			results.add(otherForm);
-//			results.activate(otherForm);
-//		},
-//		failure: function(){alert("failure");}
+//	var ncisopanel = new Ext.Panel({
+//		title: 'NetCDF View',
+//		autoScroll:true,
+//		margins: '35 5 5 0'
 //	});
 
+//	ncisopanel.add([treepanel, ncmlpanel]);
+
+	tabPanel.add(treepanel);
+	tabPanel.add(ncmlpanel);
+	tabPanel.activate(treepanel);
 };
+
+var generateRubric = function(filename, tabPanel) {
+	Ext.Ajax.request({
+		url: 'nciso',
+		params: {
+			file: filename,
+			output: 'rubric'
+		},
+		success: function(response) {
+			document.getElementById("decorateContent").innerHTML = response.responseText;
+
+			var rubric = new Ext.Panel({
+				title : 'ncISO Rubric',
+				layout: 'accordion',
+				contentEl: 'decorateContent'
+			});
+
+			decorate(rubric);
+			//decorate_ncml(filename, response);
+			//var results = Ext.getCmp('nciso');
+
+			//document.getElementById("tempDiv").innerHTML = response.responseText;
+
+
+
+			tabPanel.add(rubric);
+			//results.activate(otherForm);
+		},
+		failure: function(){alert("failure");}
+	});
+}
