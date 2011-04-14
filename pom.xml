@@ -1,19 +1,29 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>gov.usgs.cida</groupId>
-  <artifactId>ncETL</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>ncETL</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>gov.usgs.cida</groupId>
+	<artifactId>ncETL</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>ncETL</name>
+	<url>http://maven.apache.org</url>
+
+ <repositories>
+	<repository>
+		<id>cida-gdp-thirdparty</id>
+		<name>CIDA GDP Third-party</name>
+		<url>http://igsarmewfsbbl.er.usgs.gov:8081/nexus/content/repositories/cida-gdp-thirdparty</url>
+	</repository>
+</repositories>
+
+<dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.8.2</version>
+		<scope>test</scope>
+	</dependency>
 	<dependency>
 		<groupId>commons-net</groupId>
 		<artifactId>commons-net</artifactId>
@@ -36,41 +46,39 @@
 		<groupId>gov.noaa.ngdc</groupId>
 		<artifactId>nciso</artifactId>
 		<version>1.1.1-1</version>
-		<type>jar</type>
-		<scope>compile</scope>
 	</dependency>
 	<dependency>
 		<groupId>edu.ucar</groupId>
 		<artifactId>netcdf</artifactId>
-        <version>4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-  <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1-beta-1</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
-        <finalName>ncETL</finalName>
-    </build>
+		<version>4.2</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>2.4</version>
+		<scope>provided</scope>
+	</dependency>
+</dependencies>
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>2.0.2</version>
+			<configuration>
+				<source>1.6</source>
+				<target>1.6</target>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>2.1-beta-1</version>
+			<configuration>
+				<failOnMissingWebXml>false</failOnMissingWebXml>
+			</configuration>
+		</plugin>
+	</plugins>
+	<finalName>ncETL</finalName>
+</build>
 </project>
