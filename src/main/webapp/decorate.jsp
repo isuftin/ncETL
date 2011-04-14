@@ -86,7 +86,7 @@
 						rowclick: function(thisGrid, rowIndex, event) {
 							var record = thisGrid.selModel.getSelected();
 							var dataset = record.get('path');
-							main.items.each(function(c){main.remove(c)});
+							main.removeAll();
 							modifyNetCDF(dataset, main);
 							generateRubric(dataset, main);
 						}

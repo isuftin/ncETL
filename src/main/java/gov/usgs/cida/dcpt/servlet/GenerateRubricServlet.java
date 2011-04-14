@@ -6,15 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ucar.nc2.NetcdfFileWriteable;
 
 /**
  *
@@ -32,7 +28,8 @@ public class GenerateRubricServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String xslt = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
+		String _xsltMetadataAssessmentUrl = "http://www.ngdc.noaa.gov/metadata/published/xsl/UnidataDDCount-HTML.xsl";
+		//String xslt = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML1_1.xsl").getPath();
 		PrintWriter out = response.getWriter();
 
 
@@ -61,7 +58,7 @@ public class GenerateRubricServlet extends HttpServlet {
 			//TODO move from /tmp to a server property for the working directory, also clean up
 			String tmpName = "/tmp/" + UUID.randomUUID().toString();
 			File ncml = ThreddsTranslatorUtil.getNcml(filename, tmpName + ".ncml");
-			File html = ThreddsTranslatorUtil.transform(xslt, tmpName + ".ncml", tmpName + ".html");
+			File html = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentUrl, tmpName + ".ncml", tmpName + ".html");
 			BufferedReader reader = null;
 			if ("ncml".equalsIgnoreCase(output)) {
 				response.setContentType("text/xml;charset=UTF-8");
