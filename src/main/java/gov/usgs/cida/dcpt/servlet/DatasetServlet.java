@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static gov.usgs.cida.dcpt.DCPTConfig.*;
 
 /**
  *
@@ -28,7 +29,7 @@ public class DatasetServlet extends HttpServlet {
         try {
             out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<Datasets>");
-			File [] datasets = getDirContents("/home/scratch/dclt");
+			File [] datasets = getDirContents(FILE_STORE);
 			for (File dataset : datasets) {
 				out.println("<Dataset><path>"+dataset.toString()+"</path></Dataset>");
 			}

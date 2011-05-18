@@ -14,7 +14,7 @@ import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.joda.time.DateTime;
 import org.apache.log4j.Logger;
-import javax.xml.bind.JAXB;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -40,16 +40,14 @@ public class FTPIngestTask extends TimerTask implements Runnable {
 	}
 
 	public String toJSONString() {
-		StringBuilder str = new StringBuilder();
-		str.append("{")
-			.append("ftpLocation: '").append(ftpLocation).append("', ")
-			.append("rescanEvery: ").append(rescanEvery).append(", ")
-			.append("filePattern: '").append(fileRegex.pattern()).append("', ")
-			.append("lastSuccess: '").append(lastSuccessfulRun.toString()).append("', ")
-			.append("username: '").append(username).append("', ")
-			.append("password: '").append(password.replaceAll(".", "\\*")).append("'")
-			.append("}");
-		return str.toString();
+        JSONObject json = new JSONObject();
+        json.put("ftpLocation", ftpLocation);
+        json.put("rescanEvery", rescanEvery);
+        json.put("filePattern", fileRegex.pattern());
+        json.put("lastSuccess", lastSuccessfulRun);
+        json.put("username", username);
+        json.put("password", password);
+        return json.toJSONString();
 	}
 
 	public String toXMLString() {

@@ -1,174 +1,3 @@
-var decorate = function(results) {
-
-//	var summaryPanel = new Ext.Panel({
-//		title : "Summary",
-//		id : 'summaryTab',
-//		layout: 'fit',
-//		contentEl : "metaSummary",
-//		autoScroll : true
-//	});
-//	var identificationForm = new Ext.FormPanel({
-//		title : "Identification",
-//		id : 'idTab',
-//		layout: 'fit',
-//		contentEl : "identification",
-//		autoScroll : true
-//	});
-//
-//	var textForm = new Ext.FormPanel({
-//		title : "Text Search",
-//		id : 'textTab',
-//		layout: 'fit',
-//		contentEl : "textSearch",
-//		autoScroll : true
-//	});
-//	var extentForm = new Ext.FormPanel({
-//		title : "Extent Search",
-//		id : 'extentTab',
-//		layout: 'fit',
-//		contentEl : "extentSearch",
-//		autoScroll : true
-//	});
-//	var otherExtentForm = new Ext.FormPanel({
-//		title : "Other Extent Information",
-//		id : 'otherExtentTab',
-//		layout: 'fit',
-//		contentEl : "otherExtentInformation",
-//		autoScroll : true
-//	});
-//	var creatorForm = new Ext.FormPanel({
-//		title : "Creator Search",
-//		id : 'creatorTab',
-//		layout: 'fit',
-//		contentEl : "creatorSearch",
-//		autoScroll : true
-//	});
-//	var contribForm = new Ext.FormPanel({
-//		title : "Contributor Search",
-//		id : 'contribTab',
-//		layout: 'fit',
-//		contentEl : "contributorSearch",
-//		autoScroll : true
-//	});
-//	var publisherForm = new Ext.FormPanel({
-//		title : "Publisher Search",
-//		id : 'pubTab',
-//		layout: 'fit',
-//		contentEl : "publisherSearch",
-//		autoScroll : true
-//	});
-//	var otherForm = new Ext.FormPanel({
-//		title : "Other Attributes",
-//		id : 'otherTab',
-//		layout: 'fit',
-//		contentEl : "otherAttributes",
-//		autoScroll : true
-//	});
-
-	//	var tabpanel = new Ext.TabPanel({
-	//		activeTab : 0,
-	//		border: false,
-	//		defaults : {
-	//			autoScroll: true
-	//		},
-	//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
-	//			creatorForm, contribForm, publisherForm, otherForm]
-	//	});
-	
-//	results.add([
-//		summaryPanel,
-//		identificationForm,
-//		textForm,
-//		extentForm,
-//		otherExtentForm,
-//		creatorForm,
-//		contribForm,
-//		publisherForm,
-//		otherForm
-//	]);
-//	//results.activate(0);
-//
-//	var sb = Ext.getCmp('statusBar');
-//	sb.add({
-//		contentEl: 'rubricVersion'
-//	});
-//	var viewport = Ext.getCmp('viewport');
-//	viewport.doLayout();
-//results.render();
-//results.doLayout();
-//	var decoratePanel = new Ext.Panel({
-//		renderTo : 'decorate',
-//		layout: 'anchor',
-//		region: 'center',
-//		border: false,
-//		items: [tabpanel,
-//			{
-//				contentEl: 'rubricVersion'
-//			}]
-//	})
-
-//var table = Ext.get("identificationTab");
-
-};
-
-var decorate_ncml = function(filename) {
-
-	var results = Ext.getCmp('nciso');
-
-	var otherForm = new Ext.FormPanel({
-		title : filename,
-		//id : 'otherTab',
-		layout: 'fit',
-		contentEl : "otherAttributes"
-	});
-
-	//	var tabpanel = new Ext.TabPanel({
-	//		activeTab : 0,
-	//		border: false,
-	//		defaults : {
-	//			autoScroll: true
-	//		},
-	//		items: [summaryPanel, identificationForm, textForm, extentForm,	otherExtentForm,
-	//			creatorForm, contribForm, publisherForm, otherForm]
-	//	});
-
-	results.add([
-		summaryPanel,
-		identificationForm,
-		textForm,
-		extentForm,
-		otherExtentForm,
-		creatorForm,
-		contribForm,
-		publisherForm,
-		otherForm,
-
-		]);
-	results.activate(0);
-
-	var sb = Ext.getCmp('statusBar');
-	sb.add({
-		contentEl: 'rubricVersion'
-	});
-	var viewport = Ext.getCmp('viewport');
-	viewport.doLayout();
-//results.render();
-//results.doLayout();
-//	var decoratePanel = new Ext.Panel({
-//		renderTo : 'decorate',
-//		layout: 'anchor',
-//		region: 'center',
-//		border: false,
-//		items: [tabpanel,
-//			{
-//				contentEl: 'rubricVersion'
-//			}]
-//	})
-
-//var table = Ext.get("identificationTab");
-
-};
-
 Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 	processAttributes: function(attr){
 		attr.text = '';
@@ -184,11 +13,7 @@ Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 				attr.text = attr[key];
 				attr.qtip += '<em>'+attr.text+'</em><br/>';
 			}
-			else if (key === 'value') {
-				attr.value = attr[key];
-				attr.qtip += key + ': ' + attr[key] + '<br/>';
-			}
-			else if (key !== 'qtip' && key !== 'text') {
+			else if (!ignoreMe(key)) {
 				attr.qtip += key + ': ' + attr[key] + '<br/>';
 			}
 		}
@@ -197,9 +22,34 @@ Ext.app.NcmlLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
 		
 	}
 });
+
+var ignoreMe = function(attribute) {
+	if (attribute === 'tagName' ||
+		attribute === 'text' ||
+		attribute === 'qtip' ||
+		attribute === 'iconCls' ||
+		attribute === 'loaded' ||
+		attribute === 'expanded' ||
+		attribute === 'loader' ||
+		attribute === 'id') return true;
+}
+
 var editElement = function() {
 	var treePanel = Ext.getCmp('treepanel');
 	var selectedNode = treePanel.getSelectionModel().getSelectedNode();
+	var innerForm = new Ext.FormPanel({
+		title: 'Edit Element',
+		border: false
+	});
+	Ext.iterate(selectedNode.attributes, function(key, value){
+		if (!ignoreMe(key)) {
+			innerForm.add(new Ext.form.TextField({
+				fieldLabel: key,
+				name: key,
+				value: value
+			}));
+		}
+	});
 	var win = new Ext.Window({
 		layout: 'fit',
 		title: selectedNode.text,
@@ -207,23 +57,7 @@ var editElement = function() {
 		height: 300,
 		closeAction: 'hide',
 		plain: true,
-		items: new Ext.FormPanel({
-			title: 'Edit Element',
-			items: [{
-				fieldLabel: 'name',
-				xtype: 'textfield',
-				name: 'name',
-				value: selectedNode.attributes.name,
-				allowBlank: false
-			},{
-				fieldLabel: 'value',
-				xtype: 'textfield',
-				value: selectedNode.attributes.value,
-				name: 'value'
-			}],
-			border:false
-		}),
-
+		items: innerForm,
 		buttons: [{
 			text:'Submit'
 		},{
@@ -233,6 +67,7 @@ var editElement = function() {
 			}
 		}]
 	});
+
 	win.show();
 };
 
@@ -276,12 +111,7 @@ var modifyNetCDF = function(filename, tabPanel) {
 			contextmenu: rightClick
 		}
 	});
-
-	var ncmlpanel = new Ext.Panel({
-			title: 'Ncml Wrapper',
-			html: '&lt;ncml location="' + filename + '"&gt;<br />&lt;/ncml&gt;'
-	});
-
+	
 //	var ncisopanel = new Ext.Panel({
 //		title: 'NetCDF View',
 //		autoScroll:true,
@@ -318,17 +148,7 @@ var generateRubric = function(filename, tabPanel) {
 				autoDestroy: false,
 				contentEl: el
 			});
-
-			decorate(rubric);
-			//decorate_ncml(filename, response);
-			//var results = Ext.getCmp('nciso');
-
-			//document.getElementById("tempDiv").innerHTML = response.responseText;
-
-
-
 			tabPanel.add(rubric);
-			//results.activate(otherForm);
 		},
 		failure: function(){alert("failure");}
 	});

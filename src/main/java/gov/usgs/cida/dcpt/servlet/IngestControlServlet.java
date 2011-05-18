@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -66,6 +64,7 @@ public class IngestControlServlet extends HttpServlet {
 				out.print("]}");
 			}
 			else if (action.equalsIgnoreCase("create")) {
+                
 				out.print("{");
 				out.print("results: ");
 				out.print(ingestList.size());

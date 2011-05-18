@@ -18,6 +18,15 @@
         <servlet-name>DatasetServlet</servlet-name>
         <servlet-class>gov.usgs.cida.dcpt.servlet.DatasetServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DateIndexerServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.dcpt.servlet.DateIndexer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DerbyServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.dcpt.servlet.DerbyServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
         <url-pattern>/ingestors</url-pattern>
@@ -33,5 +42,13 @@
     <servlet-mapping>
         <servlet-name>DatasetServlet</servlet-name>
         <url-pattern>/datasets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DateIndexerServlet</servlet-name>
+        <url-pattern>/dates</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DerbyServlet</servlet-name>
+        <url-pattern>/DerbyServlet</url-pattern>
     </servlet-mapping>
 </web-app>

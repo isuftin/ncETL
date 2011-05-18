@@ -34,6 +34,7 @@
 		<script type="text/javascript" language="JavaScript" src="js/ext/XmlTreeLoader.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/ui/wrapper.js"></script>
     </head>
     <body>
         <script type="text/javascript">
