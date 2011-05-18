@@ -1,5 +1,7 @@
 package gov.usgs.cida.dcpt.servlet;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -11,7 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import gov.usgs.cida.dcpt.FTPIngestTask;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.Timer;
 /**
  *
  * @author jwalker
@@ -19,12 +22,16 @@ import java.util.ArrayList;
 public class IngestControlServlet extends HttpServlet {
 
 	public static List<FTPIngestTask> ingestList;
+    public static Map<String, Timer> runningTasks;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		ingestList = new ArrayList<FTPIngestTask>();
+		ingestList = Lists.newLinkedList();
+        // select * from ingestors
+        // foreach ingestor create timer, start timer
+        runningTasks = Maps.newTreeMap();
 		try {
-			FTPIngestTask task = new FTPIngestTask.Builder("ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110206/").fileRegex(".*").rescanEvery(60000).build();
+			FTPIngestTask task = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110206/").fileRegex(".*").rescanEvery(60000).build();
 			ingestList.add(task);
 		}
 		catch (MalformedURLException ex) {
@@ -64,33 +71,36 @@ public class IngestControlServlet extends HttpServlet {
 				out.print("]}");
 			}
 			else if (action.equalsIgnoreCase("create")) {
-                
-				out.print("{");
-				out.print("results: ");
-				out.print(ingestList.size());
-				out.print(", rows: [");
-				Iterator<FTPIngestTask> iterator = ingestList.iterator();
-				while(iterator.hasNext()) {
-					out.print(iterator.next().toJSONString());
-					if (iterator.hasNext()) {
-						out.print(",");
-					}
-				}
-				out.print("]}");
+                FTPIngestTask task = FTPIngestTask.fromRequest(request); // -> database add
+                // task = FTPIngestTask.fromDatabase(name)
+                ingestList.add(task);
+                // database insert task
+                if (task.isActive()) {
+                    String name = task.getName();
+                    Timer timer = new Timer(name);
+                    timer.scheduleAtFixedRate(task, 0L, task.getRescanEvery());
+                    runningTasks.put(name, timer);
+                }
+				out.print("{status:'ok'}");
 			}
 			else if (action.equalsIgnoreCase("update")) {
-				out.print("{");
-				out.print("results: ");
-				out.print(ingestList.size());
-				out.print(", rows: [");
-				Iterator<FTPIngestTask> iterator = ingestList.iterator();
-				while(iterator.hasNext()) {
-					out.print(iterator.next().toJSONString());
-					if (iterator.hasNext()) {
-						out.print(",");
-					}
-				}
-				out.print("]}");
+                // database update
+                // timer.cancel()
+                // ftp task delete/recreate
+                // timer.run()
+                
+//				out.print("{");
+//				out.print("results: ");
+//				out.print(ingestList.size());
+//				out.print(", rows: [");
+//				Iterator<FTPIngestTask> iterator = ingestList.iterator();
+//				while(iterator.hasNext()) {
+//					out.print(iterator.next().toJSONString());
+//					if (iterator.hasNext()) {
+//						out.print(",");
+//					}
+//				}
+//				out.print("]}");
 			}
 			else if (action.equalsIgnoreCase("delete")) {
 				throw new UnsupportedOperationException("Add not yet implemented");

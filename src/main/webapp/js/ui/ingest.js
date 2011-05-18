@@ -28,12 +28,11 @@ var ingest = function() {
 
     var proxy = new Ext.data.HttpProxy({
         api: {
-            read   : 'ingestors?action=read',
-            create : 'ingestors?action=create',
-            update : 'ingestors?action=update',
-            destroy: 'ingestors?action=destroy'
+            read   : 'service/ingest/json/',
+            create : 'service/ingest/json/default/create',
+            update : 'service/ingest/json/default/update',
+            destroy: 'service/ingest/json/default/delete'
         }
-    //url: 'http://localhost:5984/dcpt'
     });
 
     //	var store = new Ext.data.XmlStore({
@@ -55,11 +54,16 @@ var ingest = function() {
     //	});
 
     var jsonReader = new Ext.data.JsonReader({
-        idProperty: '_id',
-        root: 'rows',
-        totalProperty: 'total_rows',
-        successProperty: 'ok',
+        idProperty: 'name',
+        root: 'success.data',
+        totalProperty: 'success["@rowCount"]',
+        successProperty: 'success',
         fields: [
+        {
+            name: 'name',
+            mapping: 'name'
+        },
+        
         {
             name: 'ftpLocation', 
             mapping: 'ftpLocation'
@@ -79,6 +83,8 @@ var ingest = function() {
             name: 'lastSuccess', 
             mapping: 'lastSuccess'
         },
+        
+        {name : 'successTime'},
 
         {
             name: 'username', 
@@ -101,24 +107,25 @@ var ingest = function() {
         encode: false
     });
     
-    NCETL.SpecWriter = Ext.extend(Ext.data.DataWriter, {                                                                                                                                                         
-        constructor: function(config) {                                                                                                                                                                           
-            NCETL.SpecWriter.superclass.constructor.call(this, config);                                                                                                                                           
-        },                                                                                                                                                                                                        
+    Ext.ns("NCETL");
+    NCETL.SpecWriter = Ext.extend(Ext.data.DataWriter, {
+        constructor: function(config) {
+            NCETL.SpecWriter.superclass.constructor.call(this, config);
+        },
         render: function(action, rs, params, data) {
-            return Ext.apply(params, data[this.meta.root]);                                                                                                                                                        
-        },                                                                                                                                                                                                        
+            return Ext.apply(params, data[this.meta.root]);
+        },
         createRecord: function(rec) {
-            return this.toHash(rec);                                                                                                                                                                               
-        },                                                                                                                                                                                                        
-        updateRecord: function(rec) {                                                                                                                                                                             
-            return this.toHash(rec);                                                                                                                                                                               
-        },                                                                                                                                                                                                        
-        destroyRecord: function(rec) {                                                                                                                                                                            
-            var data = {};                                                                                                                                                                                         
-            data[this.meta.idProperty] = rec.id;                                                                                                                                                                   
-            return data;                                                                                                                                                                                           
-        }                                                                                                                                                                                                         
+            return this.toHash(rec);
+        },
+        updateRecord: function(rec) {
+            return this.toHash(rec);
+        },
+        destroyRecord: function(rec) {
+            var data = {};
+            data[this.meta.idProperty] = rec.id;
+            return data;
+        }
     });
 
     var store = new Ext.data.Store({

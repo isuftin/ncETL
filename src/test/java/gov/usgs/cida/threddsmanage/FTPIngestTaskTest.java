@@ -34,9 +34,9 @@ public class FTPIngestTaskTest {
 //			// TODO log error / report problem
 //		}
 //		Thread.sleep(1000 * 60 * 60);
-		FTPIngestTask ingest = new FTPIngestTask.Builder("ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110214/").rescanEvery(5 * 1000).fileRegex(".*").build();
+		FTPIngestTask ingest = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110518/").rescanEvery(5 * 1000).fileRegex(".*").build();
 		ingest.run();
-		tmpFile = new File("/tmp/QPE.20110206.009.150.gz");
+		tmpFile = new File("/tmp/QPE.20110518.009.105");
 		assertTrue(tmpFile.exists());
 	}
 }
