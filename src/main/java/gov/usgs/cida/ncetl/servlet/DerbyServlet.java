@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gov.usgs.cida.dcpt.servlet;
+package gov.usgs.cida.ncetl.servlet;
 
-import gov.usgs.cida.dcpt.DerbyHelper;
+import gov.usgs.cida.ncetl.utils.DerbyHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;

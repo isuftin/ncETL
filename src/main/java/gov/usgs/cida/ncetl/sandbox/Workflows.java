@@ -1,4 +1,4 @@
-package gov.usgs.cida.dcpt.sandbox;
+package gov.usgs.cida.ncetl.sandbox;
 
 import gov.noaa.eds.threddsutilities.exception.ThreddsUtilitiesException;
 import gov.noaa.eds.threddsutilities.util.ThreddsTranslatorUtil;

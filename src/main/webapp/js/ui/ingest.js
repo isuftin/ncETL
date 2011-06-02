@@ -1,14 +1,14 @@
 var ingest = function() {
     var Ingestor = Ext.data.Record.create([{
-        //						name: 'id',
-        //						type: 'int'
-        //					},{
+        name: 'name',
+        type: 'string'
+    },{
         name: 'ftpLocation',
         type: 'string'
-    }, {
+    },{
         name: 'rescanEvery',
         type: 'int'
-    }, {
+    },{
         name: 'filePattern',
         type: 'string'
     },{

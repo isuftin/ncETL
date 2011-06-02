@@ -1,4 +1,4 @@
-package gov.usgs.cida.dcpt.servlet;
+package gov.usgs.cida.ncetl.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static gov.usgs.cida.dcpt.DCPTConfig.*;
+import static gov.usgs.cida.ncetl.utils.DCPTConfig.*;
 
 /**
  *

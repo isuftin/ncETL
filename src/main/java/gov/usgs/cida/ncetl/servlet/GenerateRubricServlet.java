@@ -1,4 +1,4 @@
-package gov.usgs.cida.dcpt.servlet;
+package gov.usgs.cida.ncetl.servlet;
 
 import gov.noaa.eds.threddsutilities.util.ThreddsTranslatorUtil;
 import java.io.BufferedReader;

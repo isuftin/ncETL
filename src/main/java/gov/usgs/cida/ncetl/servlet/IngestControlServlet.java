@@ -1,4 +1,4 @@
-package gov.usgs.cida.dcpt.servlet;
+package gov.usgs.cida.ncetl.servlet;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import gov.usgs.cida.dcpt.FTPIngestTask;
+import gov.usgs.cida.ncetl.utils.FTPIngestTask;
 import java.util.Map;
 import java.util.Timer;
 /**

@@ -8,28 +8,28 @@
     </servlet>
     <servlet>
         <servlet-name>DecorateServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.servlet.DecorateServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.DecorateServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>GenerateRubricServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.servlet.GenerateRubricServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.GenerateRubricServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DatasetServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.servlet.DatasetServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.DatasetServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DateIndexerServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.servlet.DateIndexer</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.DateIndexer</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DerbyServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.servlet.DerbyServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.DerbyServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>IngestControlService</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.service.IngestControlService</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
         <init-param>
             <param-name>jndi_name</param-name>
             <param-value>java:comp/env/jdbc/NCETL</param-value>

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package gov.usgs.cida.dcpt;
+package gov.usgs.cida.ncetl.utils;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;

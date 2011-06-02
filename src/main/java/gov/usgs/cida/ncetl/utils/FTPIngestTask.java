@@ -1,4 +1,4 @@
-package gov.usgs.cida.dcpt;
+package gov.usgs.cida.ncetl.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
