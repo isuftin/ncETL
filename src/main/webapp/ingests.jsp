@@ -33,7 +33,6 @@
 		<script type="text/javascript" language="JavaScript" src="js/ext/CheckColumn.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/TableGrid.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
     </head>
     <body>
         <script type="text/javascript">
@@ -55,22 +54,22 @@
 							title : "Ingest",
 							layout: 'fit',
 							contentEl : "ingest"
-						},{
-							title : "Verify",
-							layout: 'fit',
-							contentEl : "verify"
-						},{
-							title : "Cleanup",
-							layout: 'fit',
-							contentEl : "cleanup"
-						},{
-							title : "Decorate",
-							layout: 'fit',
-							contentEl : "decorate"
-						},{
-							title : "Publish",
-							layout: 'fit',
-							contentEl : "publish"
+//						},{
+//							title : "Verify",
+//							layout: 'fit',
+//							contentEl : "verify"
+//						},{
+//							title : "Cleanup",
+//							layout: 'fit',
+//							contentEl : "cleanup"
+//						},{
+//							title : "Decorate",
+//							layout: 'fit',
+//							contentEl : "decorate"
+//						},{
+//							title : "Publish",
+//							layout: 'fit',
+//							contentEl : "publish"
 						}
 					]
 				});
@@ -93,7 +92,7 @@
 				});
 
 				ingest();
-				loadContent('/home/scratch/QPE.20040102.009.157.grb');
+				//loadContent('/home/scratch/QPE.20040102.009.157.grb');
 			}); //end onReady
         </script>
 		<div id="ingest" class="x-hidden"></div>

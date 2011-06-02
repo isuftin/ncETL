@@ -5,10 +5,13 @@
 package gov.usgs.cida.ncetl.service;
 
 import gov.usgs.cida.ncetl.spec.IngestControlSpec;
+import gov.usgs.webservices.jdbc.routing.ActionType;
 import gov.usgs.webservices.jdbc.routing.InvalidServiceException;
 import gov.usgs.webservices.jdbc.routing.UriRouter;
 import gov.usgs.webservices.jdbc.service.WebService;
 import gov.usgs.webservices.jdbc.spec.Spec;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +35,18 @@ public class IngestControlService extends WebService {
                                                      UriRouter router,
                                                      Map<String, String[]> params)
             throws InvalidServiceException {
-        return super.defineParameters(req, router, params);
+       Map<String, String[]> tmpParams = new HashMap<String, String[]>();
+       tmpParams.putAll(super.defineParameters(req, router, params));
+       
+       ActionType action = router.getActionTypeFromUri();
+       
+       if (ActionType.create == action) {
+           tmpParams.put("inserted", new String[] {"true"});
+       } else if (ActionType.update == action) {
+           tmpParams.put("updated", new String[] {"true"});
+       }
+       
+       return tmpParams;
     }
 
  
