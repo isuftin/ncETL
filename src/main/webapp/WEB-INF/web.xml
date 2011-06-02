@@ -28,6 +28,10 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.EchoServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>IngestControlService</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
         <init-param>
@@ -78,5 +82,9 @@
     <servlet-mapping>
         <servlet-name>ESRLServlet</servlet-name>
         <url-pattern>/esrl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
     </servlet-mapping>
 </web-app>
