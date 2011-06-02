@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import org.junit.Ignore;
 import java.io.InputStream;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -51,6 +52,7 @@ public class NetCDFUtilTest {
      * Test of globalAttributesToMeta method, of class NetCDFUtil.
      */
     @Test
+    @Ignore
     public void testGlobalAttributesToMeta() throws Exception {
         System.out.println("globalAttributesToMeta");
         String filename = DCPTConfig.FILE_STORE + "/QPE.20110214.009.105.nc";
