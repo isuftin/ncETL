@@ -4,15 +4,21 @@
  */
 package gov.usgs.cida.ncetl.servlet;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,11 +38,6 @@ import org.xml.sax.SAXException;
  */
 public class ESRLServlet extends HttpServlet {
 
-    private static final Pattern datasetPattern;
-    
-    static {
-        datasetPattern = Pattern.compile("^(.*)\\.(\\d{4})\\.nc$");
-    }
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -47,22 +48,74 @@ public class ESRLServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
                                   HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=UTF-8");
+        response.setContentType("application/zip");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ncmls.zip\"");
+        Map<String, List<String>> variables = null;
         String url = request.getParameter("url");
+        String opendapRoot = request.getParameter("opendapRoot");
+        String regex = request.getParameter("regex");
+        
         if (url != null) {
-            getVariables(new URL(url));
+            variables = getVariables(new URL(url), regex);
         }
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
+        ServletOutputStream out = response.getOutputStream();
+        ZipOutputStream zip = new ZipOutputStream(out);
+        //BufferedWriter zip = new BufferedWriter(new OutputStreamWriter(zip));
         try {
+            if (variables != null && opendapRoot != null) {
+                zip.putNextEntry(new ZipEntry("union.ncml"));
+                zip.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".getBytes());
+                zip.write("<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\">\n".getBytes());
+                zip.write("\t<aggregation type=\"union\">\n".getBytes());
+                for (String key : variables.keySet()) {
+                    zip.write(("\t\t<netcdf location=\"" + key + ".ncml\" />\n").getBytes());
+                }
+                zip.write("\t</aggregation>\n".getBytes());
+                zip.write("</netcdf>\n".getBytes());
+                zip.closeEntry();
+
+                for (String key : variables.keySet()) {
+                    zip.putNextEntry(new ZipEntry(key + ".ncml"));
+                    zip.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".getBytes());
+                    zip.write("<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\">\n".getBytes());
+                    zip.write("\t<aggregation type=\"joinExisting\" dimName=\"time\">\n".getBytes());
+                    for (String ds : variables.get(key)) {
+                        String location = opendapRoot + ds;
+                        zip.write(("\t\t<netcdf location=\"" + location + "\"/>\n").getBytes());
+                    }
+                    zip.write("\t</aggregation>\n".getBytes());
+                    zip.write("</netcdf>\n".getBytes());
+                    zip.closeEntry();
+                    zip.flush();
+                }
+
+            }
+            else {
+                response.setContentType("text/plain");
+                PrintWriter textWriter = new PrintWriter(out);
+                textWriter.write("could not parse document");
+                IOUtils.closeQuietly(textWriter);
+            }
         }
-        finally {            
-            out.close();
+        finally {
+            IOUtils.closeQuietly(zip);
         }
     }
     
-    private void getVariables(URL catalog) throws IOException {
+    /**
+     * Parses a catalog into a map of variables to endpoints
+     * @param catalog URL of catalog
+     * @param regex must have one capture group corresponding to the variable
+     * @return map of variables to endpoints associated with that variable
+     * @throws IOException 
+     */
+    private Map<String,List<String>> getVariables(URL catalog, String regex) throws IOException {
         InputStream inputStream = null;
         Document doc = null;
+        // maps the variable to the dataset
+        Map<String,List<String>> vars = Maps.newTreeMap();
+        Pattern datasetPattern = Pattern.compile(regex);
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -78,9 +131,17 @@ public class ESRLServlet extends HttpServlet {
                 Matcher matcher = datasetPattern.matcher(nodeValue);
                 if (matcher.matches()) {
                     String var = matcher.group(1);
-                    String year = matcher.group(2);
+                    if (vars.containsKey(var)) {
+                        vars.get(var).add(nodeValue);
+                    } 
+                    else {
+                        LinkedList<String> datasetList = Lists.newLinkedList();
+                        datasetList.add(nodeValue);
+                        vars.put(var, datasetList);
+                    }
                 }
             }
+            return vars;
         }
         catch (SAXException ex) {
 
@@ -91,7 +152,7 @@ public class ESRLServlet extends HttpServlet {
         finally {
             IOUtils.closeQuietly(inputStream);
         }
-        
+        return null; // something went wrong
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
