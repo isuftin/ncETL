@@ -10,7 +10,6 @@ import gov.usgs.webservices.jdbc.routing.InvalidServiceException;
 import gov.usgs.webservices.jdbc.routing.UriRouter;
 import gov.usgs.webservices.jdbc.service.WebService;
 import gov.usgs.webservices.jdbc.spec.Spec;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

@@ -35,6 +35,14 @@
             <param-value>java:comp/env/jdbc/NCETL</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>RandomNumberServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.RandomNumberServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ESRLServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.ESRLServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
         <url-pattern>/ingestors</url-pattern>
@@ -62,5 +70,13 @@
     <servlet-mapping>
         <servlet-name>IngestControlService</servlet-name>
         <url-pattern>/service/ingest/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RandomNumberServlet</servlet-name>
+        <url-pattern>/random</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ESRLServlet</servlet-name>
+        <url-pattern>/esrl</url-pattern>
     </servlet-mapping>
 </web-app>

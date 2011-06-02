@@ -30,7 +30,7 @@ public class DerbyHelper {
     static
     {
         createMap = Maps.newHashMap();
-        createMap.put("TEST", "CREATE TABLE test (kkey varchar(32), vvalue varchar(32))");
+        createMap.put("CONFIG", "CREATE TABLE config (base_dir varchar(512), thredds_dir varchar(512))");
         createMap.put("INGESTS", "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
     }
 

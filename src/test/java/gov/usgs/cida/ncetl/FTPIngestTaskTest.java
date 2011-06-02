@@ -1,4 +1,4 @@
-package gov.usgs.cida.threddsmanage;
+package gov.usgs.cida.ncetl;
 
 import gov.usgs.cida.ncetl.utils.FTPIngestTask;
 import org.junit.Ignore;
