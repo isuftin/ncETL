@@ -6,6 +6,6 @@ package gov.usgs.cida.ncetl.utils;
  */
 public class DCPTConfig {
 
-	public static final String FILE_STORE = "/home/scratch/ingest";
+	public static final String FILE_STORE = "/home/isuftin/ingest/";
 
 }

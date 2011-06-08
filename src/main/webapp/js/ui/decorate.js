@@ -55,15 +55,24 @@ var editElement = function() {
 		title: selectedNode.text,
 		width: 500,
 		height: 300,
-		closeAction: 'hide',
+		closeAction: 'close',
 		plain: true,
 		items: innerForm,
 		buttons: [{
-			text:'Submit'
+			text:'Submit',
+                        scope: selectedNode,
+                        handler: function() {
+                            this.setText(this.text + ' (M)');
+                            this.unselect(true);
+                            
+//                            ncmlpanel.html = ?
+                            
+                            win.close();
+                        }
 		},{
 			text: 'Close',
 			handler: function(){
-				win.hide();
+				win.close();
 			}
 		}]
 	});

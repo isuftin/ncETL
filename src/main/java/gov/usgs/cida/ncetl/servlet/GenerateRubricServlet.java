@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static gov.usgs.cida.ncetl.utils.DCPTConfig.*;
 
 /**
  *
@@ -42,7 +43,7 @@ public class GenerateRubricServlet extends HttpServlet {
 				return;
 			}
 
-			String filename = request.getParameter("file");
+			String filename = FILE_STORE + request.getParameter("file");
 			if (filename == null) {
 				response.setStatus(response.SC_BAD_REQUEST);
 				out.print("Must supply file to run ncISO on");

@@ -31,7 +31,7 @@ public class DatasetServlet extends HttpServlet {
 			out.println("<Datasets>");
 			File [] datasets = getDirContents(FILE_STORE);
 			for (File dataset : datasets) {
-				out.println("<Dataset><path>"+dataset.toString()+"</path></Dataset>");
+				out.println("<Dataset><path>"+dataset.getName()+"</path></Dataset>");
 			}
 			out.println("</Datasets>");
         } finally { 

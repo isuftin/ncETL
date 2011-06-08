@@ -47,6 +47,10 @@
         <servlet-name>ESRLServlet</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.servlet.ESRLServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WrapperServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.WrapperServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
         <url-pattern>/ingestors</url-pattern>
@@ -86,5 +90,9 @@
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WrapperServlet</servlet-name>
+        <url-pattern>/WrapperServlet</url-pattern>
     </servlet-mapping>
 </web-app>
