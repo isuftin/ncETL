@@ -49,6 +49,7 @@ public class WrapperServlet extends HttpServlet {
                 return;
             }
             
+            // Augment or create the NCML file
             File fileNCML = new File(location + ".ncml");
             if (!fileNCML.exists()) {
                 try {
@@ -58,6 +59,8 @@ public class WrapperServlet extends HttpServlet {
                     return;  
                 }
             }
+            
+            // Read from the augmented or newly created NCML file and output the contents to the caller
             List<String> fileNCMLString = FileUtils.readLines(fileNCML);
             for (String line : fileNCMLString) {
                 out.println(line);
@@ -66,22 +69,11 @@ public class WrapperServlet extends HttpServlet {
         } finally {
             out.close();
         }
-//        try {
-//            out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-//            out.println("<Datasets>");
-//            File[] datasets = getDirContents(FILE_STORE);
-//            for (File dataset : datasets) {
-//                out.println("<Dataset><path>" + dataset.toString() + "</path></Dataset>");
-//            }
-//            out.println("</Datasets>");
-//        } finally {
-//            out.close();
-//        }
     }
 
     private File createNCML(File file) throws IOException {
         byte[] ncmlXML =  ("<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
-            + "<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\" location=\"...\" > "
+            + "<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\" location=\""+file.getPath()+"\" > "
             + "</netcdf>").getBytes();
         FileUtils.writeByteArrayToFile(file, ncmlXML);
         return file;
