@@ -74,22 +74,22 @@ public class DerbyHelper {
 		}
 	}
 
-	public static Connection getDSConnection(String jndiName) throws NamingException {
-		Context ctx = new InitialContext();
-		DataSource ds = (DataSource) ctx.lookup(jndiName);
-		Connection connection = null;
-		
-		try {
-			connection = ds.getConnection();
-		}
-		catch (SQLException sqle) {
-			return null;
-		}
-		
+    public static Connection getDSConnection(String jndiName) {
+        Context ctx = null;
+        Connection connection = null;
+        DataSource ds = null;
+        try {
+            ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup(jndiName);
+            connection = ds.getConnection();
+        } catch (Exception e) {
+            return null;
+        }
+
 //        connections++;
 //        log.trace("Open connections: " + connections);
-		return connection;
-	}
+        return connection;
+    }
 
     private static void createTable(String table) {
         try {
