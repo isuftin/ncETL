@@ -110,7 +110,7 @@ public class FTPIngestTask extends TimerTask implements Runnable {
                 if (matcher.matches()) {
                     if (!client.retrieveFile(file.getName(),
                                              new FileOutputStream(
-                            DCPTConfig.FILE_STORE + File.separator + file.getName()))) {
+                            FileHelper.FILE_STORE + File.separator + file.getName()))) {
                         // TODO keep a list of files that failed to try to correct next time
                         completedSuccessfully = false;
                     }

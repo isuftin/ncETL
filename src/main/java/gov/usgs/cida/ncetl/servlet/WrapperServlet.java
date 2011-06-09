@@ -4,7 +4,6 @@
  */
 package gov.usgs.cida.ncetl.servlet;
 
-import gov.usgs.cida.ncetl.utils.DCPTConfig;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import static gov.usgs.cida.ncetl.utils.DCPTConfig.*;
+import static gov.usgs.cida.ncetl.utils.FileHelper.*;
 
 /**
  *
@@ -40,7 +39,8 @@ public class WrapperServlet extends HttpServlet {
             // Check that we have a "location" element. If not, send an error
             String location = request.getParameter("location");
             if (StringUtils.isEmpty(location)) {
-                out.println(createErrorXML(Arrays.asList("location parameter can not be empty")));
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                                   createErrorXML(Arrays.asList("MISSING_PARAM: location parameter can not be empty")));
                 return;
             }
 
@@ -48,7 +48,8 @@ public class WrapperServlet extends HttpServlet {
             location = FILE_STORE + location;
             File file = new File(location);
             if (!file.exists()) {
-                out.println(createErrorXML(Arrays.asList("file specified by location does not exist")));
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                                   createErrorXML(Arrays.asList("FILE_NOT_FOUND: file specified by location does not exist")));
                 return;
             }
             
@@ -58,7 +59,8 @@ public class WrapperServlet extends HttpServlet {
                 try {
                     fileNCML = createNCML(fileNCML);
                 } catch (IOException ioe) {
-                    out.println(createErrorXML(Arrays.asList("NCML file could not be written to")));
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                                       createErrorXML(Arrays.asList("FILE_ERROR: NCML file could not be written to")));
                     return;  
                 }
             }

@@ -2,6 +2,10 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>ncETL</display-name>
     <description>ncETL</description>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>gov.usgs.cida.ncetl.servlet.Bootstrapper</listener-class>
+    </listener>
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
         <servlet-class>gov.usgs.cida.dcpt.IngestControlServlet</servlet-class>
@@ -21,11 +25,6 @@
     <servlet>
         <servlet-name>DateIndexerServlet</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.servlet.DateIndexer</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DerbyServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.ncetl.servlet.DerbyServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
@@ -70,10 +69,6 @@
     <servlet-mapping>
         <servlet-name>DateIndexerServlet</servlet-name>
         <url-pattern>/dates</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DerbyServlet</servlet-name>
-        <url-pattern>/DerbyServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IngestControlService</servlet-name>

@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import static gov.usgs.cida.ncetl.utils.DCPTConfig.*;
+import static gov.usgs.cida.ncetl.utils.FileHelper.*;
 
 /**
  *

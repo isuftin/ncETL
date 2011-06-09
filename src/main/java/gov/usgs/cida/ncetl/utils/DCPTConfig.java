@@ -1,11 +1,13 @@
 package gov.usgs.cida.ncetl.utils;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  *
  * @author jwalker
  */
 public class DCPTConfig {
 
-	public static final String FILE_STORE = "/home/isuftin/ingest/";
+	
 
 }

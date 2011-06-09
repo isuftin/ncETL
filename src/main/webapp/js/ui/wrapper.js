@@ -13,6 +13,8 @@ var populateWrapper = function(filename, tabpanel) {
 		success: function(response) {
 			tabpanel.get('wrapper').html = '<code>'+response.responseText+'</code>';
 		},
-		failure: function(){alert("failure");}
+		failure: function(response, opts){
+            alert(response.status + response.responseText);
+        }
 	});
 }
