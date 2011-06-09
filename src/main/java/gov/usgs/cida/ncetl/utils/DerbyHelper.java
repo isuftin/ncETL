@@ -54,6 +54,10 @@ public class DerbyHelper {
 
 	public static void setupDatabase() {
 		try {
+            System.setProperty("dbuser", "");
+            System.setProperty("dbpass", "");
+            System.setProperty("dburl", dbConnection);
+            System.setProperty("dbclass", dbClassName);
 			Connection myConn = getConnection();
             if (myConn != null) {
                 DatabaseMetaData dbMeta = myConn.getMetaData();

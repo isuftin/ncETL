@@ -4,6 +4,7 @@
  */
 package gov.usgs.cida.ncetl.servlet;
 
+import gov.usgs.cida.ncetl.utils.DCPTConfig;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import static gov.usgs.cida.ncetl.utils.DCPTConfig.*;
 
 /**
  *
@@ -43,6 +45,7 @@ public class WrapperServlet extends HttpServlet {
             }
 
             // Check that the file exists. If not, send error.
+            location = FILE_STORE + location;
             File file = new File(location);
             if (!file.exists()) {
                 out.println(createErrorXML(Arrays.asList("file specified by location does not exist")));

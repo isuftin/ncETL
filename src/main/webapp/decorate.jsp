@@ -88,6 +88,7 @@
 							var record = thisGrid.selModel.getSelected();
 							var dataset = record.get('path');
 							main.removeAll();
+                            populateWrapper(dataset, main);
 							modifyNetCDF(dataset, main);
 							generateRubric(dataset, main);
 						}
