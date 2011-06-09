@@ -59,19 +59,23 @@ public class DerbyHelper {
         System.setProperty("dburl", dbConnection);
         System.setProperty("dbclass", dbClassName);
         Connection myConn = SqlUtils.getConnection(context);
-
-        if (myConn != null) {
-            DatabaseMetaData dbMeta = myConn.getMetaData();
-            ResultSet schemas = dbMeta.getSchemas();
-            while (schemas.next()) {
-                System.out.println(schemas.getString(1));
-            }
-            for (String table : createMap.keySet()) {
-                ResultSet rs = dbMeta.getTables(null, "APP", table, null);
-                if (!rs.next()) {
-                    createTable(table);
+        try {
+            if (myConn != null) {
+                DatabaseMetaData dbMeta = myConn.getMetaData();
+                ResultSet schemas = dbMeta.getSchemas();
+                while (schemas.next()) {
+                    System.out.println(schemas.getString(1));
+                }
+                for (String table : createMap.keySet()) {
+                    ResultSet rs = dbMeta.getTables(null, "APP", table, null);
+                    if (!rs.next()) {
+                        createTable(myConn, table);
+                    }
                 }
             }
+        }
+        finally {
+            SqlUtils.closeConnection(myConn);
         }
 
     }
@@ -93,10 +97,9 @@ public class DerbyHelper {
 ////        log.trace("Open connections: " + connections);
 //        return connection;
 //    }
-    private static void createTable(String table) throws SQLException,
+    private static void createTable(Connection c, String table) throws SQLException,
                                                          NamingException,
                                                          ClassNotFoundException {
-        Connection c = SqlUtils.getConnection(context);
         Statement stmt = c.createStatement();
         stmt.execute(createMap.get(table));
         stmt.close();
