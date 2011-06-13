@@ -23,25 +23,33 @@ public class Bootstrapper implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        // Place all startup hooks here
+        log.info("ncETL is starting up.");
         try {
             FileHelper.setupDirectories();
         }
         catch (IOException ioe) {
-            // do some logging
+            log.error("Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.", ioe);
+            System.setProperty("errors-encountered", "true");
         }
+        
         try {
             DerbyHelper.setupDatabase();
         }
         catch (SQLException sqle) {
-            // log this
+            log.error("Application could not initialize database. The application will not be able to continue functioning. Error follows.", sqle);
+            System.setProperty("errors-encountered", "true");
         }
         catch (Exception e) {
-            // also log this
+            log.error("Application could not initialize database. The application will not be able to continue functioning. Error follows.", e);
+            System.setProperty("errors-encountered", "true");
         }
+        System.setProperty("errors-encountered", "false");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        // clean stuff up
+        // Place all shut down hooks here
+        log.info("ncETL is shutting down.");
     }
 }

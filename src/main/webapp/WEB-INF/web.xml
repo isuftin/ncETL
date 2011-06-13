@@ -2,10 +2,23 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>ncETL</display-name>
     <description>ncETL</description>
+    <!-- #################### FILTERS #################### -->
+    <filter>
+        <filter-name>CheckErrorStateFilter</filter-name>
+        <filter-class>gov.usgs.cida.ncetl.servlet.CheckErrorStateFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CheckErrorStateFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- #################### LISTENERS #################### -->
     <listener>
         <description>ServletContextListener</description>
         <listener-class>gov.usgs.cida.ncetl.servlet.Bootstrapper</listener-class>
     </listener>
+    
+    <!-- #################### SERVLET CONFIGURATION #################### -->
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
         <servlet-class>gov.usgs.cida.dcpt.IngestControlServlet</servlet-class>
