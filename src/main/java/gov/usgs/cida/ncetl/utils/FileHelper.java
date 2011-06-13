@@ -20,24 +20,24 @@ public class FileHelper {
         log.debug("setting up directories");
         File dir = new File(FILE_STORE);
         if (!dir.exists()) {
-            log.debug(
-                    "directory " + FILE_STORE + " doesn't exist, creating it NOW!!!1!one!!");
+            log.debug("Directory " + FILE_STORE + " doesn't exist, creating it now.");
             FileUtils.forceMkdir(dir);
-            log.debug("Directory " + FILE_STORE + " created without issue");
+            log.debug("Directory " + FILE_STORE + " created.");
         }
         if (dir.isDirectory()) {
-            log.debug("It's a directory");
+            log.debug("Directory " + FILE_STORE + " found.");
+            log.debug("Checking read permissions.");
             if (dir.canRead()) {
-                log.debug("And it's readable");
+                log.debug("Directory " + FILE_STORE + " is readable.");
+                log.debug("Checking write permissions.");
                 if (dir.canWrite()) {
-                    log.debug("And writable!");
+                    log.debug("Directory " + FILE_STORE + " is writable.");
                     return true;
                 }
-                log.debug("Can't write to directory, wtf!?!");
+                throw new IOException("Directory " + FILE_STORE + " is not writable. The application will not be able to continue functioning.");
             }
-            log.debug("Cannot read directory, crap");
+            throw new IOException("Directory " + FILE_STORE + " is not readable. The application will not be able to continue functioning.");
         }
-        log.debug("it is Not a directory, fix this");
-        return false;
+        throw new IOException(FILE_STORE + "exists but is not a directory. The application will not be able to continue functioning.");
     }
 }
