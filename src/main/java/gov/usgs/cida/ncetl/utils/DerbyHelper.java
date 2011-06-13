@@ -23,7 +23,7 @@ public class DerbyHelper {
     private static final String context = "java:comp/env/jdbc" + dbName;
 //    private static Connection conn = null;
     //private static List<String> tablenames = Lists.newArrayList("test", "ingests");
-    private static Map<String, String> createMap;
+    private final static Map<String, String> createMap;
 
     static {
         // Switch to using ddl at some point
