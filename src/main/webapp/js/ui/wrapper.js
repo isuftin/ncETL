@@ -3,13 +3,12 @@ var ncmlpanel = function() {
 		title: 'Ncml Wrapper',
         id: 'wrapper',
 		items : new Ext.form.TextArea({
-            grow: true,
+            //grow: true,
             id: 'ncmltext',
             readOnly: true,
-            height: '100%',
-            width: '100%'
-        }),
-        height: '100%'
+            width: '100%',
+            height: '100%'
+        })
     });
 }
 
