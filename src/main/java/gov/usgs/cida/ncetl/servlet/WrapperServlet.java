@@ -4,6 +4,8 @@
  */
 package gov.usgs.cida.ncetl.servlet;
 
+import gov.noaa.eds.threddsutilities.exception.ThreddsUtilitiesException;
+import gov.usgs.cida.ncetl.utils.NetCDFUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,9 +15,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import static gov.usgs.cida.ncetl.utils.FileHelper.*;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -38,6 +45,8 @@ public class WrapperServlet extends HttpServlet {
         try {
             // Check that we have a "location" element. If not, send an error
             String location = request.getParameter("location");
+            String action = request.getParameter("action");
+
             if (StringUtils.isEmpty(location)) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                                    createErrorXML(Arrays.asList("MISSING_PARAM: location parameter can not be empty")));
@@ -57,19 +66,41 @@ public class WrapperServlet extends HttpServlet {
             File fileNCML = new File(location + ".ncml");
             if (!fileNCML.exists()) {
                 try {
-                    fileNCML = createNCML(fileNCML);
-                } catch (IOException ioe) {
+                    fileNCML = NetCDFUtil.createNcML(location);
+                }
+                catch (ThreddsUtilitiesException tdse) {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                                       createErrorXML(Arrays.asList("FILE_ERROR: NCML file could not be written to")));
+                                       createErrorXML(Arrays.asList("TDS_ERROR: problem creating NcML")));
                     return;  
                 }
+                
             }
-            
+            if ("addAttribute".equalsIgnoreCase(action)) {
+                try {
+                    Document dom = getDocument(location);
+                }
+                catch (IOException ioe) {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                       createErrorXML(Arrays.asList("FILE_ERROR: IOException while parsing document")));
+                    return;
+                }
+                catch (ParserConfigurationException pce) {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                       createErrorXML(Arrays.asList("FILE_ERROR: ParserConfigurationException while parsing document")));
+                    return;
+                }
+                catch (SAXException saxe) {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                       createErrorXML(Arrays.asList("FILE_ERROR: SAXException while parsing document")));
+                    return;
+                }
+                //dom.add(attribute, something);
+                //dom.save();
+            }
             // Read from the augmented or newly created NCML file and output the contents to the caller
             List<String> fileNCMLString = FileUtils.readLines(fileNCML);
             for (String line : fileNCMLString) {
                 out.println(line);
-                return;
             }
         } finally {
             out.close();
@@ -77,8 +108,8 @@ public class WrapperServlet extends HttpServlet {
     }
 
     private File createNCML(File file) throws IOException {
-        byte[] ncmlXML =  ("<?xml version=\"1.0\" encoding=\"UTF-8\"?> "
-            + "<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\" location=\""+file.getPath()+"\" > "
+        byte[] ncmlXML =  ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\" location=\""+file.getPath()+"\" >\n"
             + "</netcdf>").getBytes();
         FileUtils.writeByteArrayToFile(file, ncmlXML);
         return file;
@@ -120,5 +151,11 @@ public class WrapperServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+    
+    private Document getDocument(String location) throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = dbf.newDocumentBuilder();
+        return builder.parse(new File(location));
     }
 }

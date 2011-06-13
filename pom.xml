@@ -57,7 +57,7 @@
             <artifactId>nciso</artifactId>
             <version>1.1.1-1</version>
         </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>edu.ucar</groupId>
             <artifactId>netcdf</artifactId>
             <version>4.2.20</version>
@@ -68,12 +68,12 @@
             <version>8.0.29</version>
         </dependency>
         <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-        </dependency>
+            <groupId>edu.ucar</groupId>
+            <artifactId>unidataCommon</artifactId>
+            <version>4.2.20</version>
+        </dependency-->
         <dependency>
-            <groupId>jdom</groupId>
+            <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.1</version>
         </dependency>

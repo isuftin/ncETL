@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FileHelper {
 
-    public static final String FILE_STORE = System.getProperty("user.home") + IOUtils.DIR_SEPARATOR + ".ncetl";
+    public static final String FILE_STORE = System.getProperty("user.home") + IOUtils.DIR_SEPARATOR + ".ncetl" + IOUtils.DIR_SEPARATOR;
     public static Logger log = LoggerFactory.getLogger(FileHelper.class);
 
     public static boolean setupDirectories() throws IOException {

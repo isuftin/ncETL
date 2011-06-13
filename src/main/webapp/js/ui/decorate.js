@@ -130,7 +130,7 @@ var modifyNetCDF = function(filename, tabPanel) {
 //	ncisopanel.add([treepanel, ncmlpanel]);
 
 	tabPanel.add(treepanel);
-	tabPanel.add(ncmlpanel);
+	tabPanel.add(ncmlpanel());
 	tabPanel.activate(treepanel);
 };
 

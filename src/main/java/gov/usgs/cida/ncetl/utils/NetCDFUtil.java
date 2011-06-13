@@ -4,6 +4,9 @@
  */
 package gov.usgs.cida.ncetl.utils;
 
+import gov.noaa.eds.threddsutilities.exception.ThreddsUtilitiesException;
+import gov.noaa.eds.threddsutilities.util.ThreddsTranslatorUtil;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -36,5 +39,14 @@ public class NetCDFUtil {
                     .append("\" />")).toString();
             System.out.println(output);
         }
+    }
+    
+    public static synchronized File createNcML(String filename) throws ThreddsUtilitiesException {
+        String ncmlName = filename + ".ncml";
+        File ncmlFile = new File(ncmlName);
+        if (!ncmlFile.exists()) {
+                ncmlFile = ThreddsTranslatorUtil.getNcml(filename, ncmlName);
+        }
+        return ncmlFile;
     }
 }

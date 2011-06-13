@@ -34,23 +34,6 @@ public class DerbyHelper {
                       "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
     }
 
-//    public static Connection getConnection() {
-//        try {
-//            if (conn == null) {
-//                conn = getDSConnection("java:comp/env/jdbc" + dbName);
-//                if (conn == null) {
-//                    Class.forName(dbClassName).newInstance();
-//                    conn = DriverManager.getConnection(dbConnection);
-//                }
-//            }
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        finally {
-//            return conn;
-//        }
-//    }
     public static void setupDatabase() throws SQLException, NamingException,
                                               ClassNotFoundException {
 
@@ -80,23 +63,6 @@ public class DerbyHelper {
 
     }
 
-//    public static Connection getDSConnection(String jndiName) {
-//        Context ctx = null;
-//        Connection connection = null;
-//        DataSource ds = null;
-//        try {
-//            ctx = new InitialContext();
-//            ds = (DataSource) ctx.lookup(jndiName);
-//            connection = ds.getConnection();
-//        }
-//        catch (Exception e) {
-//            return null;
-//        }
-//
-////        connections++;
-////        log.trace("Open connections: " + connections);
-//        return connection;
-//    }
     private static void createTable(Connection c, String table) throws SQLException,
                                                          NamingException,
                                                          ClassNotFoundException {
