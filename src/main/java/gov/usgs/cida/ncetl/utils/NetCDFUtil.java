@@ -4,8 +4,8 @@
  */
 package gov.usgs.cida.ncetl.utils;
 
-import gov.noaa.eds.threddsutilities.exception.ThreddsUtilitiesException;
-import gov.noaa.eds.threddsutilities.util.ThreddsTranslatorUtil;
+import thredds.server.metadata.exception.ThreddsUtilitiesException;
+import thredds.server.metadata.util.ThreddsTranslatorUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

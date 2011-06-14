@@ -1,13 +1,12 @@
 package gov.usgs.cida.ncetl.servlet;
 
-import gov.noaa.eds.threddsutilities.util.ThreddsTranslatorUtil;
+import thredds.server.metadata.util.ThreddsTranslatorUtil;
 import gov.usgs.cida.ncetl.utils.NetCDFUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
