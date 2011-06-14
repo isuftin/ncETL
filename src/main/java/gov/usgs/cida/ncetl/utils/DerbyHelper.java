@@ -21,8 +21,6 @@ public class DerbyHelper {
     private static final String dbClassName = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String dbConnection = "jdbc:derby:" + SCHEMA + ";create=true;";
     private static final String context = "java:comp/env/jdbc" + dbName;
-//    private static Connection conn = null;
-    //private static List<String> tablenames = Lists.newArrayList("test", "ingests");
     private final static Map<String, String> createMap;
 
     static {
