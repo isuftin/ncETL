@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.servlet;
 
 import gov.usgs.cida.ncetl.utils.DerbyHelper;
@@ -23,8 +19,9 @@ public class Bootstrapper implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        log.info("*************** ncETL is starting up.");
         // Place all startup hooks here
-        log.info("ncETL is starting up.");
+        
         try {
             FileHelper.setupDirectories();
         }
@@ -44,12 +41,13 @@ public class Bootstrapper implements ServletContextListener {
             log.error("Application could not initialize database. The application will not be able to continue functioning. Error follows.", e);
             System.setProperty("errors-encountered", "true");
         }
+        
         System.setProperty("errors-encountered", "false");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         // Place all shut down hooks here
-        log.info("ncETL is shutting down.");
+        log.info("*************** ncETL is shutting down.");
     }
 }
