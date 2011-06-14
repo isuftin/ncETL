@@ -21,7 +21,7 @@
     <!-- #################### SERVLET CONFIGURATION #################### -->
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.dcpt.IngestControlServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.IngestControlServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DecorateServlet</servlet-name>
@@ -46,7 +46,8 @@
     <servlet>
         <servlet-name>IngestControlService</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
-        <init-param>
+        <!-- Not needed? -->
+        <init-param> 
             <param-name>jndi_name</param-name>
             <param-value>java:comp/env/jdbc/NCETL</param-value>
         </init-param>
