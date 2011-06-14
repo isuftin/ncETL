@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.validation.SchemaFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import static gov.usgs.cida.ncetl.utils.FileHelper.*;
@@ -133,15 +132,6 @@ public class WrapperServlet extends HttpServlet {
         } finally {
             out.close();
         }
-    }
-
-    private File createNCML(File file) throws IOException {
-        byte[] ncmlXML =  ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<netcdf xmlns=\"http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2\" location=\""+file.getPath()+"\" >\n"
-            + "</netcdf>").getBytes();
-        FileUtils.writeByteArrayToFile(file, ncmlXML);
-        return file;
-        
     }
     
     private String createErrorXML(List<String> errors) {
