@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.servlet;
 
 import gov.noaa.eds.threddsutilities.exception.ThreddsUtilitiesException;
@@ -70,33 +66,49 @@ public class WrapperServlet extends HttpServlet {
                 }
                 catch (ThreddsUtilitiesException tdse) {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                                       createErrorXML(Arrays.asList("TDS_ERROR: problem creating NcML")));
+                                       createErrorXML(Arrays.asList("TDS_ERROR: problem creating NcML"), tdse));
                     return;  
                 }
                 
             }
-            if ("addAttribute".equalsIgnoreCase(action)) {
-                try {
-                    Document dom = getDocument(location);
-                }
-                catch (IOException ioe) {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-                                       createErrorXML(Arrays.asList("FILE_ERROR: IOException while parsing document")));
-                    return;
-                }
-                catch (ParserConfigurationException pce) {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-                                       createErrorXML(Arrays.asList("FILE_ERROR: ParserConfigurationException while parsing document")));
-                    return;
-                }
-                catch (SAXException saxe) {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-                                       createErrorXML(Arrays.asList("FILE_ERROR: SAXException while parsing document")));
-                    return;
-                }
+            
+            
+            // Create the Document object 
+            Document dom = null;
+            try {
+                dom = getDocument(location);
+            }
+            catch (IOException ioe) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                   createErrorXML(Arrays.asList("FILE_ERROR: IOException while parsing document"), ioe));
+                return;
+            }
+            catch (ParserConfigurationException pce) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                   createErrorXML(Arrays.asList("FILE_ERROR: ParserConfigurationException while parsing document"), pce));
+                return;
+            }
+            catch (SAXException saxe) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+                                   createErrorXML(Arrays.asList("FILE_ERROR: SAXException while parsing document"), saxe));
+                return;
+            }
+            
+            if ("add".equalsIgnoreCase(action)) {
                 //dom.add(attribute, something);
                 //dom.save();
             }
+            
+            if ("remove".equalsIgnoreCase(action)) {
+                //dom.remove(attribute);
+                //dom.save
+            }
+            
+            if ("edit".equalsIgnoreCase(action)) {
+                //dom.edit(attribute);
+                //dom.save
+            }
+            
             // Read from the augmented or newly created NCML file and output the contents to the caller
             List<String> fileNCMLString = FileUtils.readLines(fileNCML);
             for (String line : fileNCMLString) {
@@ -117,10 +129,19 @@ public class WrapperServlet extends HttpServlet {
     }
     
     private String createErrorXML(List<String> errors) {
+        return createErrorXML(errors, null);
+    }
+    
+    private String createErrorXML(List<String> errors, Throwable throwable) {
         StringBuilder errorXML = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         errorXML.append("<errors>");
         for (String error : errors) {
             errorXML.append(error);
+        }
+        if (throwable != null) {
+            errorXML.append("<trace>");
+            errorXML.append(throwable.getMessage());
+            errorXML.append("</trace>");
         }
         errorXML.append("</errors>");
         return errorXML.toString();
