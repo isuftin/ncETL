@@ -1,5 +1,7 @@
 package gov.usgs.cida.ncetl.servlet;
 
+import org.jdom.JDOMException;
+import org.jdom.Document;
 import thredds.server.metadata.exception.ThreddsUtilitiesException;
 import gov.usgs.cida.ncetl.utils.NetCDFUtil;
 import java.io.File;
@@ -11,14 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import static gov.usgs.cida.ncetl.utils.FileHelper.*;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -77,7 +74,7 @@ public class WrapperServlet extends HttpServlet {
             // Create the Document object 
             Document dom = null;
             try {
-                dom = getDocument(fileNCML.getCanonicalPath());
+                dom = NetCDFUtil.getDocument(fileNCML.getCanonicalPath());
             }
             catch (IOException ioe) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -85,18 +82,10 @@ public class WrapperServlet extends HttpServlet {
                         "FILE_ERROR: IOException while parsing document"), ioe));
                 return;
             }
-            catch (ParserConfigurationException pce) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                                   createErrorXML(
-                        Arrays.asList(
-                        "FILE_ERROR: ParserConfigurationException while parsing document"),
-                                                  pce));
-                return;
-            }
-            catch (SAXException saxe) {
+            catch (JDOMException jde) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                                    createErrorXML(Arrays.asList(
-                        "FILE_ERROR: SAXException while parsing document"), saxe));
+                        "JDOM_ERROR: JDOMException while parsing document"), jde));
                 return;
             }
 
@@ -191,10 +180,5 @@ public class WrapperServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    private Document getDocument(String location) throws
-            ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = dbf.newDocumentBuilder();
-        return builder.parse(new File(location));
-    }
+
 }
