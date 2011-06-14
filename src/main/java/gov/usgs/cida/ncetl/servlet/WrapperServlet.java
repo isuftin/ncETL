@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.validation.SchemaFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import static gov.usgs.cida.ncetl.utils.FileHelper.*;
@@ -22,7 +23,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author isuftin
+ * @author Ivan Suftin
  */
 public class WrapperServlet extends HttpServlet {
 
@@ -72,7 +73,6 @@ public class WrapperServlet extends HttpServlet {
                 
             }
             
-            
             // Create the Document object 
             Document dom = null;
             try {
@@ -95,16 +95,32 @@ public class WrapperServlet extends HttpServlet {
             }
             
             if ("add".equalsIgnoreCase(action)) {
+                // XPath to tell us where to add - if blank, is a root element
+//                String 
+                String childOf = request.getParameter("child-of");
                 //dom.add(attribute, something);
                 //dom.save();
             }
             
             if ("remove".equalsIgnoreCase(action)) {
-                //dom.remove(attribute);
+                // XPath of where to remove
+                String removeAt = request.getParameter("remove-at");
+                // What to remove 
+                String variable = request.getParameter("variable");
+                String value = request.getParameter("value");
+                String attribute = request.getParameter("attribute");
+                
+                //dom.remove(removeAt);
                 //dom.save
             }
             
             if ("edit".equalsIgnoreCase(action)) {
+                String editAt = request.getParameter("edit-at");
+                // What to edit 
+                String variable = request.getParameter("variable");
+                String value = request.getParameter("value");
+                String attribute = request.getParameter("attribute");
+                String newValue = request.getParameter("new-value");
                 //dom.edit(attribute);
                 //dom.save
             }
