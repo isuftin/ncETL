@@ -15,7 +15,7 @@ public class FileHelper {
 
     public static final String FILE_STORE = System.getProperty("user.home") + IOUtils.DIR_SEPARATOR + ".ncetl" + IOUtils.DIR_SEPARATOR;
     public static Logger log = LoggerFactory.getLogger(FileHelper.class);
-
+    
     public static boolean setupDirectories() throws IOException {
         log.debug("setting up directories");
         File dir = new File(FILE_STORE);
