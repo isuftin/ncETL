@@ -80,7 +80,13 @@
         <dependency>
             <groupId>gov.noaa.eds</groupId>
             <artifactId>ncISO</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.1-1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jdom</artifactId>
+                    <groupId>jdom</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jdom</groupId>
@@ -187,6 +193,26 @@
                     </configuration>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+						<!-- NOTE: extra properties required for unit tests -->
+                    <systemProperties>
+                        <property>
+                            <name>catalina.base</name>
+                            <value>target/test-classes</value>
+                        </property>
+                        <property>
+                            <name>catalina.home</name>
+                            <value>target/test-classes</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+
         </plugins>
         <finalName>ncETL</finalName>
     </build>
