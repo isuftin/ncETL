@@ -20,6 +20,7 @@ import org.junit.Test;
 import thredds.catalog.DataFormatType;
 import thredds.catalog.InvCatalogFactory;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import thredds.catalog.InvCatalogImpl;
 import thredds.catalog.InvDataset;
 
@@ -48,25 +49,27 @@ public class CatalogTest {
     public void tearDown() {
     }
 
-//    @Test
-//    public void readCatalog() {
-//        InvCatalogFactory factory = new InvCatalogFactory("testFactory", true);
-//        InvCatalogImpl readXML = factory.readXML(
-//                "file://" + FileHelper.FILE_STORE + "catalog.xml");
-//        List<InvDataset> datasets = readXML.getDatasets();
-//        assertEquals(datasets.size(), 2);
-//        InvDataset dataset = datasets.get(0);
-//        DataFormatType dft = dataset.getDataFormatType();
-//        assertTrue(dft.equals(DataFormatType.NETCDF));
-//    }
+    @Ignore
+    @Test
+    public void readCatalog() {
+        InvCatalogFactory factory = new InvCatalogFactory("testFactory", true);
+        InvCatalogImpl readXML = factory.readXML(
+                "file://" + FileHelper.FILE_STORE + "catalog.xml");
+        List<InvDataset> datasets = readXML.getDatasets();
+        assertEquals(datasets.size(), 2);
+        InvDataset dataset = datasets.get(0);
+        DataFormatType dft = dataset.getDataFormatType();
+        assertTrue(dft.equals(DataFormatType.NETCDF));
+    }
 
-//    @Test
-//    public void writeCatalog() throws URISyntaxException, FileNotFoundException, IOException {
-//        URI uri = new URI("file://" + FileHelper.FILE_STORE + "catalog_new.xml");
-//        InvCatalogImpl impl = new InvCatalogImpl("Test Catalog", "1.0", uri);
-//        File file = new File(impl.getBaseURI());
-//        FileOutputStream fos = new FileOutputStream(file);
-//        impl.writeXML(fos);
-//        assertTrue(file.exists());
-//    }
+    @Ignore
+    @Test
+    public void writeCatalog() throws URISyntaxException, FileNotFoundException, IOException {
+        URI uri = new URI("file://" + FileHelper.FILE_STORE + "catalog_new.xml");
+        InvCatalogImpl impl = new InvCatalogImpl("Test Catalog", "1.0", uri);
+        File file = new File(impl.getBaseURI());
+        FileOutputStream fos = new FileOutputStream(file);
+        impl.writeXML(fos);
+        assertTrue(file.exists());
+    }
 }
