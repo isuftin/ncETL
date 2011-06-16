@@ -48,17 +48,17 @@ public class CatalogTest {
     public void tearDown() {
     }
 
-    @Test
-    public void readCatalog() {
-        InvCatalogFactory factory = new InvCatalogFactory("testFactory", true);
-        InvCatalogImpl readXML = factory.readXML(
-                "file://" + FileHelper.FILE_STORE + "catalog.xml");
-        List<InvDataset> datasets = readXML.getDatasets();
-        assertEquals(datasets.size(), 2);
-        InvDataset dataset = datasets.get(0);
-        DataFormatType dft = dataset.getDataFormatType();
-        assertTrue(dft.equals(DataFormatType.NETCDF));
-    }
+//    @Test
+//    public void readCatalog() {
+//        InvCatalogFactory factory = new InvCatalogFactory("testFactory", true);
+//        InvCatalogImpl readXML = factory.readXML(
+//                "file://" + FileHelper.FILE_STORE + "catalog.xml");
+//        List<InvDataset> datasets = readXML.getDatasets();
+//        assertEquals(datasets.size(), 2);
+//        InvDataset dataset = datasets.get(0);
+//        DataFormatType dft = dataset.getDataFormatType();
+//        assertTrue(dft.equals(DataFormatType.NETCDF));
+//    }
 
 //    @Test
 //    public void writeCatalog() throws URISyntaxException, FileNotFoundException, IOException {
