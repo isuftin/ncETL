@@ -18,6 +18,7 @@ import org.joda.time.MutableDateTime;
 public class DateIndexer extends HttpServlet {
 
 	public static final String USAGE = "java DateIndexer \"${StartDate}\" \"${EndDate}\"";
+    private final int[] LEAP_DAY =  {2, 29};
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -30,8 +31,7 @@ public class DateIndexer extends HttpServlet {
 			DateMidnight startDate = new DateMidnight(origin);
 			DateMidnight endDate = new DateMidnight(end);
 			DateTimeFieldType[] fields = {DateTimeFieldType.monthOfYear(), DateTimeFieldType.dayOfMonth()};
-			int[] vals = {2, 29};
-			Partial leapDay = new Partial(fields, vals);
+			Partial leapDay = new Partial(fields, LEAP_DAY);
 //			List<Partial> skipDates = new ArrayList<Partial>();  // Hard to parse String to partial
 //			if (null != skips) {
 //				for(String skip : skips) {

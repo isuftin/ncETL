@@ -22,6 +22,8 @@ public class DerbyHelper {
     private static final String dbConnection = "jdbc:derby:" + SCHEMA + ";create=true;";
     private static final String context = "java:comp/env/jdbc" + dbName;
     private final static Map<String, String> createMap;
+    
+    private DerbyHelper(){};
 
     static {
         // Switch to using ddl at some point

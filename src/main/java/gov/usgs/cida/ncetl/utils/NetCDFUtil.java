@@ -4,10 +4,7 @@
  */
 package gov.usgs.cida.ncetl.utils;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdom.JDOMException;
-import org.w3c.dom.Node;
 import thredds.server.metadata.bean.Extent;
 import thredds.server.metadata.exception.ThreddsUtilitiesException;
 import thredds.server.metadata.util.ThreddsTranslatorUtil;
@@ -15,17 +12,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.xml.sax.SAXException;
 import thredds.server.metadata.util.NCMLModifier;
 import thredds.server.metadata.util.ThreddsExtentUtil;
 import ucar.nc2.Attribute;
@@ -39,6 +31,8 @@ import ucar.nc2.ncml.NcMLReader;
  * @author jwalker
  */
 public class NetCDFUtil {
+    
+    private NetCDFUtil(){}
 
     public static void writeNetCDFFile(InputStream ncmlIn, String outfile)
             throws IOException {
