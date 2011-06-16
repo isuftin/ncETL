@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author jwalker
  */
 public class IngestControlService extends WebService {
+    private static final long serialVersionUID = 1L;
 
     public IngestControlService() {
         this.enableCaching = false;
