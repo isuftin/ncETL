@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gov.usgs.cida.ncetl;
+package thredds.catalog;
 
 import gov.usgs.cida.ncetl.utils.FileHelper;
 import java.io.File;
@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 import org.junit.Ignore;
 import thredds.catalog.InvCatalogImpl;
 import thredds.catalog.InvDataset;
+import thredds.catalog.parser.jdom.InvCatalogFactory10;
 
 /**
  *
@@ -30,11 +31,12 @@ import thredds.catalog.InvDataset;
  */
 public class CatalogTest {
 
-    public CatalogTest() {
-    }
+    private static InvCatalogFactory factory = null;
+    
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+        factory = new InvCatalogFactory("testFactory", true);
     }
 
     @AfterClass
@@ -52,7 +54,7 @@ public class CatalogTest {
     @Ignore
     @Test
     public void readCatalog() {
-        InvCatalogFactory factory = new InvCatalogFactory("testFactory", true);
+        
         InvCatalogImpl readXML = factory.readXML(
                 "file://" + FileHelper.FILE_STORE + "catalog.xml");
         List<InvDataset> datasets = readXML.getDatasets();
@@ -62,11 +64,14 @@ public class CatalogTest {
         assertTrue(dft.equals(DataFormatType.NETCDF));
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void writeCatalog() throws URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + FileHelper.FILE_STORE + "catalog_new.xml");
         InvCatalogImpl impl = new InvCatalogImpl("Test Catalog", "1.0", uri);
+        //InvCatalogFactory10 converter = new InvCatalogFactory10();
+        impl.setCatalogFactory(factory);
+        impl.setCatalogConverterToVersion1();
         File file = new File(impl.getBaseURI());
         FileOutputStream fos = new FileOutputStream(file);
         impl.writeXML(fos);

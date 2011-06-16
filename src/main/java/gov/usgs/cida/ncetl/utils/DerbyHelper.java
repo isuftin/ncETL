@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 import javax.naming.NamingException;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -34,26 +35,28 @@ public class DerbyHelper {
                       "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
     }
 
-    public static void setupDatabase() throws SQLException, NamingException,
-                                              ClassNotFoundException {
+    public static void setupDatabase() throws SQLException, NamingException, ClassNotFoundException {
 
         System.setProperty("dbuser", "");
         System.setProperty("dbpass", "");
         System.setProperty("dburl", dbConnection);
         System.setProperty("dbclass", dbClassName);
-        Connection myConn = SqlUtils.getConnection(context);
+        Connection myConn = null;
         try {
+            myConn = SqlUtils.getConnection(context);
             if (myConn != null) {
                 DatabaseMetaData dbMeta = myConn.getMetaData();
-                ResultSet schemas = dbMeta.getSchemas();
-                while (schemas.next()) {
-                    System.out.println(schemas.getString(1));
-                }
-                for (String table : createMap.keySet()) {
-                    ResultSet rs = dbMeta.getTables(null, "APP", table, null);
-                    if (!rs.next()) {
-                        createTable(myConn, table);
+                ResultSet rs = null;
+                try {
+                    for (String table : createMap.keySet()) {
+                        rs = dbMeta.getTables(null, "APP", table, null);
+                        if (!rs.next()) {
+                            createTable(myConn, table);
+                        }
                     }
+                }
+                finally {
+                    rs.close();
                 }
             }
         }
@@ -66,8 +69,13 @@ public class DerbyHelper {
     private static void createTable(Connection c, String table) throws SQLException,
                                                          NamingException,
                                                          ClassNotFoundException {
-        Statement stmt = c.createStatement();
-        stmt.execute(createMap.get(table));
-        stmt.close();
+        Statement stmt = null;
+        try {
+            stmt = c.createStatement();
+            stmt.execute(createMap.get(table));
+        }
+        finally {
+            stmt.close();
+        }
     }
 }
