@@ -102,16 +102,13 @@ public final class FTPIngestTask extends TimerTask implements Runnable {
                 if (!ingestDirectory(dir + File.separator + file.getName())) {
                     completedSuccessfully = false;
                 }
-            }
-            else {
+            } else {
                 Matcher matcher = fileRegex.matcher(file.getName());
-                if (matcher.matches()) {
-                    if (!client.retrieveFile(file.getName(),
-                                             new FileOutputStream(
-                            FileHelper.FILE_STORE + File.separator + file.getName()))) {
-                        // TODO keep a list of files that failed to try to correct next time
-                        completedSuccessfully = false;
-                    }
+                if (matcher.matches() && !client.retrieveFile(file.getName(),
+                        new FileOutputStream(
+                        FileHelper.FILE_STORE + File.separator + file.getName()))) {
+                    // TODO keep a list of files that failed to try to correct next time
+                    completedSuccessfully = false;
                 }
             }
         }
