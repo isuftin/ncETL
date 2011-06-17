@@ -48,7 +48,7 @@ public final class FileHelper {
     
     private static void createDatabaseDirectory() throws IOException {
         LOG.debug("Database directory is: " + DATABASE_DIRECTORY);
-        File databaseDirectory = new File(FILE_STORE);
+        File databaseDirectory = new File(DATABASE_DIRECTORY);
         createDirectory(databaseDirectory);
     }
     
