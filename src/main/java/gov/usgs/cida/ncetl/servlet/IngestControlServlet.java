@@ -21,8 +21,9 @@ import java.util.Timer;
  */
 public class IngestControlServlet extends HttpServlet {
 
-	public static List<FTPIngestTask> ingestList;
+    public static List<FTPIngestTask> ingestList;
     public static Map<String, Timer> runningTasks;
+    private static final long serialVersionUID = 1L;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
