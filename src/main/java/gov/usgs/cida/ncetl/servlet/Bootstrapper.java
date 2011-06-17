@@ -32,70 +32,30 @@ public class Bootstrapper implements ServletContextListener {
             log.error(
                     "Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
                       ioe);
-<<<<<<< HEAD
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
-=======
-            System.setProperty("errors-encountered", "true");
->>>>>>> some database refactoring mostly.
             return;
         }
 
         try {
             DerbyHelper.setupDatabase();
         }
-<<<<<<< HEAD
-=======
-        catch (SQLException sqle) {
-            log.error(
-                    "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
-                      sqle);
-            System.setProperty("errors-encountered", "true");
-            return;
-        }
->>>>>>> some database refactoring mostly.
         catch (Exception e) {
             log.error(
                     "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
                       e);
-<<<<<<< HEAD
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
-=======
-            System.setProperty("errors-encountered", "true");
->>>>>>> some database refactoring mostly.
+
             return;
         }
         
         try {
             CatalogHelper.setupCatalog();
         }
-<<<<<<< HEAD
         catch (Exception ex) {
             log.error(
                     "Application could not initialize catalog. The application will not work correctly. Error follows.",
                       ex);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
-=======
-        catch (URISyntaxException ex) {
-            log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
-            System.setProperty("errors-encountered", "true");
-            return;
-        }
-        catch (FileNotFoundException ex) {
-            log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
-            System.setProperty("errors-encountered", "true");
-            return;
-        }
-        catch (IOException ex) {
-            log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
-            System.setProperty("errors-encountered", "true");
-            return;
->>>>>>> some database refactoring mostly.
         }
 
     }
