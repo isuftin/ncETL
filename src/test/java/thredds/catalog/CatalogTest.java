@@ -12,18 +12,17 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import thredds.catalog.DataFormatType;
-import thredds.catalog.InvCatalogFactory;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
-import thredds.catalog.InvCatalogImpl;
-import thredds.catalog.InvDataset;
-import thredds.catalog.parser.jdom.InvCatalogFactory10;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,7 +31,7 @@ import thredds.catalog.parser.jdom.InvCatalogFactory10;
 public class CatalogTest {
 
     private static InvCatalogFactory factory = null;
-    
+    private static Logger log = LoggerFactory.getLogger(CatalogTest.class);
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -54,7 +53,7 @@ public class CatalogTest {
     @Ignore
     @Test
     public void readCatalog() {
-        
+
         InvCatalogImpl readXML = factory.readXML(
                 "file://" + FileHelper.FILE_STORE + "catalog.xml");
         List<InvDataset> datasets = readXML.getDatasets();
@@ -66,17 +65,17 @@ public class CatalogTest {
 
     //@Ignore
     @Test
-    public void writeCatalog() throws URISyntaxException, FileNotFoundException, IOException {
-        URI uri = new URI("file://" + FileHelper.FILE_STORE + "catalog_new.xml");
+    public void writeCatalog() throws URISyntaxException, FileNotFoundException,
+                                      IOException {
+        File f = File.createTempFile("catalog_new", "xml");
+        f.deleteOnExit();
+        URI uri = f.toURI();
         InvCatalogImpl impl = new InvCatalogImpl("Test Catalog", "1.0", uri);
-        //InvCatalogFactory10 converter = new InvCatalogFactory10();
         impl.setCatalogFactory(factory);
         impl.setCatalogConverterToVersion1();
-        File file = new File(impl.getBaseURI());
-        file.createNewFile();
-        FileOutputStream fos = new FileOutputStream(file);
+        FileOutputStream fos = new FileOutputStream(f);
         impl.writeXML(fos);
-        assertTrue(file.exists());
-        file.deleteOnExit();
+        assertTrue(f.exists());
+
     }
 }
