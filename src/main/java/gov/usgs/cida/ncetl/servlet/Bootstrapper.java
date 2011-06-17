@@ -26,11 +26,11 @@ public class Bootstrapper implements ServletContextListener {
         // Place all startup hooks here
 
         try {
-            FileHelper.setupDirectories();
+            FileHelper.createDirectories();
         }
         catch (IOException ioe) {
             log.error(
-                    "Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
+                    "*************** Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
                       ioe);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
@@ -41,10 +41,9 @@ public class Bootstrapper implements ServletContextListener {
         }
         catch (Exception e) {
             log.error(
-                    "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
+                    "*************** Application could not initialize database. The application will not be able to continue functioning. Error follows.",
                       e);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
-
             return;
         }
         
@@ -53,11 +52,12 @@ public class Bootstrapper implements ServletContextListener {
         }
         catch (Exception ex) {
             log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
+                    "*************** Application could not initialize catalog. The application will not work correctly. Error follows.",
                       ex);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
+            return;
         }
-
+        log.info("*************** ncETL has started.");
     }
 
     @Override

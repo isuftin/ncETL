@@ -2,7 +2,6 @@ package gov.usgs.cida.ncetl.utils;
 
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -10,15 +9,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 import javax.naming.NamingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jwalker
  */
 public final class DerbyHelper {
-
-    public static final String DB_NAME = "NCETL";
-    public static final String DB_LOCATION = FileHelper.FILE_STORE + "database" + File.separator + DB_NAME;
+    private static final Logger LOG = LoggerFactory.getLogger(DerbyHelper.class);
+    private static final String DB_NAME = "NCETL";
+    private static final String DB_LOCATION = FileHelper.DATABASE_DIRECTORY +  DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String DB_CONNECTION = "jdbc:derby:" + DB_LOCATION + ";create=true;";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
@@ -37,11 +38,13 @@ public final class DerbyHelper {
     }
 
     public static void setupDatabase() throws SQLException, NamingException, ClassNotFoundException {
-
+        LOG.info("*************** Initializing database.");
+        
         System.setProperty("dbuser", "");
         System.setProperty("dbpass", "");
         System.setProperty("dburl", DB_CONNECTION);
         System.setProperty("dbclass", DB_CLASS_NAME);
+        
         Connection myConn = null;
         try {
             myConn = SqlUtils.getConnection(JNDI_CONTEXT);
@@ -60,6 +63,7 @@ public final class DerbyHelper {
                     rs.close();
                 }
             }
+            LOG.info("*************** Database has been initialized.");
         }
         finally {
             SqlUtils.closeConnection(myConn);
