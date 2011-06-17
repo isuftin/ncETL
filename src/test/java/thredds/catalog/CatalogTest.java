@@ -73,8 +73,10 @@ public class CatalogTest {
         impl.setCatalogFactory(factory);
         impl.setCatalogConverterToVersion1();
         File file = new File(impl.getBaseURI());
+        file.createNewFile();
         FileOutputStream fos = new FileOutputStream(file);
         impl.writeXML(fos);
         assertTrue(file.exists());
+        file.deleteOnExit();
     }
 }
