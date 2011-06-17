@@ -30,7 +30,7 @@ import ucar.nc2.ncml.NcMLReader;
  *
  * @author jwalker
  */
-public class NetCDFUtil {
+public final class NetCDFUtil {
     
     private NetCDFUtil(){}
 

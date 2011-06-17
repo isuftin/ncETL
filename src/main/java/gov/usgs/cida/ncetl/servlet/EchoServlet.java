@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 //TODO Keep EchoServlet clean and subclass it for changes
 public class EchoServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

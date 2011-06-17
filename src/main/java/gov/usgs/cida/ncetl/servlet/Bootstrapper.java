@@ -2,11 +2,7 @@ package gov.usgs.cida.ncetl.servlet;
 
 import gov.usgs.cida.ncetl.utils.DerbyHelper;
 import gov.usgs.cida.ncetl.utils.FileHelper;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
-import java.util.logging.Level;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
@@ -18,13 +14,15 @@ import thredds.catalog.CatalogHelper;
  * @author jwalker
  */
 public class Bootstrapper implements ServletContextListener {
-
-    public static Logger log = LoggerFactory.getLogger(Bootstrapper.class);
+    private final static String ERRORS_ENCOUNTERED = "errors-encountered";
+    private final static String FALSE = "false";
+    private final static String TRUE = "true";
+    private static Logger log = LoggerFactory.getLogger(Bootstrapper.class);
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         log.info("*************** ncETL is starting up.");
-        System.setProperty("errors-encountered", "false");
+        System.setProperty(ERRORS_ENCOUNTERED, FALSE);
         // Place all startup hooks here
 
         try {
@@ -34,48 +32,29 @@ public class Bootstrapper implements ServletContextListener {
             log.error(
                     "Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
                       ioe);
-            System.setProperty("errors-encountered", "true");
+            System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
 
         try {
             DerbyHelper.setupDatabase();
         }
-        catch (SQLException sqle) {
-            log.error(
-                    "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
-                      sqle);
-            System.setProperty("errors-encountered", "true");
-            return;
-        }
         catch (Exception e) {
             log.error(
                     "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
                       e);
-            System.setProperty("errors-encountered", "true");
+            System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
         
         try {
             CatalogHelper.setupCatalog();
         }
-        catch (URISyntaxException ex) {
+        catch (Exception ex) {
             log.error(
                     "Application could not initialize catalog. The application will not work correctly. Error follows.",
                       ex);
-            System.setProperty("errors-encountered", "true");
-        }
-        catch (FileNotFoundException ex) {
-            log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
-            System.setProperty("errors-encountered", "true");
-        }
-        catch (IOException ex) {
-            log.error(
-                    "Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
-            System.setProperty("errors-encountered", "true");
+            System.setProperty(ERRORS_ENCOUNTERED, TRUE);
         }
 
     }

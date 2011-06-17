@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.servlet;
 
 import com.google.common.collect.Lists;
@@ -37,6 +33,7 @@ import org.xml.sax.SAXException;
  * @author jwalker
  */
 public class ESRLServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

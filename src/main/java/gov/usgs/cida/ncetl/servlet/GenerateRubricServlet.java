@@ -18,6 +18,7 @@ import static gov.usgs.cida.ncetl.utils.FileHelper.*;
  * @author jwalker
  */
 public class GenerateRubricServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,7 +36,7 @@ public class GenerateRubricServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
 
-
+        BufferedReader reader = null;
         try {
             String output = request.getParameter("output");
             if (output == null) {
@@ -44,7 +45,7 @@ public class GenerateRubricServlet extends HttpServlet {
                 return;
             }
 
-            String file = FILE_STORE + request.getParameter("file");
+            String file = request.getParameter("file");
             if (file == null) {
                 response.setStatus(response.SC_BAD_REQUEST);
                 out.print("Must supply file to run ncISO on");
@@ -67,7 +68,6 @@ public class GenerateRubricServlet extends HttpServlet {
             File html = ThreddsTranslatorUtil.transform(
                     _xsltMetadataAssessmentUrl, ncmlFile.getCanonicalPath(),
                                                         htmlFile);
-            BufferedReader reader = null;
             if ("ncml".equalsIgnoreCase(output)) {
                 response.setContentType("text/xml;charset=UTF-8");
                 reader = new BufferedReader(new FileReader(ncmlFile));
@@ -90,6 +90,7 @@ public class GenerateRubricServlet extends HttpServlet {
             e.printStackTrace(out);
         }
         finally {
+            if (reader != null) reader.close();
             out.close();
         }
     }

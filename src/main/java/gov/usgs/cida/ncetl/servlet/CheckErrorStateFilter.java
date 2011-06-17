@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author isuftin
  */
 public class CheckErrorStateFilter implements Filter {
-    public static Logger log = LoggerFactory.getLogger(CheckErrorStateFilter.class);
+    private static Logger log = LoggerFactory.getLogger(CheckErrorStateFilter.class);
     public CheckErrorStateFilter() {
     }    
     

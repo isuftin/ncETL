@@ -21,10 +21,8 @@ import org.json.simple.JSONObject;
  *
  * @author jwalker
  */
-public class FTPIngestTask extends TimerTask implements Runnable {
-
-    private static final Logger log = Logger.getLogger(
-            FTPIngestTask.class.getName());
+public final class FTPIngestTask extends TimerTask implements Runnable {
+    private static final Logger LOG = Logger.getLogger(FTPIngestTask.class.getName());
     public static final long DEFAULT_RESCAN_PERIOD = 1000 * 60 * 60;
     public static final String DEFAULT_PASSWORD = "anonymous";
     public static final String DEFAULT_USER = "anonymous";
@@ -79,15 +77,15 @@ public class FTPIngestTask extends TimerTask implements Runnable {
             client.connect(ftpLocation.getHost(), port);
             client.login(username, password);
             String status = client.getStatus();
-            log.info(status);
+            LOG.info(status);
             client.changeWorkingDirectory(ftpLocation.getPath());
             everythingIsGood = ingestDirectory(".");
         }
         catch (SocketException ex) {
-            log.error(ex.getMessage());
+            LOG.error(ex.getMessage());
         }
         catch (IOException ex) {
-            log.error(ex.getMessage());
+            LOG.error(ex.getMessage());
         }
 
         if (everythingIsGood) {

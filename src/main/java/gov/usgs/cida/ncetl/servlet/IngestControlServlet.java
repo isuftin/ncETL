@@ -21,16 +21,19 @@ import java.util.Timer;
  */
 public class IngestControlServlet extends HttpServlet {
 
-    protected static List<FTPIngestTask> ingestList;
-    protected static Map<String, Timer> runningTasks;
+    private  List<FTPIngestTask> ingestList;
+    private  Map<String, Timer> runningTasks;
     private static final long serialVersionUID = 1L;
 
+
+
+    
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		ingestList = Lists.newLinkedList();
-        // select * from ingestors
-        // foreach ingestor create timer, start timer
-        runningTasks = Maps.newTreeMap();
+            ingestList = Lists.newLinkedList();
+            runningTasks = Maps.newTreeMap();
+            // select * from ingestors
+            // foreach ingestor create timer, start timer
 		try {
 			FTPIngestTask task = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110206/").fileRegex(".*").rescanEvery(60000).build();
 			ingestList.add(task);

@@ -11,14 +11,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class CatalogHelper {
+public final class CatalogHelper {
     
     public static final String DEFAULT_CATALOG_LOCATION = FileHelper.FILE_STORE + "catalog.xml";
     public static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";

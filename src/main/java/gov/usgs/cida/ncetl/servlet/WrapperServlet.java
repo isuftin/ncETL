@@ -22,6 +22,7 @@ import static gov.usgs.cida.ncetl.utils.FileHelper.*;
  * @author Ivan Suftin
  */
 public class WrapperServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -89,36 +90,36 @@ public class WrapperServlet extends HttpServlet {
                 return;
             }
 
-            if ("add".equalsIgnoreCase(action)) {
+//            if ("add".equalsIgnoreCase(action)) {
                 // XPath to tell us where to add - if blank, is a root element
 //                String 
-                String childOf = request.getParameter("child-of");
+//                String childOf = request.getParameter("child-of");
                 //dom.add(attribute, something);
                 //dom.save();
-            }
+//            }
 
-            if ("remove".equalsIgnoreCase(action)) {
+//            if ("remove".equalsIgnoreCase(action)) {
                 // XPath of where to remove
-                String removeAt = request.getParameter("remove-at");
+//                String removeAt = request.getParameter("remove-at");
                 // What to remove 
-                String variable = request.getParameter("variable");
-                String value = request.getParameter("value");
-                String attribute = request.getParameter("attribute");
+//                String variable = request.getParameter("variable");
+//                String value = request.getParameter("value");
+//                String attribute = request.getParameter("attribute");
 
                 //dom.remove(removeAt);
                 //dom.save
-            }
+//            }
 
-            if ("edit".equalsIgnoreCase(action)) {
-                String editAt = request.getParameter("edit-at");
+//            if ("edit".equalsIgnoreCase(action)) {
+//                String editAt = request.getParameter("edit-at");
                 // What to edit 
-                String variable = request.getParameter("variable");
-                String value = request.getParameter("value");
-                String attribute = request.getParameter("attribute");
-                String newValue = request.getParameter("new-value");
+//                String variable = request.getParameter("variable");
+//                String value = request.getParameter("value");
+//                String attribute = request.getParameter("attribute");
+//                String newValue = request.getParameter("new-value");
                 //dom.edit(attribute);
                 //dom.save
-            }
+//            }
 
             // Read from the augmented or newly created NCML file and output the contents to the caller
             List<String> fileNCMLString = FileUtils.readLines(fileNCML);

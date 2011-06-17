@@ -9,13 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
 import javax.naming.NamingException;
-import org.apache.commons.io.IOUtils;
 
 /**
  *
  * @author jwalker
  */
-public class DerbyHelper {
+public final class DerbyHelper {
 
     public static final String dbName = "/NCETL";
     public static final String SCHEMA = FileHelper.FILE_STORE + dbName;
