@@ -23,6 +23,7 @@ public class IngestControlServlet extends HttpServlet {
 
     private  List<FTPIngestTask> ingestList;
     private  Map<String, Timer> runningTasks;
+    private static final int TIMER_LENGTH = 60000;
     private static final long serialVersionUID = 1L;
 
 
@@ -35,7 +36,7 @@ public class IngestControlServlet extends HttpServlet {
             // select * from ingestors
             // foreach ingestor create timer, start timer
 		try {
-			FTPIngestTask task = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110206/").fileRegex(".*").rescanEvery(60000).build();
+			FTPIngestTask task = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110206/").fileRegex(".*").rescanEvery(TIMER_LENGTH).build();
 			ingestList.add(task);
 		}
 		catch (MalformedURLException ex) {
