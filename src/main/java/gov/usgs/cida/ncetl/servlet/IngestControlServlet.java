@@ -84,25 +84,25 @@ public class IngestControlServlet extends HttpServlet {
                 }
 				out.print("{status:'ok'}");
 			}
-			else if (action.equalsIgnoreCase("update")) {
-                // database update
-                // timer.cancel()
-                // ftp task delete/recreate
-                // timer.run()
-                
-//				out.print("{");
-//				out.print("results: ");
-//				out.print(ingestList.size());
-//				out.print(", rows: [");
-//				Iterator<FTPIngestTask> iterator = ingestList.iterator();
-//				while(iterator.hasNext()) {
-//					out.print(iterator.next().toJSONString());
-//					if (iterator.hasNext()) {
-//						out.print(",");
-//					}
-//				}
-//				out.print("]}");
-			}
+                        //else if (action.equalsIgnoreCase("update")) {
+                        // database update
+                        // timer.cancel()
+                        // ftp task delete/recreate
+                        // timer.run()
+
+                        //				out.print("{");
+                        //				out.print("results: ");
+                        //				out.print(ingestList.size());
+                        //				out.print(", rows: [");
+                        //				Iterator<FTPIngestTask> iterator = ingestList.iterator();
+                        //				while(iterator.hasNext()) {
+                        //					out.print(iterator.next().toJSONString());
+                        //					if (iterator.hasNext()) {
+                        //						out.print(",");
+                        //					}
+                        //				}
+                        //				out.print("]}");
+                        //}
 			else if (action.equalsIgnoreCase("delete")) {
 				throw new UnsupportedOperationException("Add not yet implemented");
 			}
