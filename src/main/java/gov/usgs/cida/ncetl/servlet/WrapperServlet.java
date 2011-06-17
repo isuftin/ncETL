@@ -3,7 +3,7 @@ package gov.usgs.cida.ncetl.servlet;
 import org.jdom.JDOMException;
 import org.jdom.Document;
 import thredds.server.metadata.exception.ThreddsUtilitiesException;
-import gov.usgs.cida.ncetl.utils.NetCDFUtil;
+import gov.usgs.cida.ncetl.utils.NcMLUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,7 +63,7 @@ public class WrapperServlet extends HttpServlet {
             // Augment or create the NCML file
             File fileNCML = null;
             try {
-                fileNCML = NetCDFUtil.createNcML(location);
+                fileNCML = NcMLUtil.createNcML(location);
             }
             catch (ThreddsUtilitiesException tdse) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -75,7 +75,7 @@ public class WrapperServlet extends HttpServlet {
             // Create the Document object 
             Document dom = null;
             try {
-                dom = NetCDFUtil.getDocument(fileNCML.getCanonicalPath());
+                dom = NcMLUtil.getDocument(fileNCML.getCanonicalPath());
             }
             catch (IOException ioe) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,

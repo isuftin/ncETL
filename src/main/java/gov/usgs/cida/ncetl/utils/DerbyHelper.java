@@ -2,6 +2,7 @@ package gov.usgs.cida.ncetl.utils;
 
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -16,21 +17,22 @@ import javax.naming.NamingException;
  */
 public final class DerbyHelper {
 
-    public static final String dbName = "/NCETL";
-    public static final String SCHEMA = FileHelper.FILE_STORE + dbName;
-    private static final String dbClassName = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String dbConnection = "jdbc:derby:" + SCHEMA + ";create=true;";
-    private static final String context = "java:comp/env/jdbc" + dbName;
-    private final static Map<String, String> createMap;
+    public static final String DB_NAME = "NCETL";
+    public static final String DB_LOCATION = FileHelper.FILE_STORE + "database" + File.separator + DB_NAME;
+    private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
+    private static final String DB_CONNECTION = "jdbc:derby:" + DB_LOCATION + ";create=true;";
+    private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
+    
+    private final static Map<String, String> CREATE_MAP;
     
     private DerbyHelper(){};
 
     static {
         // Switch to using ddl at some point
-        createMap = Maps.newHashMap();
-        createMap.put("CONFIG",
+        CREATE_MAP = Maps.newHashMap();
+        CREATE_MAP.put("CONFIG",
                       "CREATE TABLE config (base_dir varchar(512), thredds_dir varchar(512))");
-        createMap.put("INGESTS",
+        CREATE_MAP.put("INGESTS",
                       "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
     }
 
@@ -38,16 +40,16 @@ public final class DerbyHelper {
 
         System.setProperty("dbuser", "");
         System.setProperty("dbpass", "");
-        System.setProperty("dburl", dbConnection);
-        System.setProperty("dbclass", dbClassName);
+        System.setProperty("dburl", DB_CONNECTION);
+        System.setProperty("dbclass", DB_CLASS_NAME);
         Connection myConn = null;
         try {
-            myConn = SqlUtils.getConnection(context);
+            myConn = SqlUtils.getConnection(JNDI_CONTEXT);
             if (myConn != null) {
                 DatabaseMetaData dbMeta = myConn.getMetaData();
                 ResultSet rs = null;
                 try {
-                    for (String table : createMap.keySet()) {
+                    for (String table : CREATE_MAP.keySet()) {
                         rs = dbMeta.getTables(null, "APP", table, null);
                         if (!rs.next()) {
                             createTable(myConn, table);
@@ -71,7 +73,7 @@ public final class DerbyHelper {
         Statement stmt = null;
         try {
             stmt = c.createStatement();
-            stmt.execute(createMap.get(table));
+            stmt.execute(CREATE_MAP.get(table));
         }
         finally {
             stmt.close();

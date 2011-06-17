@@ -30,9 +30,9 @@ import ucar.nc2.ncml.NcMLReader;
  *
  * @author jwalker
  */
-public final class NetCDFUtil {
+public class NcMLUtil {
     
-    private NetCDFUtil(){}
+    private NcMLUtil(){}
 
     public static void writeNetCDFFile(InputStream ncmlIn, String outfile)
             throws IOException {

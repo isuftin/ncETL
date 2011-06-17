@@ -1,7 +1,7 @@
 package gov.usgs.cida.ncetl.servlet;
 
 import thredds.server.metadata.util.ThreddsTranslatorUtil;
-import gov.usgs.cida.ncetl.utils.NetCDFUtil;
+import gov.usgs.cida.ncetl.utils.NcMLUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -61,7 +61,7 @@ public class GenerateRubricServlet extends HttpServlet {
                 return;
             }
             //NetcdfFileWriteable netCDFfile = NetcdfFileWriteable.openExisting("/home/scratch/ncrfc2000.nc");
-            File ncmlFile = NetCDFUtil.createNcML(filename);
+            File ncmlFile = NcMLUtil.createNcML(filename);
 
             // always recreate html
             String htmlFile = filename + ".html";

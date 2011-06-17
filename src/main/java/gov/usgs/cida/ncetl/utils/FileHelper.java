@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class FileHelper {
 
-    public static final String FILE_STORE = System.getProperty("user.home") + IOUtils.DIR_SEPARATOR + ".ncetl" + IOUtils.DIR_SEPARATOR;
+    public static final String FILE_STORE = System.getProperty("user.home") + File.separator + ".ncetl" + File.separator;
     public static Logger log = LoggerFactory.getLogger(FileHelper.class);
     
     private FileHelper(){}

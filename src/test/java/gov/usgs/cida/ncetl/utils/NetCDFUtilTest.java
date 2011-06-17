@@ -56,7 +56,7 @@ public class NetCDFUtilTest {
     public void testGlobalAttributesToMeta() throws Exception {
         System.out.println("globalAttributesToMeta");
         String filename = FileHelper.FILE_STORE + "/QPE.20110214.009.105.nc";
-        NetCDFUtil.globalAttributesToMeta(filename);
+        NcMLUtil.globalAttributesToMeta(filename);
         // TODO review the generated test code and remove the default call to fail.
         assertTrue(true);
     }
