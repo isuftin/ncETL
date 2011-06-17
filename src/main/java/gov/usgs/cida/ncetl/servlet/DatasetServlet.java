@@ -29,7 +29,7 @@ public class DatasetServlet extends HttpServlet {
         try {
             out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<Datasets>");
-			File [] datasets = getDirContents(FILE_STORE);
+			File[] datasets = getDirContents(FILE_STORE);
 			for (File dataset : datasets) {
 				out.println("<Dataset><path>"+dataset.getName()+"</path></Dataset>");
 			}
@@ -42,7 +42,7 @@ public class DatasetServlet extends HttpServlet {
 	private File[] getDirContents(String dir) {
 		File directory = new File(dir);
 		if (!directory.isDirectory()) {
-			return null;
+			return new File[0];
 		}
 		return directory.listFiles();
 	}

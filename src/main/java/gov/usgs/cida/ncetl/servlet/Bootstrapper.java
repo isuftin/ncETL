@@ -24,6 +24,7 @@ public class Bootstrapper implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         log.info("*************** ncETL is starting up.");
+        System.setProperty("errors-encountered", "false");
         // Place all startup hooks here
 
         try {
@@ -34,6 +35,7 @@ public class Bootstrapper implements ServletContextListener {
                     "Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
                       ioe);
             System.setProperty("errors-encountered", "true");
+            return;
         }
 
         try {
@@ -44,13 +46,16 @@ public class Bootstrapper implements ServletContextListener {
                     "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
                       sqle);
             System.setProperty("errors-encountered", "true");
+            return;
         }
         catch (Exception e) {
             log.error(
                     "Application could not initialize database. The application will not be able to continue functioning. Error follows.",
                       e);
             System.setProperty("errors-encountered", "true");
+            return;
         }
+        
         try {
             CatalogHelper.setupCatalog();
         }
@@ -73,7 +78,6 @@ public class Bootstrapper implements ServletContextListener {
             System.setProperty("errors-encountered", "true");
         }
 
-        System.setProperty("errors-encountered", "false");
     }
 
     @Override

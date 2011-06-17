@@ -63,8 +63,7 @@ public class CheckErrorStateFilter implements Filter {
     public void init(FilterConfig filterConfig) {        
     }
     
-    private void sendProcessingError(ServletResponse response) {
-        try {
+    private void sendProcessingError(ServletResponse response) throws IOException {
             response.setContentType("text/html");
             PrintStream ps = new PrintStream(response.getOutputStream());
             PrintWriter pw = new PrintWriter(ps);                
@@ -76,7 +75,5 @@ public class CheckErrorStateFilter implements Filter {
             pw.close();
             ps.close();
             response.getOutputStream().close();
-        } catch (Exception ex) {
-        }
     }
 }

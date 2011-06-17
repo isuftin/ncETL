@@ -44,12 +44,14 @@ public class GenerateRubricServlet extends HttpServlet {
                 return;
             }
 
-            String filename = FILE_STORE + request.getParameter("file");
-            if (filename == null) {
+            String file = FILE_STORE + request.getParameter("file");
+            if (file == null) {
                 response.setStatus(response.SC_BAD_REQUEST);
                 out.print("Must supply file to run ncISO on");
                 return;
             }
+            
+            String filename = FILE_STORE + file;
             File checkFile = new File(filename);
             if (!checkFile.exists() || !checkFile.canRead() || !checkFile.isFile()) {
                 response.setStatus(response.SC_BAD_REQUEST);

@@ -28,7 +28,7 @@ public class DecorateServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
    			String tsUrl = request.getParameter("ts");
-			if (null != tsUrl) {
+			if (null != tsUrl) { // TODO: This might want to be a check against isBlank, not just null
 				tsUrl = URLDecoder.decode(tsUrl, "UTF-8");
 			}
 			else {
@@ -43,7 +43,7 @@ public class DecorateServlet extends HttpServlet {
 			int depth = Integer.parseInt(request.getParameter("depth"));
 
 			ServiceController serviceController = new ServiceController();
-			if (tsUrl!=null) {
+                    if (tsUrl!=null) { // TODO: This is never going to be null
    		    	if (wafDir==null) {
    		            serviceController.launch(tsUrl, sampleNum, depth, isoExtract, customExtract, xsltFile);
    		    	} else {
