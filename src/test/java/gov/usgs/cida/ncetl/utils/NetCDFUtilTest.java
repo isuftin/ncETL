@@ -35,21 +35,21 @@ public class NetCDFUtilTest {
     }
 
     /**
-     * Test of writeNetCDFFile method, of class NetCDFUtil.
+     * Test of writeNetCDFFile method, of class NcMLUtil.
      
     @Test
     public void testWriteNetCDFFile() throws Exception {
         System.out.println("writeNetCDFFile");
         InputStream ncmlIn = null;
         String outfile = "";
-        NetCDFUtil.writeNetCDFFile(ncmlIn, outfile);
+        NcMLUtil.writeNetCDFFile(ncmlIn, outfile);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
      */
 
     /**
-     * Test of globalAttributesToMeta method, of class NetCDFUtil.
+     * Test of globalAttributesToMeta method, of class NcMLUtil.
      */
     @Test
     @Ignore
