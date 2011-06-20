@@ -1,25 +1,34 @@
 package gov.usgs.cida.ncetl.utils;
 
-import org.junit.Ignore;
-import java.io.InputStream;
+import java.net.URL;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ucar.nc2.Attribute;
+import ucar.nc2.Group;
+import ucar.nc2.WrapperNetcdfFile;
 import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.*;
 
 /**
  *
  * @author jwalker
  */
-public class NetCDFUtilTest {
+public class NcMLUtilTest {
     
-    public NetCDFUtilTest() {
+    private static String testFile;
+    private static WrapperNetcdfFile wrapper;
+    
+    public NcMLUtilTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+        wrapper = new WrapperNetcdfFile();
+        URL resource = NcMLUtilTest.class.getClassLoader().getResource("QPE.20110214.009.105");
+        testFile = resource.getFile();
     }
 
     @AfterClass
@@ -35,29 +44,27 @@ public class NetCDFUtilTest {
     }
 
     /**
-     * Test of writeNetCDFFile method, of class NcMLUtil.
+     * Test of writeNetCDFFile method, of class NcMLUtilTest.
      
     @Test
     public void testWriteNetCDFFile() throws Exception {
         System.out.println("writeNetCDFFile");
         InputStream ncmlIn = null;
         String outfile = "";
-        NcMLUtil.writeNetCDFFile(ncmlIn, outfile);
+        NcMLUtilTest.writeNetCDFFile(ncmlIn, outfile);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
      */
 
     /**
-     * Test of globalAttributesToMeta method, of class NcMLUtil.
+     * Test of globalAttributesToMeta method, of class NcMLUtilTest.
      */
     @Test
-    @Ignore
     public void testGlobalAttributesToMeta() throws Exception {
-        System.out.println("globalAttributesToMeta");
-        String filename = FileHelper.FILE_STORE + "/QPE.20110214.009.105.nc";
-        NcMLUtil.globalAttributesToMeta(filename);
+        Group metaGroup = NcMLUtil.globalAttributesToMeta(testFile, wrapper);
+        Attribute attr = metaGroup.findAttribute("history");
         // TODO review the generated test code and remove the default call to fail.
-        assertTrue(true);
+        assertThat(attr, is(notNullValue()));
     }
 }

@@ -21,8 +21,10 @@ import org.jdom.output.XMLOutputter;
 import thredds.server.metadata.util.NCMLModifier;
 import thredds.server.metadata.util.ThreddsExtentUtil;
 import ucar.nc2.Attribute;
+import ucar.nc2.Group;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.NetcdfFileWriteable;
+import ucar.nc2.WrapperNetcdfFile;
 import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.ncml.NcMLReader;
 
@@ -34,6 +36,13 @@ public final class NcMLUtil {
     
     private NcMLUtil(){}
 
+    /**
+     * Write an aggregation of some files to a single netCDF file
+     * 
+     * @param ncmlIn aggregation or wrapper NcML
+     * @param outfile output netCDF file
+     * @throws IOException 
+     */
     public static void writeNetCDFFile(InputStream ncmlIn, String outfile)
             throws IOException {
         NetcdfDataset dataset = NcMLReader.readNcML(ncmlIn, null);
@@ -41,17 +50,21 @@ public final class NcMLUtil {
         NetcdfFileWriteable file = NetcdfFileWriteable.createNew(outfile);
     }
 
-    public static void globalAttributesToMeta(String filename) throws
+    /**
+     * Read the global attributes of a dataset for retaining the history
+     * and comments
+     * @param inFile netcdf file to open (dataset should work)
+     * @throws IOException 
+     */
+    public static Group globalAttributesToMeta(String inFile, WrapperNetcdfFile attNcml) throws
             IOException {
-        NetcdfFile ncf = NetcdfFile.open(filename);
+        NetcdfFile ncf = NetcdfFile.open(inFile);
         List<Attribute> globalAttributes = ncf.getGlobalAttributes();
+        Group group = new Group(attNcml, attNcml.getRootGroup(), inFile);
         for (Attribute att : globalAttributes) {
-            String name = att.getName();
-            String val = att.getStringValue();
-            String output = (new StringBuilder().append("<attribute name=\"").append(
-                    name).append("\" value=\"").append(val).append("\" />")).toString();
-            System.out.println(output);
+            group.addAttribute(att);
         }
+        return group;
     }
 
     public static synchronized File createNcML(String filename) throws
