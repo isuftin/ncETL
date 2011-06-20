@@ -3,6 +3,7 @@ package gov.usgs.cida.ncetl.utils;
 import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,9 @@ import org.slf4j.LoggerFactory;
 public final class FileHelper {
     private static final Logger LOG = LoggerFactory.getLogger(FileHelper.class);
     public static final String FILE_STORE = System.getProperty("user.home") + File.separator + ".ncetl" + File.separator;
-    public static final String DATABASE_DIRECTORY = FILE_STORE + "database" + File.separator;
+    private static final String DATABASE_DIRECTORY = FILE_STORE + "database" + File.separator;
+    private static final String DATASETS_DIRECTORY = FILE_STORE + "datasets" + File.separator;
+    private static final String DEFAULT_CATALOG_LOCATION = DATASETS_DIRECTORY + File.separator + "catalog.xml";
 
     private FileHelper(){}
     
@@ -26,6 +29,7 @@ public final class FileHelper {
         LOG.debug("Setting up directories");
         createRootDirectory();
         createDatabaseDirectory();
+        createDatasetsDirectory();
     }
     
     private static void createRootDirectory() throws IOException {
@@ -52,13 +56,39 @@ public final class FileHelper {
         createDirectory(databaseDirectory);
     }
     
+    private static void createDatasetsDirectory() throws IOException {
+        LOG.debug("Datasets directory is: " + DATASETS_DIRECTORY);
+        File datasetsDirectory = new File(DATASETS_DIRECTORY);
+        createDirectory(datasetsDirectory);
+    }
+    
+    public static File createDatasetDirectory(String datasetName) throws IOException {
+        LOG.debug("Creating subdirectory under " + DATASETS_DIRECTORY + " named " + datasetName);
+        File file = new File(DATASETS_DIRECTORY + datasetName);
+        createDirectory(file, "data", "waf");
+        return file;
+    }
+    
+    private static void createDatasetDataDirectory(File parentDirectory) {
+        LOG.debug("Creating 'data' subdirectory under " + parentDirectory.getPath());
+    }
+    
+    public static String dirAppend(String dir, String secondDir) {
+        if (!dir.endsWith(File.separator)) {
+            return dir + File.separator + secondDir;
+        } else {
+            return dir + secondDir;
+        }
+    }
+    
     /**
      * Creates a directory and all directories leading up to it
      * 
      * @param directory
+     * @param subdirectories list of sibling subdirectories to be created under the parent directory
      * @throws IOException Directory could not be created or location already exists but is not a directory 
      */
-    public static void createDirectory(final File directory) throws IOException {
+    public static void createDirectory(final File directory, final String... subdirectories) throws IOException {
         if (directory.exists()) {
             if (directory.isDirectory()) {
                 return;
@@ -69,7 +99,13 @@ public final class FileHelper {
         
         LOG.debug("Directory " + FILE_STORE + " doesn't exist, creating it now.");
         FileUtils.forceMkdir(directory);
-        LOG.debug("Directory " + FILE_STORE + " created.");        
+        LOG.debug("Directory " + FILE_STORE + " created."); 
+        if (subdirectories.length > 0) {
+            String parentDirectory = directory.getPath();
+            for (String file : subdirectories) {
+                FileHelper.createDirectory(new File(dirAppend(parentDirectory,file)));
+            }
+        }
     }
     
     public static String getBaseDirectory() {
@@ -78,5 +114,9 @@ public final class FileHelper {
     
     public static String getDatabaseDirectory() {
         return DATABASE_DIRECTORY;
+    }
+    
+    public static String getDatasetsDirectory() {
+        return DATASETS_DIRECTORY;
     }
 }

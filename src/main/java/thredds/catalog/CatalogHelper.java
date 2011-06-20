@@ -15,7 +15,10 @@ import org.apache.commons.io.IOUtils;
  */
 public final class CatalogHelper {
     
-    public static final String DEFAULT_CATALOG_LOCATION = FileHelper.FILE_STORE + "catalog.xml";
+    /**
+     * 
+     */
+    public static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), "catalog.xml");
     public static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";
 
     private CatalogHelper() {

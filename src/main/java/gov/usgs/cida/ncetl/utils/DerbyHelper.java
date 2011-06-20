@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public final class DerbyHelper {
     private static final Logger LOG = LoggerFactory.getLogger(DerbyHelper.class);
     private static final String DB_NAME = "NCETL";
-    private static final String DB_LOCATION = FileHelper.DATABASE_DIRECTORY + DB_NAME;
+    private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String DB_CONNECTION = "jdbc:derby:" + DB_LOCATION + ";create=true;";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;

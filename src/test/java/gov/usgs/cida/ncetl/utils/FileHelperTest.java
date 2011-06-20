@@ -75,6 +75,33 @@ public class FileHelperTest {
         assertThat(testFile.exists(), is(true));
     }      
     
+    @Test
+    public void createDirectoryWithSubdirectories() {
+        File testFile = new File(tmpDir);
+        String sub1 = "sub1";
+        String sub2 = "sub2";
+        String sub3 = "sub3";
+        
+        try {
+            FileHelper.createDirectory(testFile, sub1, sub2, sub3);
+        } catch (IOException ex) {
+            Logger.getLogger(FileHelperTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertThat(testFile.exists(), is(true));
+        assertThat(new File(testFile.getPath() + File.separator + sub1).exists(), is(true));
+        assertThat(new File(testFile.getPath() + File.separator + sub2).exists(), is(true));
+        assertThat(new File(testFile.getPath() + File.separator + sub3).exists(), is(true));
+    }      
+    
+    @Test
+    public void testDirAppend() {
+        String directoryWithoutSep = "test";
+        String directoryWithSep = "test/";
+        String result = FileHelper.dirAppend(directoryWithoutSep, directoryWithoutSep);
+        String result2 = FileHelper.dirAppend(directoryWithSep, directoryWithoutSep);
+        assertThat(result, is(equalTo(result2)));
+    }
+    
     /**
      * This tests to make sure that createDirectory does not touch
      * the existing directory if it already exists
