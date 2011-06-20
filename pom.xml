@@ -7,7 +7,28 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>ncETL</name>
-    <url>http://maven.apache.org</url>
+    <description>
+        Owner: JW
+        Coders: JW, IS
+    </description>
+    <url>http://cida.usgs.gov</url>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Center for Integrated Data Analytics</name>
+        <url>http://cida.usgs.gov</url>
+    </organization>
+    
+    <licenses>
+        <license>
+            <name>Public Domain</name>
+            <url>http://en.wikipedia.org/wiki/Public_domain_software</url>
+            <comments>
+                All work of the US Government enter into the Public Domain within
+                the United States.  Whether that work is public domain outside of
+                the United States depends on various factors.
+            </comments>
+        </license>
+    </licenses>
 
     <repositories>
         <repository>
@@ -26,6 +47,54 @@
             <url>http://igsarmewfsbbl.er.usgs.gov:8081/nexus/content/groups/cida-gdp-development</url>
         </repository>
     </repositories>
+    
+    <scm>
+        <connection>scm:svn:https://cida-svn.er.usgs.gov/repos/dev/usgs/dcpt/trunk</connection>
+        <developerConnection>scm:svn:https://cida-svn.er.usgs.gov/repos/dev/usgs/dcpt/trunk</developerConnection>
+        <url>https://cida-svn.er.usgs.gov/repos/dev/usgs/dcpt</url>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <ciManagement>
+        <system>Hudson</system>
+        <url>http://igsarm-cida-hudson1.er.usgs.gov:8080/hudson/job/ncETL</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <address>jiwalker@usgs.gov</address>
+                <sendOnError>true</sendOnError>
+                <sendOnFailure>true</sendOnFailure>
+                <sendOnSuccess>false</sendOnSuccess>
+                <sendOnWarning>false</sendOnWarning>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+    
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://internal.cida.usgs.gov/jira/browse/GDP-218</url>
+    </issueManagement>
+    
+    
+    
+    <developers>
+        <developer>
+            <name>Jordan Walker</name>
+            <email>jiwalker@usgs.gov</email>
+            <id>jiwalker</id>
+            <organization>Center for Integrated Data Analytics</organization>
+            <organizationUrl>http://cida.usgs.gov</organizationUrl>
+            <timezone>-6</timezone>
+        </developer>
+        <developer>
+            <name>Ivan Suftin</name>
+            <email>isuftin@usgs.gov</email>
+            <id>isuftin</id>
+            <organization>Center for Integrated Data Analytics</organization>
+            <organizationUrl>http://cida.usgs.gov</organizationUrl>
+            <timezone>-6</timezone>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -210,8 +279,39 @@
                     </systemProperties>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <connectionType>developerConnection</connectionType>
+                </configuration>
+            </plugin>
         </plugins>
         <finalName>ncETL</finalName>
     </build>
+    
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <type>range</type>
+                    <range>30</range>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.8.1</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
