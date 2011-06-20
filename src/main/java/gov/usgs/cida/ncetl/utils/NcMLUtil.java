@@ -77,6 +77,16 @@ public final class NcMLUtil {
         }
         return ncmlFile;
     }
+    
+    public static File createAggregationWrapper(String dataset) {
+        String datasetdir = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), dataset);
+        String ncmlWrapperName = FileHelper.dirAppend(datasetdir, "aggregation.ncml");
+        File ncml = new File(ncmlWrapperName);
+        if (!ncml.exists()) {
+//            createNcmlStub();
+        }
+        return null;
+    }
 
     public static Element getRootElement(String filename) throws ThreddsUtilitiesException {
         try {
