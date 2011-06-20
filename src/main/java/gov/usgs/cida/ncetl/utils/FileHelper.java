@@ -69,7 +69,14 @@ public final class FileHelper {
         
         LOG.debug("Directory " + FILE_STORE + " doesn't exist, creating it now.");
         FileUtils.forceMkdir(directory);
-        LOG.debug("Directory " + FILE_STORE + " created.");
-        
+        LOG.debug("Directory " + FILE_STORE + " created.");        
+    }
+    
+    public static String getBaseDirectory() {
+        return FILE_STORE;
+    }
+    
+    public static String getDatabaseDirectory() {
+        return DATABASE_DIRECTORY;
     }
 }
