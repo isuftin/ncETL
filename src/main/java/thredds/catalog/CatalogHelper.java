@@ -53,6 +53,12 @@ public final class CatalogHelper {
         return impl;
     }
     
+    public static void addDataset(InvCatalog cat, InvDataset dataset) {
+        InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
+        InvDatasetImpl concreteDataset = (InvDatasetImpl)dataset;
+        concreteCat.addDataset(concreteDataset);
+    }
+    
     /* Some ideas
      * **********
      * Allow for catalog versioning here (jgit, filenames with dates, etc)
