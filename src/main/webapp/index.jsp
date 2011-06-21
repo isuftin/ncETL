@@ -6,13 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-	"http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Data Cleanup &amp; Load Tools</title>
-		<meta name="title" content="DCLT">
+        <meta name="title" content="DCLT">
         <meta name="description" content="DCLT">
         <meta name="author" content="Jordan Walker">
         <meta name="keywords" content="Department of the Interior,hazards, hazard,earth, USGS,U.S. Geological Survey, water, earthquakes, volcanoes, volcanos,
@@ -22,82 +22,89 @@
         <meta name="reviewed date" content="20110209">
         <meta name="language" content="EN">
         <meta name="expiration date" content="Never">
-		<link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
-		<link rel="stylesheet" type="text/css" href="css/dcpt.css" />
-		<link rel="stylesheet" type="text/css" href="http://www.ngdc.noaa.gov/ngdcbasicstyle.css" title="default">
+        <link rel="stylesheet" type="text/css" href="js/ext/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="css/dcpt.css" />
+        <link rel="stylesheet" type="text/css" href="http://www.ngdc.noaa.gov/ngdcbasicstyle.css" title="default">
 
-		<script type="text/javascript" language="JavaScript" src="js/ext/adapter/ext/ext-base.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ext/ext-all-debug.js"></script>
+        <script type="text/javascript" language="JavaScript" src="js/ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" language="JavaScript" src="js/ext/ext-all-debug.js"></script>
     </head>
     <body>
         <script type="text/javascript">
-			// Path to the blank image should point to a valid location on your server
-			Ext.BLANK_IMAGE_URL = 'images/s.gif';
+            // Path to the blank image should point to a valid location on your server
+            Ext.BLANK_IMAGE_URL = 'images/s.gif';
 
-			Ext.onReady(function(){
-				var main = new Ext.Panel({
-					title : "Dataset options",
-					region: 'center',
-					layout: 'anchor',
-					border: false,
-					defaults : {
-						autoScroll: true
-					},
-					items : [{
-							autoEl : {
-								tag : 'a',
-								href : 'ingests.jsp',
-								html : 'Ingestors'
-							},
-							border : false
-						},{
-							autoEl : {
-								tag : 'a',
-								href : 'decorate.jsp',
-								html : 'ncISO tools'
-							},
-							border : false
-					}]
-//					items : [{
-//							title : "Ingest",
-//							layout: 'fit',
-//							contentEl : "ingest"
-//						},{
-//							title : "Verify",
-//							layout: 'fit',
-//							contentEl : "verify"
-//						},{
-//							title : "Cleanup",
-//							layout: 'fit',
-//							contentEl : "cleanup"
-//						},{
-//							title : "Decorate",
-//							layout: 'fit',
-//							contentEl : "decorate"
-//						},{
-//							title : "Publish",
-//							layout: 'fit',
-//							contentEl : "publish"
-//						}
-//					]
-				});
+            Ext.onReady(function(){
+                var main = new Ext.Panel({
+                    title : "Dataset options",
+                    region: 'center',
+                    layout: 'anchor',
+                    border: false,
+                    defaults : {
+                        autoScroll: true
+                    },
+                    items : [{
+                            autoEl : {
+                                tag : 'a',
+                                href : 'ingests.jsp',
+                                html : 'Ingestors'
+                            },
+                            border : false
+                        },{
+                            autoEl : {
+                                tag : 'a',
+                                href : 'decorate.jsp',
+                                html : 'ncISO tools'
+                            },
+                            border : false
+                        },{
+                            autoEl : {
+                                tag : 'a',
+                                href : 'add_dataset.jsp',
+                                html : 'Add Dataset'
+                            },
+                            border : false     
+                        }]
+                    //					items : [{
+                    //							title : "Ingest",
+                    //							layout: 'fit',
+                    //							contentEl : "ingest"
+                    //						},{
+                    //							title : "Verify",
+                    //							layout: 'fit',
+                    //							contentEl : "verify"
+                    //						},{
+                    //							title : "Cleanup",
+                    //							layout: 'fit',
+                    //							contentEl : "cleanup"
+                    //						},{
+                    //							title : "Decorate",
+                    //							layout: 'fit',
+                    //							contentEl : "decorate"
+                    //						},{
+                    //							title : "Publish",
+                    //							layout: 'fit',
+                    //							contentEl : "publish"
+                    //						}
+                    //					]
+                });
 
-				var p = new Ext.Viewport({
-					layout: 'fit',
-					renderTo : document.body,
-					items: [main]
-				});
+                var p = new Ext.Viewport({
+                    layout: 'fit',
+                    renderTo : document.body,
+                    items: [main]
+                });
 
-//				ingest();
-//				loadContent('/home/scratch/QPE.20040102.009.157.grb');
-			}); //end onReady
+                //				ingest();
+                //				loadContent('/home/scratch/QPE.20040102.009.157.grb');
+            }); //end onReady
         </script>
-<!--		<div id="ingest" class="x-hidden"></div>
+        <!--		<div id="ingest" class="x-hidden"></div>
 		<div id="verify" class="x-hidden"></div>
 		<div id="cleanup" class="x-hidden"></div>
 		<div id="decorate" class="x-hidden"></div>
 		<div id="publish" class="x-hidden"></div>
-
+        
 		<div id="decorateContent" class="x-hidden"></div>-->
     </body>
 </html>

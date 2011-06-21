@@ -106,7 +106,7 @@ public final class FTPIngestTask extends TimerTask implements Runnable {
                 Matcher matcher = fileRegex.matcher(file.getName());
                 if (matcher.matches() && !client.retrieveFile(file.getName(),
                         new FileOutputStream(
-                        FileHelper.FILE_STORE + File.separator + file.getName()))) {
+                        FileHelper.getDatasetsDirectory() + File.separator + file.getName()))) {
                     // TODO keep a list of files that failed to try to correct next time
                     completedSuccessfully = false;
                 }

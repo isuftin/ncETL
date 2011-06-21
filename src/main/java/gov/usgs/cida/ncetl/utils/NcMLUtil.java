@@ -50,6 +50,8 @@ public final class NcMLUtil {
      * Read the global attributes of a dataset for retaining the history
      * and comments
      * @param inFile netcdf file to open (dataset should work)
+     * @param attNcml 
+     * @return 
      * @throws IOException 
      */
     public static Group globalAttributesToMeta(String inFile, WrapperNetcdfFile attNcml) throws

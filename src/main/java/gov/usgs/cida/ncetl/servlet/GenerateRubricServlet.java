@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.servlet;
 
+import gov.usgs.cida.ncetl.utils.FileHelper;
 import thredds.server.metadata.util.ThreddsTranslatorUtil;
 import gov.usgs.cida.ncetl.utils.NcMLUtil;
 import java.io.BufferedReader;
@@ -52,7 +53,7 @@ public class GenerateRubricServlet extends HttpServlet {
                 return;
             }
             
-            String filename = FILE_STORE + file;
+            String filename = FileHelper.getBaseDirectory() + file;
             File checkFile = new File(filename);
             if (!checkFile.exists() || !checkFile.canRead() || !checkFile.isFile()) {
                 response.setStatus(response.SC_BAD_REQUEST);

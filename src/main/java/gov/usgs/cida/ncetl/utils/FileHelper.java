@@ -3,7 +3,6 @@ package gov.usgs.cida.ncetl.utils;
 import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class FileHelper {
     private static final Logger LOG = LoggerFactory.getLogger(FileHelper.class);
-    public static final String FILE_STORE = System.getProperty("user.home") + File.separator + ".ncetl" + File.separator;
+    private static final String FILE_STORE = System.getProperty("user.home") + File.separator + ".ncetl" + File.separator;
     private static final String DATABASE_DIRECTORY = FILE_STORE + "database" + File.separator;
     private static final String DATASETS_DIRECTORY = FILE_STORE + "datasets" + File.separator;
     private static final String DEFAULT_CATALOG_LOCATION = DATASETS_DIRECTORY + File.separator + "catalog.xml";

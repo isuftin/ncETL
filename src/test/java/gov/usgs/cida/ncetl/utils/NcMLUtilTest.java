@@ -66,5 +66,7 @@ public class NcMLUtilTest {
         Attribute attr = metaGroup.findAttribute("history");
         // TODO review the generated test code and remove the default call to fail.
         assertThat(attr, is(notNullValue()));
+        assertThat(metaGroup.getAttributes().size(), is(equalTo(11)));
+        assertThat(metaGroup.getShortName().contains("QPE.20110214.009.105"), is(true));
     }
 }

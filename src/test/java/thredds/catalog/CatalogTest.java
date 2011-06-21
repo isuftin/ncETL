@@ -55,7 +55,7 @@ public class CatalogTest {
     public void readCatalog() {
 
         InvCatalogImpl readXML = factory.readXML(
-                "file://" + FileHelper.FILE_STORE + "catalog.xml");
+                "file://" + FileHelper.getBaseDirectory() + "catalog.xml");
         List<InvDataset> datasets = readXML.getDatasets();
         assertEquals(datasets.size(), 2);
         InvDataset dataset = datasets.get(0);

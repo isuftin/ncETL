@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.servlet;
 
+import gov.usgs.cida.ncetl.utils.FileHelper;
 import org.jdom.JDOMException;
 import org.jdom.Document;
 import thredds.server.metadata.exception.ThreddsUtilitiesException;
@@ -50,7 +51,7 @@ public class WrapperServlet extends HttpServlet {
             }
 
             // Check that the file exists. If not, send error.
-            location = FILE_STORE + location;
+            location = FileHelper.getBaseDirectory() + location;
             File file = new File(location);
             if (!file.exists()) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
