@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.utils;
 import java.io.FileNotFoundException;
 import org.jdom.JDOMException;
@@ -67,6 +63,14 @@ public final class NcMLUtil {
         return group;
     }
 
+    /**
+     * Uses ncISO to generate ncml, should be replaced by the wrapper work
+     * and this should be moved to actually calling ncISO on the catalog.xml
+     * 
+     * @param filename NetCDF dataset location
+     * @return ncml file created
+     * @throws ThreddsUtilitiesException 
+     */
     public static synchronized File createNcML(String filename) throws
             ThreddsUtilitiesException {
         String ncmlName = filename + ".ncml";
