@@ -36,6 +36,7 @@ public class WrapperNetcdfFile extends NetcdfFile {
         
         Document doc = new Document(ele);
         output.output(doc, out);
-      
     }
+    
+    
 }

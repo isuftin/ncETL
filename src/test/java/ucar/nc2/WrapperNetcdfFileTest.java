@@ -13,6 +13,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ucar.nc2.dataset.NetcdfDataset;
+import ucar.nc2.ncml.NcMLGWriter;
+import ucar.nc2.ncml.NcMLWriter;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -21,7 +24,9 @@ import static org.hamcrest.Matchers.*;
  * @author isuftin
  */
 public class WrapperNetcdfFileTest {
+
     private static final String tmpDir = System.getProperty("java.io.tmpdir") + File.separator + "test_delete_me" + File.separator;
+
     public WrapperNetcdfFileTest() {
     }
 
@@ -32,11 +37,11 @@ public class WrapperNetcdfFileTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -50,5 +55,13 @@ public class WrapperNetcdfFileTest {
         tempFile.createNewFile();
         skel.writeNcML(new FileOutputStream(tempFile));
         assertThat(tempFile.length(), is(greaterThan(new Long(0))));
+    }
+
+    @Test
+    public void testWriteEmptyNetCdfDataset() throws IOException {
+        NetcdfDataset ncfds = new NetcdfDataset();
+        NcMLWriter ncmlWriter = new NcMLWriter();
+        String result = ncmlWriter.writeXML(ncfds);
+        assertThat(result, is(notNullValue()));
     }
 }
