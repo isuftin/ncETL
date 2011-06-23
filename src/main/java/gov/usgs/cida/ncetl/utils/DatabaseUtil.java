@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author jwalker
  */
-public final class DerbyHelper {
-    private static final Logger LOG = LoggerFactory.getLogger(DerbyHelper.class);
+public final class DatabaseUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseUtil.class);
     private static final String DB_NAME = "NCETL";
     private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -26,7 +26,7 @@ public final class DerbyHelper {
     
     private final static Map<String, String> CREATE_MAP;
     
-    private DerbyHelper(){};
+    private DatabaseUtil(){};
 
     static {
         // Switch to using ddl at some point

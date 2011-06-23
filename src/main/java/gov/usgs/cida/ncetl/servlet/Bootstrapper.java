@@ -1,6 +1,6 @@
 package gov.usgs.cida.ncetl.servlet;
 
-import gov.usgs.cida.ncetl.utils.DerbyHelper;
+import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
 import java.io.IOException;
 import javax.servlet.ServletContextEvent;
@@ -37,7 +37,7 @@ public class Bootstrapper implements ServletContextListener {
         }
 
         try {
-            DerbyHelper.setupDatabase();
+            DatabaseUtil.setupDatabase();
         }
         catch (Exception e) {
             log.error(
