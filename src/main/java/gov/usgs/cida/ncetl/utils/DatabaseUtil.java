@@ -21,7 +21,9 @@ public final class DatabaseUtil {
     private static final String DB_NAME = "NCETL";
     private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String DB_CONNECTION = "jdbc:derby:" + DB_LOCATION + ";create=true;";
+    private static final String DB_URL = "jdbc:derby:" + DB_LOCATION;
+    private static final String DB_STARTUP = DB_URL + ";create=true;";
+    private static final String DB_SHUTDOWN = DB_URL + ";shutdown=true";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
     
     private final static Map<String, String> CREATE_MAP;
@@ -42,7 +44,7 @@ public final class DatabaseUtil {
         
         System.setProperty("dbuser", "");
         System.setProperty("dbpass", "");
-        System.setProperty("dburl", DB_CONNECTION);
+        System.setProperty("dburl", DB_STARTUP);
         System.setProperty("dbclass", DB_CLASS_NAME);
         
         Connection myConn = null;
@@ -69,6 +71,11 @@ public final class DatabaseUtil {
             SqlUtils.closeConnection(myConn);
         }
 
+    }
+    
+    public static void shutdownDatabase() throws SQLException, NamingException, ClassNotFoundException {
+        System.setProperty("dburl", DB_SHUTDOWN);
+        Connection myConn = SqlUtils.getConnection(JNDI_CONTEXT);
     }
 
     private static void createTable(Connection c, String table) throws SQLException,

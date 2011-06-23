@@ -3,6 +3,9 @@ package gov.usgs.cida.ncetl.servlet;
 import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import thredds.catalog.CatalogHelper;
  * @author jwalker
  */
 public class Bootstrapper implements ServletContextListener {
+
     private final static String ERRORS_ENCOUNTERED = "errors-encountered";
     private final static String FALSE = "false";
     private final static String TRUE = "true";
@@ -31,7 +35,7 @@ public class Bootstrapper implements ServletContextListener {
         catch (IOException ioe) {
             log.error(
                     "*************** Application could not initialize directory structure. The application will not be able to continue functioning. Error follows.",
-                      ioe);
+                    ioe);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
@@ -42,18 +46,18 @@ public class Bootstrapper implements ServletContextListener {
         catch (Exception e) {
             log.error(
                     "*************** Application could not initialize database. The application will not be able to continue functioning. Error follows.",
-                      e);
+                    e);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
-        
+
         try {
             CatalogHelper.setupCatalog();
         }
         catch (Exception ex) {
             log.error(
                     "*************** Application could not initialize catalog. The application will not work correctly. Error follows.",
-                      ex);
+                    ex);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
@@ -62,7 +66,19 @@ public class Bootstrapper implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        // Place all shut down hooks here
+        try {
+            // Place all shut down hooks here
+            DatabaseUtil.shutdownDatabase();
+        }
+        catch (SQLException ex) {
+            log.debug("Couldn't shut down", ex);
+        }
+        catch (NamingException ex) {
+            log.debug("Couldn't shut down", ex);
+        }
+        catch (ClassNotFoundException ex) {
+            log.debug("Couldn't shut down", ex);
+        }
         log.info("*************** ncETL is shutting down.");
     }
 }
