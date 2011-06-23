@@ -30,4 +30,7 @@ public class InvDatasetBuilder {
         return this;
     }
     
+    protected InvDataset getInternalInvDataset() {
+        return this.dataset;
+    }
 }
