@@ -92,8 +92,8 @@ public class CatalogHelperTest {
     public void testAddDataset() throws URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + tempDir + CatalogHelper.getDefaultCatalogFilename());
         InvCatalogImpl cat = CatalogHelper.createCatalogImpl(knownName, uri);
-        InvDatasetBuilder ds = new InvDatasetBuilder("test");
-        CatalogHelper.addDataset(cat, ds.getInternalInvDataset());
+        InvDatasetBuilder ds = new InvDatasetBuilder("test", "id");
+        CatalogHelper.addDataset(cat, ds.build());
         List<InvDataset> test = cat.getDatasets();
         assertThat(test.size(), is(equalTo(1)));
         assertThat(test.get(0).name, is(equalTo("test")));
