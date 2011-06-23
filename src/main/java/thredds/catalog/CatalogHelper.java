@@ -14,22 +14,36 @@ import org.apache.commons.io.IOUtils;
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
 public final class CatalogHelper {
-    
-    public static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), "catalog.xml");
-    public static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";
+    private static final String DEFAULT_CATALOG_FILENAME = "catalog.xml";
+    private static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), DEFAULT_CATALOG_FILENAME);
+    private static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";
 
     private CatalogHelper() {
     }
 
+    /**
+     * Sets up a location in the default location location.
+     * 
+     * @throws URISyntaxException
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public static void setupCatalog() throws URISyntaxException, FileNotFoundException, IOException {
-        File catalog = new File(DEFAULT_CATALOG_LOCATION);
-        if (!catalog.exists()) {
-            createNewCatalog(DEFAULT_CATALOG_NAME, DEFAULT_CATALOG_LOCATION);
+        setupCatalog(new File(DEFAULT_CATALOG_LOCATION), DEFAULT_CATALOG_NAME);
+    }
+    
+    public static void setupCatalog(File location) throws URISyntaxException, FileNotFoundException, IOException {
+        setupCatalog(location, DEFAULT_CATALOG_NAME);
+    }
+    
+    public static void setupCatalog(File location, String catalogName) throws URISyntaxException, FileNotFoundException, IOException {
+        if (!location.exists()) {
+            createNewCatalog(catalogName, location.getPath());
         }
     }
     
     public static void createNewCatalog(String name, String absolutePath) throws
-            URISyntaxException, FileNotFoundException, IOException {
+        URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + absolutePath);
         InvCatalogImpl impl = createCatalogImpl(name, uri);
         File file = new File(impl.getBaseURI());
@@ -59,10 +73,14 @@ public final class CatalogHelper {
         concreteCat.addDataset(concreteDataset);
     }
     
+    public static String getDefaultCatalogFilename() {
+        return DEFAULT_CATALOG_FILENAME;
+    }
+    
     /* Some ideas
      * **********
-     * Allow for catalog versioning here (jgit, filenames with dates, etc)
-     * Start of with more than bare catalog, prepopulate with some defaults
-     * Is this the right place to add setters for the catalog editing?
+     * Allow for location versioning here (jgit, filenames with dates, etc)
+     * Start of with more than bare location, prepopulate with some defaults
+     * Is this the right place to add setters for the location editing?
      */
 }
