@@ -9,7 +9,7 @@
     <name>ncETL</name>
     <description>
         Owner: JW
-        Coders: JW, IS
+        Coders: JW, IS, DS
     </description>
     <url>http://cida.usgs.gov</url>
     <inceptionYear>2011</inceptionYear>
@@ -17,6 +17,13 @@
         <name>Center for Integrated Data Analytics</name>
         <url>http://cida.usgs.gov</url>
     </organization>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4j.version>1.6.1</slf4j.version>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+        <logback.version>0.9.26</logback.version>
+    </properties>
     
     <licenses>
         <license>
@@ -75,8 +82,6 @@
         <url>http://internal.cida.usgs.gov/jira/browse/GDP-218</url>
     </issueManagement>
     
-    
-    
     <developers>
         <developer>
             <name>Jordan Walker</name>
@@ -94,14 +99,15 @@
             <organizationUrl>http://cida.usgs.gov</organizationUrl>
             <timezone>-6</timezone>
         </developer>
+        <developer>
+            <name>David Sibley</name>
+            <email>dmsibley@usgs.gov</email>
+            <id>dmsibley</id>
+            <organization>Center for Integrated Data Analytics</organization>
+            <organizationUrl>http://cida.usgs.gov</organizationUrl>
+            <timezone>-6</timezone>
+        </developer>
     </developers>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>1.6.1</slf4j.version>
-        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
-        <logback.version>0.9.26</logback.version>
-    </properties>
 
     <dependencies>
         <!-- ################## LOGGING -->
@@ -224,8 +230,30 @@
             <version>2.5</version>
         </dependency>
     </dependencies>
+    
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <instrumentation>
+                        <excludes>
+                            <exclude>gov/usgs/cida/ncetl/servlet/**/*.class</exclude>
+                        </excludes>
+                    </instrumentation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
