@@ -1,5 +1,6 @@
 package thredds.catalog;
 
+import java.util.LinkedList;
 import thredds.catalog.ThreddsMetadata.Contributor;
 import thredds.catalog.ThreddsMetadata.Source;
 import thredds.catalog.ThreddsMetadata.Vocab;
@@ -11,13 +12,22 @@ import ucar.nc2.constants.FeatureType;
  */
 public class InvDatasetBuilder {
 
+    /** dataset to build up */
     private InvDatasetImpl dataset; //= new InvDatasetImpl(parent, name);
+    private boolean built = false;
 
     public InvDatasetBuilder(String name, String id) {
         dataset = new InvDatasetImpl(null, name);
         dataset.id = id;
     }
 
+    /**
+     * Copy constructor for existing dataset
+     * @param from dataset to copy
+     */
+    public InvDatasetBuilder(InvDataset from) {
+        dataset = new InvDatasetImpl(dataset);
+    }
 //    public InvDatasetBuilder id(String id) {
 //        dataset.id = id;
 //        return this;
@@ -39,6 +49,9 @@ public class InvDatasetBuilder {
 
     public InvDatasetBuilder contributor(String name, String role) {
         Contributor contrib = new Contributor(name, role);
+        if (dataset.contributors == null) {
+            dataset.contributors = new LinkedList<Contributor>();
+        }
         dataset.contributors.add(contrib);
         return this;
     }
@@ -56,6 +69,9 @@ public class InvDatasetBuilder {
                                      String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
+        if (dataset.creators == null) {
+            dataset.creators = new LinkedList<Source>();
+        }
         dataset.creators.add(source);
         return this;
     }
@@ -72,6 +88,9 @@ public class InvDatasetBuilder {
 
     public InvDatasetBuilder documentation(String type, String text) {
         InvDocumentation doc = new InvDocumentation(null, null, null, type, text);
+        if (dataset.docs == null) {
+            dataset.docs = new LinkedList<InvDocumentation>();
+        }
         dataset.docs.add(doc);
         return this;
     }
@@ -79,12 +98,18 @@ public class InvDatasetBuilder {
     public InvDatasetBuilder xlinkDocumentation(String href, String title) {
         InvDocumentation doc = new InvDocumentation(href, null, title, null,
                                                     null);
+        if (dataset.docs == null) {
+            dataset.docs = new LinkedList<InvDocumentation>();
+        }
         dataset.docs.add(doc);
         return this;
     }
 
     public InvDatasetBuilder keyword(String keyword, String vocab) {
         Vocab vocabulary = new Vocab(keyword, vocab);
+        if (dataset.keywords == null) {
+            dataset.keywords = new LinkedList<Vocab>();
+        }
         dataset.keywords.add(vocabulary);
         return this;
     }
@@ -95,12 +120,18 @@ public class InvDatasetBuilder {
 
     public InvDatasetBuilder project(String project, String vocab) {
         Vocab vocabulary = new Vocab(project, vocab);
+        if (dataset.projects == null) {
+            dataset.projects = new LinkedList<Vocab>();
+        }
         dataset.projects.add(vocabulary);
         return this;
     }
 
     public InvDatasetBuilder property(String key, String value) {
         InvProperty prop = new InvProperty(key, value);
+        if (dataset.properties == null) {
+            dataset.properties = new LinkedList<InvProperty>();
+        }
         dataset.properties.add(prop);
         return this;
     }
@@ -109,6 +140,9 @@ public class InvDatasetBuilder {
                                        String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
+        if (dataset.publishers == null) {
+            dataset.publishers = new LinkedList<Source>();
+        }
         dataset.publishers.add(source);
         return this;
     }
@@ -143,7 +177,17 @@ public class InvDatasetBuilder {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * Returns the underlying dataset, can only be run once
+     * @return underlying dataset
+     */
     public InvDataset build() {
-        return dataset;
+        if (!built) {
+            built = true;
+            return dataset;
+        }
+        else {
+            throw new UnsupportedOperationException("build can only be called once");
+        }
     }
 }
