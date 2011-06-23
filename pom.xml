@@ -263,20 +263,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>2.9</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <!-- NOTE: extra properties required for unit tests -->
-                    <systemProperties>
-                        <property>
-                            <name>catalina.base</name>
-                            <value>target/test-classes</value>
-                        </property>
-                        <property>
-                            <name>catalina.home</name>
-                            <value>target/test-classes</value>
-                        </property>
-                    </systemProperties>
+                    <systemPropertyVariables>
+                        <catalina.base>target/test-classes</catalina.base>
+                        <catalina.home>target/test-classes</catalina.home>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
