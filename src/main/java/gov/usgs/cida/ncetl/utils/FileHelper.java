@@ -107,6 +107,20 @@ public final class FileHelper {
         }
     }
     
+    /**
+     * Attaches an OS specific trailing slash to a request for a temporary
+     * directory. Addresses the problem found here:
+     * http://rationalpi.wordpress.com/2007/01/26/javaiotmpdir-inconsitency/
+     * @return 
+     */
+    public static String getTempDirectory() {
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        if (!tmpDir.endsWith(File.separator)) {
+            tmpDir += File.separator;
+        }
+        return tmpDir;
+    }
+    
     public static String getBaseDirectory() {
         return FILE_STORE;
     }
