@@ -77,6 +77,10 @@ public final class CatalogHelper {
         return DEFAULT_CATALOG_FILENAME;
     }
     
+    public static String getDefaultCatalogName() {
+        return DEFAULT_CATALOG_NAME;
+    }
+    
     /* Some ideas
      * **********
      * Allow for location versioning here (jgit, filenames with dates, etc)
