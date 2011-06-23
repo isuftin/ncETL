@@ -128,4 +128,11 @@ public class FileHelperTest {
         assertThat(lastModified, is(equalTo(lastModified2)));               
         
     }     
+    
+    @Test
+    public void testGetTempDirectory() {
+        String test = FileHelper.getTempDirectory();
+        assertThat(test, is(notNullValue()));
+        assertThat(test.endsWith(File.separator), is(true));
+    }
 }
