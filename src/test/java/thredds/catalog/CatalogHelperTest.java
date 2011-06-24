@@ -44,7 +44,7 @@ public class CatalogHelperTest {
         CatalogHelper.setupCatalog(tempLocation);
         assertThat(tempLocation.exists(), is(true));
         
-        String catalog = IOUtils.toString(new FileInputStream(tempLocation));
+        String catalog = FileUtils.readFileToString(tempLocation);
         assertThat(catalog.contains(CatalogHelper.getDefaultCatalogName()), is(true));
     }
     
@@ -53,7 +53,7 @@ public class CatalogHelperTest {
         CatalogHelper.setupCatalog(tempLocation, knownName);
         assertThat(tempLocation.exists(), is(true));
         
-        String catalog = IOUtils.toString(new FileInputStream(tempLocation));
+        String catalog = FileUtils.readFileToString(tempLocation);
         assertThat(catalog.contains(knownName), is(true));
     }
     
@@ -75,7 +75,7 @@ public class CatalogHelperTest {
         assertThat(tempLocation.exists(), is(true));
         // At this point this catalog should not have been created
         
-        String catalog = IOUtils.toString(new FileInputStream(tempLocation));
+        String catalog =  FileUtils.readFileToString(tempLocation);
         assertThat(catalog.contains(knownName), is(true));
         assertThat(catalog.contains("OH HAI I AM A CATALOG"), is(false));
     }
