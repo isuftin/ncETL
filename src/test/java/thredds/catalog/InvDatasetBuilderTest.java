@@ -100,4 +100,16 @@ public class InvDatasetBuilderTest {
             assertThat(e.getMessage(), is(equalTo("build can only be called once")));
         }
     }
+    
+//    @Test 
+//    public void testInvDatasetBuilderCopierConstructor() {
+//        InvDatasetBuilder testBuilderOriginal = new InvDatasetBuilder("testName", "testID");
+//        InvDataset original = testBuilderOriginal
+//                .authorityName("testAuthorityName")
+//                .build();
+//        
+//        InvDatasetBuilder testBuilderCopier = new InvDatasetBuilder(original);
+//        InvDataset copy = testBuilderCopier.build();
+//        assertThat(copy.authorityName, is(equalTo("testAuthorityName")));
+//    }
 }
