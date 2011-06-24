@@ -26,12 +26,10 @@ public class InvDatasetBuilder {
      * @param from dataset to copy
      */
     public InvDatasetBuilder(InvDataset from) {
-        dataset = new InvDatasetImpl(dataset);
+        // I'm worried about this, we may need to cut this constructor out
+        dataset = new InvDatasetImpl((InvDatasetImpl)from);
     }
-//    public InvDatasetBuilder id(String id) {
-//        dataset.id = id;
-//        return this;
-//    }
+
     public InvDatasetBuilder authorityName(String authorityName) {
         dataset.authorityName = authorityName;
         return this;

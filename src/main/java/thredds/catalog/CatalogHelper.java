@@ -18,6 +18,8 @@ public final class CatalogHelper {
     private static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), DEFAULT_CATALOG_FILENAME);
     private static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";
 
+    
+
     private CatalogHelper() {
     }
 
@@ -46,6 +48,15 @@ public final class CatalogHelper {
         URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + absolutePath);
         InvCatalogImpl impl = createCatalogImpl(name, uri);
+        writeCatalog(impl);
+    }
+    
+    public static InvCatalog readCatalog(String absolutePath) {
+        InvCatalogFactory factory = new InvCatalogFactory("FileReadFactory", false);
+        return factory.readXML(absolutePath);
+    }
+    
+    public static void writeCatalog(InvCatalogImpl impl) throws IOException {
         File file = new File(impl.getBaseURI());
         
         FileOutputStream fos = null;
@@ -56,7 +67,6 @@ public final class CatalogHelper {
         finally {
             IOUtils.closeQuietly(fos);
         }
-
     }
     
     protected static InvCatalogImpl createCatalogImpl(String name, URI uri) {
@@ -70,7 +80,24 @@ public final class CatalogHelper {
     public static void addDataset(InvCatalog cat, InvDataset dataset) {
         InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
         InvDatasetImpl concreteDataset = (InvDatasetImpl)dataset;
-        concreteCat.addDataset(concreteDataset);
+        concreteCat.addDatasetByID(concreteDataset);
+    }
+    
+    public static void removeDataset(InvCatalog cat, String datasetId) {
+        InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
+        InvDatasetImpl ds = (InvDatasetImpl)new InvDatasetBuilder("blah", datasetId).build();
+        concreteCat.removeDatasetByID(ds);
+    }
+    
+    public static void addService(InvCatalog cat, InvService serv) {
+        InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
+        concreteCat.addService(serv);
+    }
+    
+    public static void removeService(InvCatalog cat, String serviceName) {
+        InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
+        InvService serv = cat.serviceHash.remove(serviceName);
+        concreteCat.services.remove(serv);
     }
     
     public static String getDefaultCatalogFilename() {

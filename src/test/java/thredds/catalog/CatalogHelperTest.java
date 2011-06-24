@@ -92,9 +92,29 @@ public class CatalogHelperTest {
         InvCatalogImpl cat = CatalogHelper.createCatalogImpl(knownName, uri);
         InvDatasetBuilder ds = new InvDatasetBuilder("test", "id");
         CatalogHelper.addDataset(cat, ds.build());
-        List<InvDataset> test = cat.getDatasets();
-        assertThat(test.size(), is(equalTo(1)));
-        assertThat(test.get(0).name, is(equalTo("test")));
+        InvDataset test = cat.findDatasetByID("id");
+        assertThat(test, is(notNullValue()));
+        assertThat(test.name, is(equalTo("test")));
+    }
+    
+    @Test
+    public void testReadCatalog() throws URISyntaxException, FileNotFoundException, IOException {
+        CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
+        InvCatalog readCatalog = CatalogHelper.readCatalog(tempLocation.toURI().toString());
+        assertThat(readCatalog.name, is(equalTo(knownName)));
+    }
+    
+    @Test
+    public void testRemoveDataset() throws URISyntaxException, FileNotFoundException, IOException {
+        URI uri = new URI("file://" + tempDir + CatalogHelper.getDefaultCatalogFilename());
+        InvCatalogImpl cat = CatalogHelper.createCatalogImpl(knownName, uri);
+        InvDatasetBuilder ds = new InvDatasetBuilder("test", "id");
+        CatalogHelper.addDataset(cat, ds.build());
+        InvDataset test = cat.findDatasetByID("id");
+        assertThat(test, is(notNullValue()));
+        CatalogHelper.removeDataset(cat, "id");
+        test = cat.findDatasetByID("id");
+        assertThat(test, is(nullValue()));
     }
     
 }
