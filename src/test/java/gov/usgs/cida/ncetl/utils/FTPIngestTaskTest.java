@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import gov.usgs.cida.ncetl.utils.FTPIngestTask.Builder;
 import java.net.MalformedURLException;
 import java.util.Date;
-import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
