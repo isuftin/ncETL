@@ -2,7 +2,6 @@ package thredds.catalog;
 
 import java.util.List;
 import java.net.URI;
-import java.io.FileInputStream;
 import org.junit.After;
 import org.junit.Before;
 import gov.usgs.cida.ncetl.utils.FileHelper;
@@ -11,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
