@@ -241,6 +241,7 @@
                     <instrumentation>
                         <excludes>
                             <exclude>gov/usgs/cida/ncetl/servlet/**/*.class</exclude>
+                            <exclude>gov/usgs/cida/ncetl/service/IngestControlService.class</exclude>
                         </excludes>
                     </instrumentation>
                 </configuration>
