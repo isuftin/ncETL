@@ -1,7 +1,5 @@
 package thredds.catalog;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import ucar.nc2.constants.FeatureType;
 import static org.hamcrest.MatcherAssert.*;
@@ -13,14 +11,6 @@ import static org.hamcrest.Matchers.*;
 public class InvDatasetBuilderTest {
     
     public InvDatasetBuilderTest() {
-    }
-
-    @Before
-    public  void setUp() throws Exception {
-    }
-
-    @After
-    public  void tearDown() throws Exception {
     }
 
     @Test
@@ -95,7 +85,7 @@ public class InvDatasetBuilderTest {
         InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
         InvDataset test = testBuilder.build();
         try {
-        test = testBuilder.build();
+            test = testBuilder.build();
         } catch (UnsupportedOperationException e) {
             assertThat(e.getMessage(), is(equalTo("build can only be called once")));
         }
@@ -112,4 +102,45 @@ public class InvDatasetBuilderTest {
 //        InvDataset copy = testBuilderCopier.build();
 //        assertThat(copy.authorityName, is(equalTo("testAuthorityName")));
 //    }
+    
+    @Test
+    public void testNotYetImplementedFunctions() {
+        InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
+        try {
+            testBuilder.access("", "", "");
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+        try {
+            testBuilder.metadata();
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+        try {
+            testBuilder.restrictAccess();
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+        try {
+            testBuilder.geospatialCoverage();
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+        try {
+            testBuilder.timeCoverage();
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+        try {
+            testBuilder.variable();
+        } catch (Exception e) {
+            assertThat(e,  instanceOf(UnsupportedOperationException.class));
+        }
+        
+    }
 }
