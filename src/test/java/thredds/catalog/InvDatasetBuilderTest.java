@@ -24,6 +24,7 @@ public class InvDatasetBuilderTest {
 
     @Test
     public void testSomeMethod() {
+        assertThat(true, is(true));
 //        InvDatasetBuilder test = new InvDatasetBuilder("test");
 //        test.id("testId")
 //            .collectionType("testCollectionType")
