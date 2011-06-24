@@ -89,4 +89,15 @@ public class InvDatasetBuilderTest {
         
         //assertThat(test.services.get(0).getName(), is(equalTo("testServiceName"))); 
     }
+    
+    @Test
+    public void testInvDatasetBuilderWithAlreadyBuiltFlag() {
+        InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
+        InvDataset test = testBuilder.build();
+        try {
+        test = testBuilder.build();
+        } catch (UnsupportedOperationException e) {
+            assertThat(e.getMessage(), is(equalTo("build can only be called once")));
+        }
+    }
 }
