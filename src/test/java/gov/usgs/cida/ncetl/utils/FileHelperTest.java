@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class FileHelperTest {
     
-    private static final String tmpDir = System.getProperty("java.io.tmpdir") + File.separator + "test_delete_me" + File.separator;
+    private static final String tmpDir = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
     
     public FileHelperTest() {
     }
