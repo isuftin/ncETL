@@ -40,12 +40,16 @@ public final class DatabaseUtil {
     }
 
     public static void setupDatabase() throws SQLException, NamingException, ClassNotFoundException {
+        setupDatabase(DB_STARTUP, DB_CLASS_NAME);
+    }
+    
+    protected static void setupDatabase(final String dbConnection, final String dbClassName) throws SQLException, NamingException, ClassNotFoundException {
         LOG.info("*************** Initializing database.");
         
         System.setProperty("dbuser", "");
         System.setProperty("dbpass", "");
-        System.setProperty("dburl", DB_STARTUP);
-        System.setProperty("dbclass", DB_CLASS_NAME);
+        System.setProperty("dburl", dbConnection);
+        System.setProperty("dbclass", dbClassName);
         
         Connection myConn = null;
         try {
@@ -70,7 +74,6 @@ public final class DatabaseUtil {
         finally {
             SqlUtils.closeConnection(myConn);
         }
-
     }
     
     public static void shutdownDatabase() throws SQLException, NamingException, ClassNotFoundException {
@@ -78,6 +81,14 @@ public final class DatabaseUtil {
         Connection myConn = SqlUtils.getConnection(JNDI_CONTEXT);
     }
 
+    protected static Connection getConnection() throws SQLException, NamingException, ClassNotFoundException {
+        return getConnection(JNDI_CONTEXT);
+    }
+    
+    protected static Connection getConnection(String jndiContext) throws SQLException, NamingException, ClassNotFoundException {
+        return SqlUtils.getConnection(jndiContext);
+    }
+    
     private static void createTable(Connection c, String table) throws SQLException,
                                                          NamingException,
                                                          ClassNotFoundException {
