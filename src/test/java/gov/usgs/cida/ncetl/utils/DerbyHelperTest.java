@@ -43,33 +43,33 @@ public class DerbyHelperTest {
     
     @After
     public void tearDown() throws IOException, SQLException {
-        FileUtils.forceDelete(new File(DB_LOCATION));
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+        FileUtils.forceDelete(new File(DB_LOCATION));
     }
 
     @Test
     public void testSetupDatabaseConnection() throws SQLException, NamingException, ClassNotFoundException {
         String DB_FULL_LOCATION = DB_LOCATION + "test.db";
-        DerbyHelper.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DerbyHelper.getConnection("java:comp/env/jdbc/test.db");
-        assertThat(connection.isClosed(), is(not(true)));
+        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
+        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test.db");
+        assertThat(connection.isClosed(), is(false));
     }
     
     @Test
     public void testSetupDatabaseConnectionWithIncorrectJNDIContext() throws SQLException, NamingException, ClassNotFoundException {
         String DB_FULL_LOCATION = DB_LOCATION + "test.db";
-        DerbyHelper.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DerbyHelper.getConnection("java:comp/env/jdbc/wrong.db");
-        assertThat(connection.isClosed(), is(not(true)));
+        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
+        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/wrong.db");
+        assertThat(connection.isClosed(), is(false));
     }
     
     @Test
     public void testSetupDatabaseConnectionWithNoContext() throws SQLException, NamingException, ClassNotFoundException {
         String DB_FULL_LOCATION = DB_LOCATION + "derp.db";
-        DerbyHelper.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DerbyHelper.getConnection();
-        assertThat(connection.isClosed(), is(not(true)));
+        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
+        connection = DatabaseUtil.getConnection();
+        assertThat(connection.isClosed(), is(false));
     }
 }
