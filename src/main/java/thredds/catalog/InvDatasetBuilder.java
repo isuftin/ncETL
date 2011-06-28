@@ -7,7 +7,11 @@ import thredds.catalog.ThreddsMetadata.Vocab;
 import ucar.nc2.constants.FeatureType;
 
 /**
- *
+ * NOTE: There are cases in which I cast an InvDataset to InvDatasetImpl without checking
+ * As far as I know, this is always legal, but if it presents a problem (further
+ * subclassing, etc) then this should be fixed by doing something clever that
+ * I didn't take the time to figure out at this point.
+ * To sum up, there are smells here, but I didn't bother to remedy them.
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
 public class InvDatasetBuilder {
@@ -185,7 +189,7 @@ public class InvDatasetBuilder {
             return dataset;
         }
         else {
-            throw new UnsupportedOperationException("build can only be called once");
+            throw new UnsupportedOperationException("build() can only be called once");
         }
     }
 }
