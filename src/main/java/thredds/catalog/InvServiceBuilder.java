@@ -6,6 +6,9 @@ package thredds.catalog;
  */
 public class InvServiceBuilder {
 
+    /*
+     * I'm hard-coding all this stuff for consistancy, but if this is bad, fix it
+     */
     private static final String DODS_NAME = "ncdods";
     private static final String DODS_DESCRIPTION = "OPeNDAP service endpoint";
     private static final String DODS_BASE = "/thredds/dodsC/";
@@ -30,15 +33,37 @@ public class InvServiceBuilder {
     private static final String ISO_NAME = "iso";
     private static final String ISO_DESCRIPTION = "ncISO generated ISO 19115-2 Metadata record";
     private static final String ISO_BASE = "/thredds/iso/";
+    private static final String COMPOUND_TYPE = "Compound";
     private static final String COMPOUND_DESCRIPTION = "Service which contains all the allowed serviceTypes";
     private InvService compound;
     private boolean built = false;
 
+    /**
+     * Constructor for a compound service with a given name
+     * @param name User-specified name of service - gets referred to by &lt;dataset&gt;
+     */
     public InvServiceBuilder(String name) {
-        compound = new InvService(name, "Compound", "", "", COMPOUND_DESCRIPTION);
+        compound = new InvService(name, COMPOUND_TYPE, "", "",
+                                  COMPOUND_DESCRIPTION);
     }
 
+    /**
+     * Add a service to the compound service, must be valid base on the
+     * types defined in thredds.catalog.ServiceType (not all are accepted)
+     * @param type ServiceType to add
+     * @return this builder for chaining
+     */
     public InvServiceBuilder service(String type) {
+        if (!built) {
+            addServiceRules(type);
+        }
+        else {
+            throw new UnsupportedOperationException("build() can only be called once");
+        }
+        return this;
+    }
+
+    private void addServiceRules(String type) throws IllegalArgumentException {
         if ("dods".equalsIgnoreCase(type) || "opendap".equalsIgnoreCase(type)) {
             InvService subservice = new InvService(DODS_NAME, type, DODS_BASE,
                                                    "", DODS_DESCRIPTION);
@@ -82,9 +107,14 @@ public class InvServiceBuilder {
         else {
             throw new IllegalArgumentException(type + " is not an allowed type");
         }
-        return this;
     }
-    
+
+    /**
+     * Get at the underlying InvService, finalize (sort of) the object.
+     * There is no real good way to make the object immutable, so I just
+     * return the underlying object and prevent updates for the original
+     * @return Built InvService
+     */
     public InvService build() {
         if (!built) {
             built = true;
