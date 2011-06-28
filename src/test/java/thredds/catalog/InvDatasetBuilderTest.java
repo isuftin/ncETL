@@ -87,7 +87,7 @@ public class InvDatasetBuilderTest {
         try {
             test = testBuilder.build();
         } catch (UnsupportedOperationException e) {
-            assertThat(e.getMessage(), is(equalTo("build can only be called once")));
+            assertThat(e.getMessage(), is(equalTo("build() can only be called once")));
         }
     }
     
