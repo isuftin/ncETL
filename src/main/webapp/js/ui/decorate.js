@@ -60,15 +60,15 @@ var editElement = function() {
 		items: innerForm,
 		buttons: [{
 			text:'Submit',
-                        scope: selectedNode,
-                        handler: function() {
-                            this.setText(this.text + ' (M)');
-                            this.unselect(true);
+			scope: selectedNode,
+			handler: function() {
+				this.setText(this.text + ' (M)');
+				this.unselect(true);
                             
-//                            ncmlpanel.html = ?
+				//                            ncmlpanel.html = ?
                             
-                            win.close();
-                        }
+				win.close();
+			}
 		},{
 			text: 'Close',
 			handler: function(){
@@ -121,13 +121,13 @@ var modifyNetCDF = function(filename, tabPanel) {
 		}
 	});
 	
-//	var ncisopanel = new Ext.Panel({
-//		title: 'NetCDF View',
-//		autoScroll:true,
-//		margins: '35 5 5 0'
-//	});
+	//	var ncisopanel = new Ext.Panel({
+	//		title: 'NetCDF View',
+	//		autoScroll:true,
+	//		margins: '35 5 5 0'
+	//	});
 
-//	ncisopanel.add([treepanel, ncmlpanel]);
+	//	ncisopanel.add([treepanel, ncmlpanel]);
 
 	tabPanel.add(treepanel);
 	tabPanel.add(ncmlpanel());
@@ -159,6 +159,85 @@ var generateRubric = function(filename, tabPanel) {
 			});
 			tabPanel.add(rubric);
 		},
-		failure: function(){alert("failure");}
+		failure: function(){
+			alert("failure");
+		}
 	});
-}
+};
+
+// Path to the blank image should point to a valid location on your server
+Ext.BLANK_IMAGE_URL = 'images/s.gif';
+
+Ext.onReady(function(){
+	var main = new Ext.TabPanel({
+		title : "ncISO",
+		activeTab : 0,
+		//renderTo: 'decorate',
+		region: 'center',
+		items: [
+		{
+			title : 'ncIso Metadata',
+			layout : 'fit',
+			closable : 'true',
+			autoEl : {
+				tag : 'p',
+				html : 'This area shows the metadata associated with a dataset in a manner that scores the richness of the metadata.'
+			}
+		}
+		]
+	});
+
+	var store = new Ext.data.Store({
+		url : 'datasets',
+		reader: new Ext.data.XmlReader({
+			// records will have an "Item" tag
+			record: 'Dataset',
+			id: 'path',
+			totalRecords: '@total'
+		}, [
+		'path'
+		])
+	});
+
+	var datasets = new Ext.grid.GridPanel({
+		region: 'west',
+		layout: 'fit',
+		store: store,
+		columns: [{
+			header: "Dataset", 
+			width: 246, 
+			dataIndex: 'path', 
+			sortable: true
+		}],
+		width: 250,
+		height: 500,
+		split: true,
+		selModel: new Ext.grid.RowSelectionModel({
+			singleSelect: true
+		}),
+		listeners: {
+			rowclick: function(thisGrid, rowIndex, event) {
+				var record = thisGrid.selModel.getSelected();
+				var dataset = record.get('path');
+				main.removeAll();
+				populateWrapper(dataset, main);
+				modifyNetCDF(dataset, main);
+				generateRubric(dataset, main);
+			}
+		}
+	});
+
+	var statusBar = new Ext.Panel({
+		region: 'south',
+		layout: 'fit',
+		id: 'statusBar'
+	});
+
+	var vp = new Ext.Viewport({
+		layout : 'border',
+		id : 'viewport',
+		renderTo : document.body,
+		items : [main, datasets, statusBar]
+	});
+	store.load();
+}); //end onReady
