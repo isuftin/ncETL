@@ -175,10 +175,15 @@ public class CatalogHelperTest {
     }
     
     @Test
-    @Ignore
-    public void testLoadCatalog() {
-        InvCatalog loadDatabase = CatalogHelper.loadDatabase(new File(FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), "catalog.xml")).toURI());
-        
+    public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException {
+        CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
+        InvCatalog cat = CatalogHelper.loadDatabase(tempLocation.toURI());
+        InvCatalogSetter setter = new InvCatalogSetter(cat);
+        setter.setName("test");
+        assertThat(cat.getName(), is(equalTo("test")));
+        CatalogHelper.writeCatalog(cat);
+        InvCatalog readCatalog = CatalogHelper.readCatalog(tempLocation.toURI());
+        assertThat(readCatalog.getName(), is(equalTo("test")));
     }
     
 }
