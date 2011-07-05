@@ -4,7 +4,6 @@ import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -61,6 +60,7 @@ public class Bootstrapper implements ServletContextListener {
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;
         }
+        
         log.info("*************** ncETL has started.");
     }
 

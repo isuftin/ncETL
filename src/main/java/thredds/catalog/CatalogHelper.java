@@ -1,12 +1,16 @@
 package thredds.catalog;
 
+import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
+import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -17,8 +21,6 @@ public final class CatalogHelper {
     private static final String DEFAULT_CATALOG_FILENAME = "catalog.xml";
     private static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), DEFAULT_CATALOG_FILENAME);
     private static final String DEFAULT_CATALOG_NAME = "ncETL generated THREDDS catalog";
-
-    
 
     private CatalogHelper() {
     }
@@ -51,12 +53,13 @@ public final class CatalogHelper {
         writeCatalog(impl);
     }
     
-    public static InvCatalog readCatalog(String absolutePath) {
+    public static InvCatalog readCatalog(URI absoluteURI) {
         InvCatalogFactory factory = new InvCatalogFactory("FileReadFactory", false);
-        return factory.readXML(absolutePath);
+        return factory.readXML(absoluteURI.toString());
     }
     
-    public static void writeCatalog(InvCatalogImpl impl) throws IOException {
+    public static void writeCatalog(InvCatalog cat) throws IOException {
+        InvCatalogImpl impl = (InvCatalogImpl)cat;
         File file = new File(impl.getBaseURI());
         
         FileOutputStream fos = null;
@@ -67,6 +70,18 @@ public final class CatalogHelper {
         finally {
             IOUtils.closeQuietly(fos);
         }
+    }
+    
+    public static InvCatalog loadDatabase(URI location) {
+        InvCatalog editMe = readCatalog(location);
+        Map<String, String> catalogInfo = DatabaseUtil.getCatalogInfo(location);
+        //String id = catalogInfo.get("id");
+        String name = catalogInfo.get("name"); 
+        //List<Map<String,String>> datasets = DatabaseUtil.getDatasetInfos(id);
+        // put the invCatalog into editable state, set name
+        InvCatalogSetter setter = new InvCatalogSetter(editMe);
+        setter.setName(name);
+        return editMe;
     }
     
     protected static InvCatalogImpl createCatalogImpl(String name, URI uri) {
