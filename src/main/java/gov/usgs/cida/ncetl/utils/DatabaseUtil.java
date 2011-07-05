@@ -47,7 +47,7 @@ public final class DatabaseUtil {
                       "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
         // TODO probably needs more goodness
         CREATE_MAP.put("CATALOGS", 
-                       "CREATE TABLE catalogs (id int, location varchar(512), name varchar(64))");
+                       "CREATE TABLE catalogs (id int, catalog_id int, location varchar(512), name varchar(64))");
         // TODO needs work to define table
         //CREATE_MAP.put("DATASETS", 
         //               "CREATE TABLE datasets (id int, catalog_id int, name varchar(64), ncid varchar(128))");

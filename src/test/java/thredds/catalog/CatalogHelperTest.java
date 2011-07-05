@@ -177,13 +177,13 @@ public class CatalogHelperTest {
     @Test
     public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException {
         CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
-        InvCatalog cat = CatalogHelper.loadDatabase(tempLocation.toURI());
-        InvCatalogSetter setter = new InvCatalogSetter(cat);
-        setter.setName("test");
-        assertThat(cat.getName(), is(equalTo("test")));
+        InvCatalog cat = CatalogHelper.readCatalog(tempLocation.toURI());
+        assertThat(cat.getName(), is(equalTo(knownName)));
+        cat = CatalogHelper.loadDatabase(tempLocation.toURI());
+        assertThat(cat.getName(), is(equalTo("testName")));
         CatalogHelper.writeCatalog(cat);
         InvCatalog readCatalog = CatalogHelper.readCatalog(tempLocation.toURI());
-        assertThat(readCatalog.getName(), is(equalTo("test")));
+        assertThat(readCatalog.getName(), is(equalTo("testName")));
     }
     
 }

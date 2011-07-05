@@ -76,7 +76,7 @@ public final class CatalogHelper {
         InvCatalog editMe = readCatalog(location);
         Map<String, String> catalogInfo = DatabaseUtil.getCatalogInfo(location);
         //String id = catalogInfo.get("id");
-        String name = catalogInfo.get("name"); 
+        String name = catalogInfo.get("NAME"); 
         //List<Map<String,String>> datasets = DatabaseUtil.getDatasetInfos(id);
         // put the invCatalog into editable state, set name
         InvCatalogSetter setter = new InvCatalogSetter(editMe);
