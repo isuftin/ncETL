@@ -18,10 +18,13 @@ import static org.hamcrest.Matchers.*;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class DerbyHelperTest {
+public class DatabaseUtilTest {
     String DB_LOCATION = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
+    String createDb = null;
+    String destroyDb = null;
+    
     Connection connection;
-    public DerbyHelperTest() {
+    public DatabaseUtilTest() {
     }
 
     @BeforeClass
@@ -38,25 +41,30 @@ public class DerbyHelperTest {
     }
     
     @After
-    public void tearDown() throws IOException, SQLException {
+    public void tearDown() throws IOException, SQLException, NamingException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
-            connection.close();
+            DatabaseUtil.closeConnection(connection);
         }
+        DatabaseUtil.shutdownDatabase(destroyDb);
         FileUtils.forceDelete(new File(DB_LOCATION));
     }
 
     @Test
     public void testSetupDatabaseConnection() throws SQLException, NamingException, ClassNotFoundException {
-        String DB_FULL_LOCATION = DB_LOCATION + "test.db";
-        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test.db");
+        String DB_FULL_LOCATION = DB_LOCATION + "test1.db";
+        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
+        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
         assertThat(connection.isClosed(), is(false));
     }
     
     @Test
     public void testSetupDatabaseConnectionWithIncorrectJNDIContext() throws SQLException, NamingException, ClassNotFoundException {
-        String DB_FULL_LOCATION = DB_LOCATION + "test.db";
-        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
+        String DB_FULL_LOCATION = DB_LOCATION + "test2.db";
+        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
         connection = DatabaseUtil.getConnection("java:comp/env/jdbc/wrong.db");
         assertThat(connection.isClosed(), is(false));
     }
@@ -64,7 +72,9 @@ public class DerbyHelperTest {
     @Test
     public void testSetupDatabaseConnectionWithNoContext() throws SQLException, NamingException, ClassNotFoundException {
         String DB_FULL_LOCATION = DB_LOCATION + "derp.db";
-        DatabaseUtil.setupDatabase("jdbc:derby:" + DB_FULL_LOCATION + ";create=true;", "org.apache.derby.jdbc.EmbeddedDriver");
+        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
         connection = DatabaseUtil.getConnection();
         assertThat(connection.isClosed(), is(false));
     }

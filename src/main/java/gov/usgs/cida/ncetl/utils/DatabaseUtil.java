@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.SQLNonTransientConnectionException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
@@ -121,10 +122,17 @@ public final class DatabaseUtil {
         shutdownDatabase(DB_SHUTDOWN);
     }
     
-    public static void shutdownDatabase(String shutdown) throws SQLException, NamingException,
+    public static boolean shutdownDatabase(String shutdown) throws SQLException, NamingException,
                                                  ClassNotFoundException {
         System.setProperty("dburl", shutdown);
-        Connection myConn = SqlUtils.getConnection(JNDI_CONTEXT);
+        try {
+            Connection myConn = SqlUtils.getConnection(JNDI_CONTEXT);
+        }
+        catch (SQLNonTransientConnectionException ex) {
+            // Derby throws this if database succeeds in shutting down
+            return true;
+        }
+        return false;
     }
 
     protected static Connection getConnection() throws SQLException,
@@ -136,6 +144,14 @@ public final class DatabaseUtil {
     protected static Connection getConnection(String jndiContext) throws
             SQLException, NamingException, ClassNotFoundException {
         return SqlUtils.getConnection(jndiContext);
+    }
+    
+    /**
+     * Convenience method to do proper house-keeping of connections
+     * @param connection close this
+     */
+    public static void closeConnection(Connection connection) {
+        SqlUtils.closeConnection(connection);
     }
 
     private static void createTable(Connection c, String table) throws

@@ -22,12 +22,12 @@ import ucar.nc2.units.DateType;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class InvCatalogSetterTest {
+public class InvCatalogModifierTest {
 
     private static File catalogFile = null;
     private InvCatalog catalog = null;
 
-    public InvCatalogSetterTest() {
+    public InvCatalogModifierTest() {
     }
 
     @BeforeClass
