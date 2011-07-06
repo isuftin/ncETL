@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.spec;
 
 import gov.usgs.webservices.jdbc.spec.Spec;
@@ -99,7 +95,7 @@ public class DocumentationSpec  extends Spec {
     @Override
     public ResultSet getUpdatedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new IngestControlSpec();
+        Spec spec = new DocumentationSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + UPDATED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -108,11 +104,11 @@ public class DocumentationSpec  extends Spec {
         params = new HashMap<String, String[]>();
         params.put(UPDATED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new IngestControlSpec();
+        spec = new DocumentationSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new IngestControlSpec();
+        spec = new DocumentationSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         
@@ -123,7 +119,7 @@ public class DocumentationSpec  extends Spec {
     @Override
     public ResultSet getInsertedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new IngestControlSpec();
+        Spec spec = new DocumentationSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + INSERTED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -132,11 +128,11 @@ public class DocumentationSpec  extends Spec {
         params = new HashMap<String, String[]>();
         params.put(INSERTED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new IngestControlSpec();
+        spec = new DocumentationSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new IngestControlSpec();
+        spec = new DocumentationSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         Spec.loadParameters(spec, params);

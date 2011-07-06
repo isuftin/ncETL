@@ -96,7 +96,7 @@ public class AccessSpec  extends Spec {
     @Override
     public ResultSet getUpdatedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new IngestControlSpec();
+        Spec spec = new AccessSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + UPDATED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -105,11 +105,11 @@ public class AccessSpec  extends Spec {
         params = new HashMap<String, String[]>();
         params.put(UPDATED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new IngestControlSpec();
+        spec = new AccessSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new IngestControlSpec();
+        spec = new AccessSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         
@@ -120,7 +120,7 @@ public class AccessSpec  extends Spec {
     @Override
     public ResultSet getInsertedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new IngestControlSpec();
+        Spec spec = new AccessSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + INSERTED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -129,11 +129,11 @@ public class AccessSpec  extends Spec {
         params = new HashMap<String, String[]>();
         params.put(INSERTED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new IngestControlSpec();
+        spec = new AccessSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new IngestControlSpec();
+        spec = new AccessSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         Spec.loadParameters(spec, params);
