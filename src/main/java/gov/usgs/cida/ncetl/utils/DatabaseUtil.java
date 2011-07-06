@@ -40,36 +40,35 @@ public final class DatabaseUtil {
 
     static {
         // TODO Switch to using ddl at some point
-        CREATE_MAP = Maps.newHashMap();
-        CREATE_MAP.put("GLOBAL_CONFIG",
-                      "CREATE TABLE global_config (id int, base_dir varchar(512), thredds_dir varchar(512))");
-        CREATE_MAP.put("INGESTS",
-                      "CREATE TABLE ingests (id int, catalog_id int, name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
-        CREATE_MAP.put("CATALOGS", 
-                       "CREATE TABLE catalogs (id int, catalog_id int, location varchar(512), name varchar(64), expires date, version varchar(8), inserted boolean, updated boolean)"); //TODO- service, property and dataset can be subtables
-        CREATE_MAP.put("DATASETS", 
-                       "CREATE TABLE datasets (id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean)");
-        CREATE_MAP.put("SERVICES", 
-                       "CREATE TABLE services (id int, service_id int, catalog_id int, name varchar(64), base varchar(32), service_type_id int, description varchar(512), suffix varchar(32), inserted boolean, updated boolean)");
-        CREATE_MAP.put("ACCESS", 
-                       "CREATE TABLE access (id int, dataset_id int, service_id int, dataformat_id int, url_path varchar(512), inserted boolean, updated boolean)"); //TODO - Can have data_size
-        
-        CREATE_MAP.put("DOCUMENTATION", 
-                       "CREATE TABLE documentation (id int, dataset_id int, documentation_type_id int, xlink_href varchar(256), xlink_title varchar(256), text varchar(1024), inserted boolean, updated boolean)");
-        CREATE_MAP.put("PROPERTY", 
-                       "CREATE TABLE property (id int, dataset_id int, name varchar(128), value varchar(512), inserted boolean, updated boolean)");
+        CREATE_MAP = Maps.newLinkedHashMap();
         
         // Lookup Tables
         CREATE_MAP.put("COLLECTION_TYPES", 
-                       "CREATE TABLE collection_types (id int, type varchar(32), inserted boolean, updated boolean)");
+                       "CREATE TABLE collection_types (id INT NOT NULL, type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("DATA_TYPES", 
-                       "CREATE TABLE data_types (id int, type varchar(32), inserted boolean, updated boolean)");
+                       "CREATE TABLE data_types (id INT NOT NULL, type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("DATA_FORMATS", 
-                       "CREATE TABLE data_format (id int, type varchar(32), inserted boolean, updated boolean)");
+                       "CREATE TABLE data_format (id INT NOT NULL, type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("DOCUMENTATION_TYPES", 
-                       "CREATE TABLE documentation_types (id int, type varchar(32), inserted boolean, updated boolean)");
+                       "CREATE TABLE documentation_types (id INT NOT NULL, type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         
+        CREATE_MAP.put("GLOBAL_CONFIG",
+                      "CREATE TABLE global_config (id INT NOT NULL, base_dir varchar(512), thredds_dir varchar(512), PRIMARY KEY (id))");
+        CREATE_MAP.put("CATALOGS", 
+                       "CREATE TABLE catalogs (id INT NOT NULL, catalog_id INT CONSTRAINT CATALOGS1_FK REFERENCES catalogs, location varchar(512), name varchar(64), expires date, version varchar(8), inserted boolean, updated boolean, PRIMARY KEY (id))"); //TODO- service, property and dataset can be subtables
+        CREATE_MAP.put("INGESTS",
+                      "CREATE TABLE ingests (id INT NOT NULL, catalog_id INT CONSTRAINT CATALOGS2_FK REFERENCES catalogs, name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean, PRIMARY KEY (id))");
+        CREATE_MAP.put("DATASETS", 
+                       "CREATE TABLE datasets (id INT NOT NULL, catalog_id INT CONSTRAINT CATALOGS3_FK REFERENCES catalogs, collection_type_id INT CONSTRAINT COLLECTION1_FK REFERENCES collection_types, data_type_id INT CONSTRAINT DATATYPE_FK REFERENCES data_types, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean, PRIMARY KEY (id))");
+        CREATE_MAP.put("SERVICES", 
+                       "CREATE TABLE services (id INT NOT NULL, catalog_id INT CONSTRAINT CATALOGS4_FK REFERENCES catalogs, service_id INT CONSTRAINT SERVICE1_FK REFERENCES services,  /*service_type_id INT CONSTRAINT SERVICETYPE_FK REFERENCES service_types,*/ name varchar(64), base varchar(32),  description varchar(512), suffix varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
+        CREATE_MAP.put("ACCESS", 
+                       "CREATE TABLE access (id INT NOT NULL, dataset_id INT CONSTRAINT DATASET1_FK REFERENCES datasets, service_id INT CONSTRAINT SERVICE2_FK REFERENCES services, dataformat_id INT CONSTRAINT DATAFORMAT_FK REFERENCES data_format, url_path varchar(512), inserted boolean, updated boolean, PRIMARY KEY (id))"); //TODO - Can have data_size
         
+        CREATE_MAP.put("DOCUMENTATION", 
+                       "CREATE TABLE documentation (id INT NOT NULL, dataset_id INT CONSTRAINT DATASET2_FK REFERENCES datasets, documentation_type_id INT CONSTRAINT DOCTYPE_FK REFERENCES documentation_types, xlink_href varchar(256), xlink_title varchar(256), text varchar(1024), inserted boolean, updated boolean, PRIMARY KEY (id))");
+        CREATE_MAP.put("PROPERTY", 
+                       "CREATE TABLE property (id INT NOT NULL, dataset_id INT CONSTRAINT DATASET3_FK REFERENCES datasets, name varchar(128), value varchar(512), inserted boolean, updated boolean, PRIMARY KEY (id))");
         
         // TODO- Create service type table
         // Check this for completeness
