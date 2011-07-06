@@ -2,14 +2,12 @@ package thredds.catalog;
 
 import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
-import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 
@@ -72,15 +70,24 @@ public final class CatalogHelper {
         }
     }
     
-    public static InvCatalog loadDatabase(URI location) {
+    public static InvCatalog syncWithDatabase(URI location) {
         InvCatalog editMe = readCatalog(location);
         Map<String, String> catalogInfo = DatabaseUtil.getCatalogInfo(location);
+        
+        // Gather all the needed information from the database
         //String id = catalogInfo.get("id");
         String name = catalogInfo.get("NAME"); 
+        
+        // Set the leaf nodes of catalog
         //List<Map<String,String>> datasets = DatabaseUtil.getDatasetInfos(id);
         // put the invCatalog into editable state, set name
-        InvCatalogSetter setter = new InvCatalogSetter(editMe);
+        InvCatalogModifier setter = new InvCatalogModifier(editMe);
         setter.setName(name);
+        
+        // Search in database for children of this catalog
+        // Recursively do syncWithDatabase for sub-catalogs, datasets, services
+        // DatasetHelper.syncWithDatabase(datasetid)
+        
         return editMe;
     }
     
@@ -122,11 +129,4 @@ public final class CatalogHelper {
     public static String getDefaultCatalogName() {
         return DEFAULT_CATALOG_NAME;
     }
-    
-    /* Some ideas
-     * **********
-     * Allow for location versioning here (jgit, filenames with dates, etc)
-     * Start of with more than bare location, prepopulate with some defaults
-     * Is this the right place to add setters for the location editing?
-     */
 }

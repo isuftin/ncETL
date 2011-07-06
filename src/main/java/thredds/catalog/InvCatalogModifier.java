@@ -13,11 +13,11 @@ import ucar.nc2.units.DateType;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class InvCatalogSetter {
+public class InvCatalogModifier {
     
     private InvCatalogImpl cat = null;
     
-    public InvCatalogSetter(InvCatalog cat) {
+    public InvCatalogModifier(InvCatalog cat) {
         if (cat == null) {
             throw new IllegalArgumentException("null catalog not allowed");
         }

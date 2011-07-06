@@ -53,60 +53,60 @@ public class InvCatalogSetterTest {
     }
 
     /**
-     * Test of setBaseURI method, of class InvCatalogSetter.
+     * Test of setBaseURI method, of class InvCatalogModifier.
      */
     @Test
     public void testSetBaseURI() {
         URI baseURI = catalogFile.toURI();
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setBaseURI(baseURI);
         assertThat(catalog.getUriString(), is(equalTo(baseURI.toString())));
     }
 
     /**
-     * Test of setDatasets method, of class InvCatalogSetter.
+     * Test of setDatasets method, of class InvCatalogModifier.
      */
     @Test
     public void testSetDatasets() {
         List<InvDataset> datasets = Lists.asList(
                 new InvDatasetBuilder("test", "id").build(), new InvDataset[0]);
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setDatasets(datasets);
         assertThat(catalog.getDatasets().size(), is(not(equalTo(0))));
         assertThat(catalog.getDatasets().get(0).getName(), is(equalTo("test")));
     }
 
     /**
-     * Test of setExpires method, of class InvCatalogSetter.
+     * Test of setExpires method, of class InvCatalogModifier.
      */
     @Test
     public void testSetExpires() {
         DateType expires = new DateType(true, new Date());
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setExpires(expires);
         assertThat(catalog.getExpires(), is(equalTo(expires)));
     }
 
     /**
-     * Test of setName method, of class InvCatalogSetter.
+     * Test of setName method, of class InvCatalogModifier.
      */
     @Test
     public void testSetName() {
         String name = "test";
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setName(name);
         assertThat(catalog.getName(), is(equalTo(name)));
     }
 
     /**
-     * Test of setProperties method, of class InvCatalogSetter.
+     * Test of setProperties method, of class InvCatalogModifier.
      */
     @Test
     public void testSetProperties() {
         List<InvProperty> properties = Lists.asList(new InvProperty("test",
                                                                     "value"),
                                                     new InvProperty[0]);
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setProperties(properties);
         assertThat(catalog.getProperties().size(), is(not(equalTo(0))));
         assertThat(catalog.getProperties().get(0).getName(), is(equalTo("test")));
@@ -115,31 +115,31 @@ public class InvCatalogSetterTest {
     }
 
     /**
-     * Test of setServices method, of class InvCatalogSetter.
+     * Test of setServices method, of class InvCatalogModifier.
      */
     @Test
     public void testSetServices() {
         List<InvService> services = Lists.asList(
                 new InvServiceBuilder("test").build(), new InvService[0]);
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setServices(services);
         assertThat(catalog.getServices().size(), is(not(equalTo(0))));
         assertThat(catalog.getServices().get(0).getName(), is(equalTo("test")));
     }
 
     /**
-     * Test of setVersion method, of class InvCatalogSetter.
+     * Test of setVersion method, of class InvCatalogModifier.
      */
     @Test
     public void testSetVersion() {
         String version = "1.2.0";
-        InvCatalogSetter instance = new InvCatalogSetter(catalog);
+        InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setVersion(version);
         assertThat(catalog.getVersion(), is(equalTo(version)));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullCatalog() {
-        new InvCatalogSetter(null);
+        new InvCatalogModifier(null);
     }
 }

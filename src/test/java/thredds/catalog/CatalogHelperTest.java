@@ -179,7 +179,7 @@ public class CatalogHelperTest {
         CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
         InvCatalog cat = CatalogHelper.readCatalog(tempLocation.toURI());
         assertThat(cat.getName(), is(equalTo(knownName)));
-        cat = CatalogHelper.loadDatabase(tempLocation.toURI());
+        cat = CatalogHelper.syncWithDatabase(tempLocation.toURI());
         assertThat(cat.getName(), is(equalTo("testName")));
         CatalogHelper.writeCatalog(cat);
         InvCatalog readCatalog = CatalogHelper.readCatalog(tempLocation.toURI());

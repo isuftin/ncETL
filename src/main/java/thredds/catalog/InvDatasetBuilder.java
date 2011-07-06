@@ -156,10 +156,6 @@ public class InvDatasetBuilder {
     /**
      * May need to do something more complicated here, such as a serviceBuilder
      * @param name serviceName
-     * @param type 
-     * @param base
-     * @param suffix
-     * @param desc
      * @return 
      */
     public InvDatasetBuilder service(String name) {
