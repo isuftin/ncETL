@@ -17,7 +17,22 @@ import java.util.Map;
  * @author jwalker
  */
 public class IngestControlSpec extends Spec {
-
+    private static final long serialVersionUID = 1L;
+    
+    private static final String TABLE_NAME = "ingests";
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String FTP_LOCATION = "ftpLocation";
+    private static final String RESCAN_EVERY = "rescanEvery";
+    private static final String FILE_REGEX = "fileRegex";
+    private static final String SUCCESS_DATE = "successDate";
+    private static final String SUCCESS_TIME = "successTime";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String ACTIVE = "active";
+    private static final String INSERTED = "inserted";
+    private static final String UPDATED = "updated";
+    
     @Override
     public boolean setupAccess_DELETE() {
         return true;
@@ -41,17 +56,18 @@ public class IngestControlSpec extends Spec {
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
-                    new ColumnMapping("name", "name"),
-                    new ColumnMapping("ftpLocation", "ftpLocation"),
-                    new ColumnMapping("rescanEvery", "rescanEvery"),
-                    new ColumnMapping("fileRegex", "fileRegex"),
-                    new ColumnMapping("successDate", "successDate"),
-                    new ColumnMapping("successTime", "successTime"),
-                    new ColumnMapping("username", "username"),
-                    new ColumnMapping("password", "password"),
-                    new ColumnMapping("active", "active"),
-                    new ColumnMapping("inserted", null),
-                    new ColumnMapping("updated", null)
+                    new ColumnMapping(ID, ID),
+                    new ColumnMapping(NAME, NAME),
+                    new ColumnMapping(FTP_LOCATION, FTP_LOCATION),
+                    new ColumnMapping(RESCAN_EVERY, RESCAN_EVERY),
+                    new ColumnMapping(FILE_REGEX, FILE_REGEX),
+                    new ColumnMapping(SUCCESS_DATE, SUCCESS_DATE),
+                    new ColumnMapping(SUCCESS_TIME, SUCCESS_TIME),
+                    new ColumnMapping(USERNAME, USERNAME),
+                    new ColumnMapping(PASSWORD, PASSWORD),
+                    new ColumnMapping(ACTIVE, ACTIVE),
+                    new ColumnMapping(INSERTED, null),
+                    new ColumnMapping(UPDATED, null)
                 };
     }
 
@@ -68,23 +84,24 @@ public class IngestControlSpec extends Spec {
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
-            new SearchMapping("s_name", "name", "name", WhereClauseType.equals, null, null, null),
-            new SearchMapping(null, "ftpLocation", "ftpLocation", null, null, null, null),
-            new SearchMapping(null, "rescanEvery", "rescanEvery", null, null, null, null),
-            new SearchMapping(null, "fileRegex", "fileRegex", null, null, null, null),
-            new SearchMapping(null, "successDate", "successDate", null, null, null, null),
-            new SearchMapping(null, "successTime", "successTime", null, null, null, null),
-            new SearchMapping(null, "username", "username", null, null, null, null),
-            new SearchMapping(null, "password", "password", null, null, null, null),
-            new SearchMapping(null, "active", "active", null, null, null, null),
-            new SearchMapping("s_inserted", "inserted", "inserted", WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_updated", "updated", "updated", WhereClauseType.equals, null, null, null)
+            new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + NAME, NAME, NAME, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + FTP_LOCATION, FTP_LOCATION, FTP_LOCATION, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + RESCAN_EVERY, RESCAN_EVERY, RESCAN_EVERY, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + FILE_REGEX, FILE_REGEX, FILE_REGEX, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + SUCCESS_DATE, SUCCESS_DATE, SUCCESS_DATE, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + SUCCESS_TIME, SUCCESS_TIME, SUCCESS_TIME, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + USERNAME, USERNAME, USERNAME, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + PASSWORD, PASSWORD, PASSWORD, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + ACTIVE, ACTIVE, ACTIVE, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
 
     @Override
     public String setupTableName() {
-        return "ingests";
+        return TABLE_NAME;
     }
 
     @Override
@@ -92,20 +109,20 @@ public class IngestControlSpec extends Spec {
         ResultSet result = null;
         Spec spec = new IngestControlSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
-        params.put("s_updated", new String[] {"true"});
+        params.put("s_" + UPDATED, new String[] {"true"});
         Spec.loadParameters(spec, params);
-        List<String> names = ServiceUtils.getStringsFromDB(spec, con, "name");
+        List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
         
         params = new HashMap<String, String[]>();
-        params.put("updated", new String[] {"false"});
-        params.put("s_name", names.toArray(new String[0]));
+        params.put(UPDATED, new String[] {"false"});
+        params.put(ID, names.toArray(new String[0]));
         spec = new IngestControlSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
         spec = new IngestControlSpec();
         params = new HashMap<String, String[]>();
-        params.put("s_name", names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[0]));
         
         result = Spec.getResultSet(spec, con);
         return result;
@@ -116,20 +133,20 @@ public class IngestControlSpec extends Spec {
         ResultSet result = null;
         Spec spec = new IngestControlSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
-        params.put("s_inserted", new String[] {"true"});
+        params.put("s_" + INSERTED, new String[] {"true"});
         Spec.loadParameters(spec, params);
-        List<String> names = ServiceUtils.getStringsFromDB(spec, con, "name");
+        List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
         
         params = new HashMap<String, String[]>();
-        params.put("inserted", new String[] {"false"});
-        params.put("s_name", names.toArray(new String[0]));
+        params.put(INSERTED, new String[] {"false"});
+        params.put(ID, names.toArray(new String[0]));
         spec = new IngestControlSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
         spec = new IngestControlSpec();
         params = new HashMap<String, String[]>();
-        params.put("s_name", names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[0]));
         Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
