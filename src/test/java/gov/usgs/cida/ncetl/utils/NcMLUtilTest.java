@@ -1,11 +1,15 @@
 package gov.usgs.cida.ncetl.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import thredds.server.metadata.exception.ThreddsUtilitiesException;
 import ucar.nc2.Attribute;
 import ucar.nc2.Group;
 import ucar.nc2.WrapperNetcdfFile;
@@ -19,6 +23,8 @@ import static org.hamcrest.Matchers.*;
 public class NcMLUtilTest {
     
     private static String testFile;
+    private static String destination = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
+    private static String destinationFile = destination + "temp.QPE.20110214.009.105";
     private static WrapperNetcdfFile wrapper;
     
     public NcMLUtilTest() {
@@ -36,11 +42,14 @@ public class NcMLUtilTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+        FileUtils.forceMkdir(new File(destination));
+        FileUtils.copyFile(new File(testFile), new File(destinationFile));
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException {
+        FileUtils.forceDelete(new File(destination));
     }
 
     /**
@@ -59,6 +68,7 @@ public class NcMLUtilTest {
 
     /**
      * Test of globalAttributesToMeta method, of class NcMLUtilTest.
+     * @throws Exception 
      */
     @Test
     public void testGlobalAttributesToMeta() throws Exception {
@@ -68,5 +78,13 @@ public class NcMLUtilTest {
         assertThat(attr, is(notNullValue()));
         assertThat(metaGroup.getAttributes().size(), is(equalTo(11)));
         assertThat(metaGroup.getShortName().contains("QPE.20110214.009.105"), is(true));
+    }
+    
+    @Test
+    public void testCreateNCML() throws ThreddsUtilitiesException {
+        File test = NcMLUtil.createNcML(destinationFile);
+        assertThat(test, is(notNullValue()));
+        assertThat(test.length(), is(not(new Long(0))));
+        
     }
 }
