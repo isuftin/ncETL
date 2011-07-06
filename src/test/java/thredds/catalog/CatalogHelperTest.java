@@ -50,7 +50,7 @@ public class CatalogHelperTest {
         try {
             connection = SqlUtils.getConnection("");
             stmt = connection.createStatement();
-            String sql = "INSERT INTO catalogs (id, location, name) VALUES (13, '" + 
+            String sql = "INSERT INTO catalogs (location, name) VALUES ('" + 
                     tempLocation.toURI() + "', 'testName')";
             stmt.execute(sql);
         }
