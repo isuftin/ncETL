@@ -42,15 +42,36 @@ public final class DatabaseUtil {
         // TODO Switch to using ddl at some point
         CREATE_MAP = Maps.newHashMap();
         CREATE_MAP.put("GLOBAL_CONFIG",
-                      "CREATE TABLE global_config (base_dir varchar(512), thredds_dir varchar(512))");
+                      "CREATE TABLE global_config (id int, base_dir varchar(512), thredds_dir varchar(512))");
         CREATE_MAP.put("INGESTS",
-                      "CREATE TABLE ingests (name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
-        // TODO probably needs more goodness
+                      "CREATE TABLE ingests (id int, catalog_id int, name varchar(128), ftpLocation varchar(512), rescanEvery bigint, fileRegex varchar(64), successDate date, successTime time, username varchar(64), password varchar(64), active boolean, inserted boolean, updated boolean)");
         CREATE_MAP.put("CATALOGS", 
-                       "CREATE TABLE catalogs (id int, catalog_id int, location varchar(512), name varchar(64))");
-        // TODO needs work to define table
-        //CREATE_MAP.put("DATASETS", 
-        //               "CREATE TABLE datasets (id int, catalog_id int, name varchar(64), ncid varchar(128))");
+                       "CREATE TABLE catalogs (id int, catalog_id int, location varchar(512), name varchar(64), expires date, version varchar(8), inserted boolean, updated boolean)"); //TODO- service, property and dataset can be subtables
+        CREATE_MAP.put("DATASETS", 
+                       "CREATE TABLE datasets (id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64))");
+        CREATE_MAP.put("SERVICES", 
+                       "CREATE TABLE services (id int, service_id int, catalog_id int, name varchar(64), base varchar(32), service_type_id int, description varchar(512), suffix varchar(32))");
+        CREATE_MAP.put("ACCESS", 
+                       "CREATE TABLE access (id int, dataset_id int, service_id int, dataformat_id int, url_path varchar(512))"); //TODO - Can have data_size
+        
+        CREATE_MAP.put("DOCUMENTATION", 
+                       "CREATE TABLE documentation (id int, dataset_id int, documentation_type_id int, xlink_href varchar(256), xlink_title varchar(256), text varchar(1024))");
+        CREATE_MAP.put("PROPERTY", 
+                       "CREATE TABLE property (id int, dataset_id int, name varchar(128), value varchar(512))");
+        
+        // Lookup Tables
+        CREATE_MAP.put("COLLECTION_TYPES", 
+                       "CREATE TABLE collection_types (id int, type varchar(32))");
+        CREATE_MAP.put("DATA_TYPES", 
+                       "CREATE TABLE data_types (id int, type varchar(32))");
+        CREATE_MAP.put("DATA_FORMATS", 
+                       "CREATE TABLE data_format (id int, type varchar(32))");
+        CREATE_MAP.put("DOCUMENTATION_TYPES", 
+                       "CREATE TABLE documentation_types (id int, type varchar(32))");
+        
+        
+        
+        // TODO- Create service type table
         // Check this for completeness
         //CREATE_MAP.put("KEYWORDS",
         //               "CREATE TABLE keywords (id int, dataset_id int, value varchar(64), vocab varchar(64))");
