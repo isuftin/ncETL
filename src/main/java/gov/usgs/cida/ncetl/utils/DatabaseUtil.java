@@ -48,7 +48,7 @@ public final class DatabaseUtil {
         CREATE_MAP.put("CATALOGS", 
                        "CREATE TABLE catalogs (id int, catalog_id int, location varchar(512), name varchar(64), expires date, version varchar(8), inserted boolean, updated boolean)"); //TODO- service, property and dataset can be subtables
         CREATE_MAP.put("DATASETS", 
-                       "CREATE TABLE datasets (id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64))");
+                       "CREATE TABLE datasets (id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean)");
         CREATE_MAP.put("SERVICES", 
                        "CREATE TABLE services (id int, service_id int, catalog_id int, name varchar(64), base varchar(32), service_type_id int, description varchar(512), suffix varchar(32))");
         CREATE_MAP.put("ACCESS", 
