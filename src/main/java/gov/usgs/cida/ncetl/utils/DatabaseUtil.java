@@ -79,7 +79,7 @@ public final class DatabaseUtil {
         CREATE_MAP.put("CONTRIBUTOR", 
                        "CREATE TABLE contributor (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), role varchar(64), text varchar(256), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("CREATOR", 
-                       "CREATE TABLE creator (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB1_FK REFERENCES controlled_vocabulary, contact_url varchar(512), contact_email varchar(256), inserted boolean, updated boolean, PRIMARY KEY (id))");
+                       "CREATE TABLE creator (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB2_FK REFERENCES controlled_vocabulary, contact_url varchar(512), contact_email varchar(256), inserted boolean, updated boolean, PRIMARY KEY (id))");
         
         // Join Tables?
         // helps to manage many-to-one relationships
