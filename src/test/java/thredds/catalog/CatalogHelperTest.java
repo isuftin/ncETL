@@ -50,7 +50,7 @@ public class CatalogHelperTest {
         try {
             connection = SqlUtils.getConnection("");
             stmt = connection.createStatement();
-            String sql = "INSERT INTO catalogs (location, name) VALUES ('" + 
+            String sql = "INSERT INTO catalog (location, name) VALUES ('" + 
                     tempLocation.toURI() + "', 'testName')";
             stmt.execute(sql);
         }
@@ -160,7 +160,7 @@ public class CatalogHelperTest {
         try {
             connection = SqlUtils.getConnection("");
             stmt = connection.createStatement();
-            String sql = "SELECT count(*) FROM catalogs";
+            String sql = "SELECT count(*) FROM catalog";
             stmt.execute(sql);
             rs = stmt.getResultSet();
             rs.next();

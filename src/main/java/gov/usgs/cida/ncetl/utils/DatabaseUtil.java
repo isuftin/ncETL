@@ -191,7 +191,7 @@ public final class DatabaseUtil {
         try {
             connection = getConnection();
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM catalogs WHERE location = ?");
+                    "SELECT * FROM catalog WHERE location = ?");
             stmt.setString(1, location.toString());
             rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
