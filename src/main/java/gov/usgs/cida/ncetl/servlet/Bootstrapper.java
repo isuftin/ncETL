@@ -24,7 +24,7 @@ public class Bootstrapper implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        log.info("*************** ncETL is starting up.");
+        log.info("\n*************** ncETL is starting up.");
         System.setProperty(ERRORS_ENCOUNTERED, FALSE);
         // Place all startup hooks here
 
@@ -79,6 +79,6 @@ public class Bootstrapper implements ServletContextListener {
         catch (ClassNotFoundException ex) {
             log.debug("Couldn't shut down", ex);
         }
-        log.info("*************** ncETL is shutting down.");
+        log.info("*************** ncETL is shutting down.\n");
     }
 }

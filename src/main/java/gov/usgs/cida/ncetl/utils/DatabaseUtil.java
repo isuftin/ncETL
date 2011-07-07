@@ -48,7 +48,7 @@ public final class DatabaseUtil {
                        "CREATE TABLE collection_types (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("DATA_TYPES", 
                        "CREATE TABLE data_types (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
-        CREATE_MAP.put("DATA_FORMATS", 
+        CREATE_MAP.put("DATA_FORMAT", 
                        "CREATE TABLE data_format (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
         CREATE_MAP.put("DOCUMENTATION_TYPES", 
                        "CREATE TABLE documentation_types (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))");
