@@ -59,23 +59,23 @@ public class DatabaseUtilTest {
         assertThat(connection.isClosed(), is(false));
     }
     
-    @Test
-    public void testSetupDatabaseConnectionWithIncorrectJNDIContext() throws SQLException, NamingException, ClassNotFoundException {
-        String DB_FULL_LOCATION = DB_LOCATION + "test2.db";
-        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
-        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
-        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/wrong.db");
-        assertThat(connection.isClosed(), is(false));
-    }
-    
-    @Test
-    public void testSetupDatabaseConnectionWithNoContext() throws SQLException, NamingException, ClassNotFoundException {
-        String DB_FULL_LOCATION = DB_LOCATION + "derp.db";
-        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
-        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
-        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DatabaseUtil.getConnection();
-        assertThat(connection.isClosed(), is(false));
-    }
+//    @Test
+//    public void testSetupDatabaseConnectionWithIncorrectJNDIContext() throws SQLException, NamingException, ClassNotFoundException {
+//        String DB_FULL_LOCATION = DB_LOCATION + "test2.db";
+//        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+//        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+//        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
+//        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/wrong.db");
+//        assertThat(connection.isClosed(), is(false));
+//    }
+//    
+//    @Test
+//    public void testSetupDatabaseConnectionWithNoContext() throws SQLException, NamingException, ClassNotFoundException {
+//        String DB_FULL_LOCATION = DB_LOCATION + "derp.db";
+//        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+//        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+//        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
+//        connection = DatabaseUtil.getConnection();
+//        assertThat(connection.isClosed(), is(false));
+//    }
 }
