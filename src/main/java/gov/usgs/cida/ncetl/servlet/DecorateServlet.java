@@ -62,9 +62,6 @@ public class DecorateServlet extends HttpServlet {
 			//serviceController.createWaf("http://igsarm-cida-javatest2.er.usgs.gov:8080/thredds", 2, 2, false, false, null, "/home/scratch");
 			out.print("{success:true}");
         }
-		catch (Exception e) {
-			LOG.error(e.getMessage());
-		}
 		finally {
 			out.close();
         }
