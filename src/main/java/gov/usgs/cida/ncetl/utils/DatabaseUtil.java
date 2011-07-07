@@ -89,7 +89,6 @@ public final class DatabaseUtil {
                        "CREATE TABLE contributor_join (dataset_id INT CONSTRAINT DATASET5_FK REFERENCES dataset, contributor_id INT CONSTRAINT CONTRIB_FK REFERENCES contributor, inserted boolean, updated boolean)");
         CREATE_MAP.put("CREATOR_JOIN", 
                        "CREATE TABLE creator_join (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean)");
-        
     }
 
     public static void setupDatabase() throws SQLException, NamingException,
