@@ -19,7 +19,7 @@ public class DateIndexer extends HttpServlet {
 
 	public static final String USAGE = "java DateIndexer \"${StartDate}\" \"${EndDate}\"";
     private static final long serialVersionUID = 1L;
-    private final int[] LEAP_DAY =  {2, 29};
+    private static final int[] LEAP_DAY =  {2, 29};
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
