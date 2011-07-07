@@ -21,7 +21,7 @@ import org.json.simple.JSONObject;
  *
  * @author jwalker
  */
-public final class FTPIngestTask extends TimerTask implements Runnable {
+public final class FTPIngestTask extends TimerTask {
     private static final Logger LOG = Logger.getLogger(FTPIngestTask.class.getName());
     public static final long DEFAULT_RESCAN_PERIOD = 1000 * 60 * 60;
     public static final String DEFAULT_PASSWORD = "anonymous";
