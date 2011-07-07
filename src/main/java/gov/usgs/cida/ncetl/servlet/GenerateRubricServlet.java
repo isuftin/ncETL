@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import thredds.server.metadata.exception.ThreddsUtilitiesException;
 
 /**
  *
@@ -89,9 +90,9 @@ public class GenerateRubricServlet extends HttpServlet {
                 out.println(line);
             }
         }
-        catch (Exception e) {
-            LOG.error(e.getMessage());
-        }
+                catch (ThreddsUtilitiesException tue) {
+                    LOG.error(tue.getMessage());
+                }
         finally {
             if (reader != null) reader.close();
             out.close();
