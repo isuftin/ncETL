@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GenerateRubricServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(GenerateRubricServlet.class);
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -87,7 +90,7 @@ public class GenerateRubricServlet extends HttpServlet {
             }
         }
         catch (Exception e) {
-            e.printStackTrace(out);
+            LOG.error(e.getMessage());
         }
         finally {
             if (reader != null) reader.close();

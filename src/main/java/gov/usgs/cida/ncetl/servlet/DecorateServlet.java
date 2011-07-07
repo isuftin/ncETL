@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import gov.noaa.eds.controller.ServiceController;
 import java.net.URLDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,6 +17,7 @@ import java.net.URLDecoder;
  */
 public class DecorateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(DecorateServlet.class);
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -60,7 +63,7 @@ public class DecorateServlet extends HttpServlet {
 			out.print("{success:true}");
         }
 		catch (Exception e) {
-			out.print(e.getMessage());
+			LOG.error(e.getMessage());
 		}
 		finally {
 			out.close();
