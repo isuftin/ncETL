@@ -91,7 +91,8 @@ public final class NcMLUtil {
             catch (Exception ex) {
                 throw new ThreddsUtilitiesException(
                         "Difficulty writing ncml, check dataset",
-                                                    ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
+                        ex,
+                        ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
             }
         }
         return ncmlFile;
@@ -114,13 +115,15 @@ public final class NcMLUtil {
         }
         catch (JDOMException ex) {
             throw new ThreddsUtilitiesException(
-                        "JDOMException while getting root element",
-                                                    ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
+                    "JDOMException while getting root element",
+                    ex,
+                    ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
         }
         catch (IOException ex) {
             throw new ThreddsUtilitiesException(
-                        "IOException while getting root element",
-                                                    ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
+                    "IOException while getting root element",
+                    ex,
+                    ThreddsUtilitiesException.EXCEPTION_TYPES.IO_EXCEPTION);
         }
 
     }
