@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -70,7 +72,7 @@ public final class CatalogHelper {
         }
     }
     
-    public static InvCatalog syncWithDatabase(URI location) {
+    public static InvCatalog syncWithDatabase(URI location) throws SQLException, NamingException, ClassNotFoundException {
         InvCatalog editMe = readCatalog(location);
         Map<String, String> catalogInfo = DatabaseUtil.getCatalogInfo(location);
         

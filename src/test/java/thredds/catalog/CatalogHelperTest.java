@@ -175,7 +175,7 @@ public class CatalogHelperTest {
     }
     
     @Test
-    public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException {
+    public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException, SQLException, NamingException, ClassNotFoundException {
         CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
         InvCatalog cat = CatalogHelper.readCatalog(tempLocation.toURI());
         assertThat(cat.getName(), is(equalTo(knownName)));

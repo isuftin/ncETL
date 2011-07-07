@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.naming.NamingException;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,15 +169,16 @@ public final class DatabaseUtil {
         }
     }
 
-    public static Map<String, String> getCatalogInfo(URI location) {
+    public static Map<String, String> getCatalogInfo(URI location) throws SQLException, NamingException, ClassNotFoundException {
         Connection connection = null;
         Map<String, String> rowMap = new HashMap<String, String>();
+        ResultSet rs = null;
         try {
             connection = getConnection();
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT * FROM catalogs WHERE location = ?");
             stmt.setString(1, location.toString());
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             if (rs.next()) {
@@ -186,17 +188,13 @@ public final class DatabaseUtil {
                     rowMap.put(columnName, value);
                 }
             }
-        }
-        catch (SQLException ex) {
-        }
-        catch (ClassNotFoundException ex) {
-        }
-        catch (NamingException ex) {
+            
         }
         finally {
+            try {if (rs != null) rs.close();} catch (Exception e) { /* ignore */ };
             SqlUtils.closeConnection(connection);
-            return rowMap;
         }
+        return rowMap;
     }
 
     public static List<Map<String, String>> getDatasetInfos(String id) {
