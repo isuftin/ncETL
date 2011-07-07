@@ -4,7 +4,7 @@ package thredds.catalog;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class DatasetHelper {
+public final class DatasetHelper {
     
     private DatasetHelper() {}
     
