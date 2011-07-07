@@ -161,7 +161,9 @@ public final class DatabaseUtil {
         Statement stmt = null;
         try {
             stmt = c.createStatement();
+            LOG.debug("Creating table: " + table + " ...");
             stmt.execute(CREATE_MAP.get(table));
+            LOG.debug("...done");
         }
         finally {
             stmt.close();
