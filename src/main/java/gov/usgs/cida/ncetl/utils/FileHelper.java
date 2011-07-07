@@ -15,7 +15,7 @@ public final class FileHelper {
     private static final String FILE_STORE = System.getProperty("user.home") + File.separator + ".ncetl" + File.separator;
     private static final String DATABASE_DIRECTORY = FILE_STORE + "database" + File.separator;
     private static final String DATASETS_DIRECTORY = FILE_STORE + "datasets" + File.separator;
-    private static final String DEFAULT_CATALOG_LOCATION = DATASETS_DIRECTORY + File.separator + "catalog.xml";
+    //private static final String DEFAULT_CATALOG_LOCATION = DATASETS_DIRECTORY + File.separator + "catalog.xml";
 
     private FileHelper(){}
     
