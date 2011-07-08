@@ -1,6 +1,7 @@
 Ext.define('ncETL.data.proxy.Spec', {
 	extend : 'Ext.data.proxy.Ajax',
 	alias : 'proxy.spec',
+	batchActions : false,
 	pageParam : undefined,
 	startParam : undefined,
 	limitParam : undefined,

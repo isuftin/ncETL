@@ -11,7 +11,7 @@ Ext.onReady(function() {
 		title : "Ingestors",
 		store : store,
 		forceFit : true,
-		plugins : [ new Ext.grid.plugin.RowEditing({}) ],
+		plugins : [ new Ext.grid.plugin.RowEditing({errorSummary:false}) ],
 		tbar : [ {
 			// iconCls: 'icon-user-add',
 			text : 'Add',
