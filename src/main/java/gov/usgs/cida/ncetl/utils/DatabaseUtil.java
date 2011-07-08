@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import ch.qos.logback.core.db.dialect.MySQLDialect;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.InputStream;
@@ -17,7 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
 import javax.naming.NamingException;
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -94,13 +97,15 @@ public final class DatabaseUtil {
                        "CREATE TABLE creator_join (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean)");
         
         // Read in DDL from file
-        InputStream  configFileInputStream = null;
+        InputStream configFileInputStream = null;
         try {
-            configFileInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.ddl");
+            configFileInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.sql");
             if (configFileInputStream != null) {
                 populateTablesDDL = readDDL(configFileInputStream);
             } else {
-               populateTablesDDL.add("Some Insert Statements Here"); 
+                List<String> defaultDDL = new ArrayList<String>();
+                defaultDDL.add("Some Insert Statements Here");
+                populateTablesDDL = defaultDDL;
             }
         } finally {
             IOUtils.closeQuietly(configFileInputStream);
@@ -153,13 +158,40 @@ public final class DatabaseUtil {
         scanner.useDelimiter(";");
         
         while (scanner.hasNext()) {
-            String ddlStatement = scanner.next().replaceAll("\n", "").trim();
+            String ddlStatement = scanner.next().replaceAll("\n", " ").trim();
             if (StringUtils.isNotBlank(ddlStatement)) {
                 result.add(ddlStatement);
             }
         }
         scanner.close();
         return result;
+    }
+    
+    public static void writeDDL(List<String> ddlStatements, Connection connection) throws ClassNotFoundException, NamingException {
+        Statement stmt = null;
+        try {
+            if (connection.getMetaData().supportsBatchUpdates()) {
+                stmt = connection.createStatement();
+                for (String ddlStatement : ddlStatements) {
+                    stmt.addBatch(ddlStatement);
+                }
+                stmt.executeBatch();
+            } else {
+                for (String ddlStatement : ddlStatements) {
+                    connection.createStatement().execute(ddlStatement);
+                }
+            }
+        } catch (SQLException sqlException) {
+            LOG.error("An error occurred while attempting to write  to the database. Will attempt to rollback changes.", sqlException);
+            try {
+                if (connection != null && connection.isValid(0)) {
+                    connection.rollback();
+                    LOG.info("Rolling back changes successful");
+                }
+            } catch (SQLException ex) { LOG.error("An error occurred while trying to roll back changes.", ex); }
+        } finally {
+            DbUtils.closeQuietly(stmt);
+        }
     }
     
     public static void shutdownDatabase() throws SQLException, NamingException,
@@ -170,12 +202,15 @@ public final class DatabaseUtil {
     public static boolean shutdownDatabase(String shutdown) throws SQLException, NamingException,
                                                  ClassNotFoundException {
         System.setProperty("dburl", shutdown);
+        Connection myConn = null;
         try {
-            Connection myConn = SqlUtils.getConnection(JNDI_CONTEXT);
+            myConn = SqlUtils.getConnection(JNDI_CONTEXT);
         }
         catch (SQLNonTransientConnectionException ex) {
             // Derby throws this if database succeeds in shutting down
             return true;
+        } finally {
+            SqlUtils.closeConnection(myConn);
         }
         return false;
     }
