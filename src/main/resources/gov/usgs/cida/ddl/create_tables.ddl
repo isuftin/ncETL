@@ -15,7 +15,16 @@ CREATE TABLE service_type
         
 CREATE TABLE controlled_vocabulary 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), vocab varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE date_type_enum 
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), token varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
         
+CREATE TABLE spatial_range_type
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE up_down_type
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(4), inserted boolean, updated boolean, PRIMARY KEY (id));
+
 CREATE TABLE global_config 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), base_dir varchar(512), thredds_dir varchar(512), PRIMARY KEY (id));
         
@@ -48,12 +57,40 @@ CREATE TABLE contributor
 
 CREATE TABLE creator 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB2_FK REFERENCES controlled_vocabulary, contact_url varchar(512), contact_email varchar(256), inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE date_type_formatted
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), format varchar(256), value varchar(256), date_type_enum_id INT CONSTRAINT DATEENUM1_FK REFERENCES date_type_enum, inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE project
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB3_FK REFERENCES controlled_vocabulary, inserted boolean, updated boolean, PRIMARY KEY (id));
         
+CREATE TABLE publisher 
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB4_FK REFERENCES controlled_vocabulary, contact_url varchar(512), contact_email varchar(256), inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE geospatial_coverage
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), dataset_id INT CONSTRAINT DATASET10_FK REFERENCES dataset, name controlled _vocabulary_id INT CONSTRAINT VOCAB5_FK REFERENCES controlled_vocabulary, name varchar(128), zpositive_id INT CONSTRAINT UPDOWN_FK REFERENCES up_down_type, inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE spatial_range
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), geospatial_coverage_id INT CONSTRAINT GSCOVER1_FK REFERENCES geospatial_coverage, spatial_range_type_id INT CONSTRAINT SRTYPE1_FK REFERENCES spatial_range_type, start DOUBLE, size DOUBLE, resolution DOUBLE, units varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
+
+CREATE TABLE time_coverage
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), dataset_id INT CONSTRAINT DATASET11_FK REFERENCES dataset, start_id INT CONSTRAINT DTF2_FK REFERENCES date_type_formatted, end_id INT CONSTRAINT DTF3_FK REFERENCES date_type_formatted, duration varchar(32), resolution varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
+
 CREATE TABLE keyword_join 
-    (dataset_id INT CONSTRAINT DATASET4_FK REFERENCES dataset, keyword_id INT CONSTRAINT KEYWORD_FK REFERENCES keyword, inserted boolean, updated boolean);
+    (dataset_id INT CONSTRAINT DATASET5_FK REFERENCES dataset, keyword_id INT CONSTRAINT KEYWORD_FK REFERENCES keyword, inserted boolean, updated boolean);
 
 CREATE TABLE contributor_join 
-    (dataset_id INT CONSTRAINT DATASET5_FK REFERENCES dataset, contributor_id INT CONSTRAINT CONTRIB_FK REFERENCES contributor, inserted boolean, updated boolean);
+    (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, contributor_id INT CONSTRAINT CONTRIB_FK REFERENCES contributor, inserted boolean, updated boolean);
         
 CREATE TABLE creator_join 
-    (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean);        
+    (dataset_id INT CONSTRAINT DATASET7_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean);
+
+CREATE TABLE project_join 
+    (dataset_id INT CONSTRAINT DATASET8_FK REFERENCES dataset, project_id INT CONSTRAINT CREATOR_FK REFERENCES project, inserted boolean, updated boolean);
+
+CREATE TABLE publisher_join 
+    (dataset_id INT CONSTRAINT DATASET9_FK REFERENCES dataset, publisher_id INT CONSTRAINT CREATOR_FK REFERENCES publisher, inserted boolean, updated boolean);
+
+CREATE TABLE date_join
+    (dataset_id INT CONSTRAINT DATASET12_FK REFERENCES dataset, date_type_formatted_id INT CONSTRAINT DTF1_FK REFERENCES date_type_formatted, inserted boolean, updated boolean);
+
