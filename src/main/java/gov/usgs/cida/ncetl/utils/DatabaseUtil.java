@@ -101,7 +101,7 @@ public final class DatabaseUtil {
         try {
             createTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/create_tables.ddl");
             if (createTablesInputStream != null) {
-                createTablesDDL = readDDL(createTablesInputStream);
+                createTablesDDL = readDxL(createTablesInputStream);
             } else {
                 List<String> defaultDDL = new ArrayList<String>();
                 defaultDDL.add("Some Insert Statements Here");
@@ -111,7 +111,7 @@ public final class DatabaseUtil {
             // Read in populate table DDL from file
             populateTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.dml");
             if (populateTablesInputStream != null) {
-                populateTablesDML = readDDL(populateTablesInputStream);
+                populateTablesDML = readDxL(populateTablesInputStream);
             } else {
                 List<String> defaultDDL = new ArrayList<String>();
                 defaultDDL.add("Some Insert Statements Here");
@@ -127,7 +127,7 @@ public final class DatabaseUtil {
         setupDatabase(DB_STARTUP, DB_CLASS_NAME);
     }
 
-    public static void setupDatabase(final String dbConnection, final String dbClassName) throws SQLException, NamingException, ClassNotFoundException {
+    public static void setupDatabase(final String dbConnection, final String dbClassName)  throws SQLException, NamingException, ClassNotFoundException {
         LOG.info("*************** Initializing database.");
 
         System.setProperty("dbuser", "");
@@ -139,25 +139,12 @@ public final class DatabaseUtil {
         // Create the tables
         try {
             myConn = getConnection();
-            if (myConn != null) {
-                myConn.setAutoCommit(false);
-                for (String createTableDDL : createTablesDDL) {
-                    try {
-                        myConn.createStatement().execute(createTableDDL);
-                    } catch (SQLException sqe) {
-                        if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS) {
-                            LOG.info(sqe.getMessage() + " -- Skipping");
-                        } else {
-                            myConn.rollback();
-                            throw sqe;
-                        }
-                    }
-                }
-                myConn.commit();
+            
+            // Create the tables
+            writeDDL(createTablesDDL, myConn);
                 
-                // Populate the tables
-//                writeDML(populateTablesDML, myConn);
-            }
+            // Populate the tables
+            // writeDML(populateTablesDML, myConn);
             
             
             
@@ -170,7 +157,14 @@ public final class DatabaseUtil {
         
     }
 
-    public static List<String> readDDL(InputStream input) {
+    /**
+     * Reads DDL/DML from an InputStream and converts it to a List of type String
+     * with each entry representing an atomic statement
+     * 
+     * @param input
+     * @return 
+     */
+    public static List<String> readDxL(InputStream input) {
         List<String> result = new ArrayList<String>();
         Scanner scanner = new Scanner(input);
         scanner.useDelimiter(";");
@@ -185,7 +179,24 @@ public final class DatabaseUtil {
         return result;
     }
     
-    public static void writeDML(List<String> ddlStatements, Connection connection) throws ClassNotFoundException, NamingException, SQLException {
+    public static void writeDDL(List<String> ddlStatements, Connection connection) throws SQLException {
+            connection.setAutoCommit(false);
+            for (String createTableDDL : createTablesDDL) {
+                try {
+                    connection.createStatement().execute(createTableDDL);
+                } catch (SQLException sqe) {
+                    if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS) {
+                        LOG.info(sqe.getMessage() + " -- Skipping");
+                    } else {
+                        connection.rollback();
+                        throw sqe;
+                    }
+                }
+            }
+            connection.commit();
+    }
+    
+    public static void writeDML(List<String> ddlStatements, Connection connection) throws SQLException {
         Statement stmt = null;
         connection.setAutoCommit(false);
         try {

@@ -70,7 +70,7 @@ public class DatabaseUtilTest {
     @Test
     public void testReadDDL() {
         ByteArrayInputStream bais = new ByteArrayInputStream("test one;test two;test three;".getBytes());
-        List<String> result = DatabaseUtil.readDDL(bais);
+        List<String> result = DatabaseUtil.readDxL(bais);
         assertThat(result.size(), is(equalTo(3)));
         assertThat(result.get(0), is(equalTo("test one")));
         assertThat(result.get(1), is(equalTo("test two")));
@@ -86,14 +86,40 @@ public class DatabaseUtilTest {
         connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
         
         List<String> ddl = new ArrayList<String>();
-        ddl.add("CREATE TABLE test_table (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k varchar(32), v varchar(32))");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 1','test v 1')");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 2','test v 2')");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 3','test v 3')");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 4','test v 4')");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 5','test v 5')");
-        ddl.add("INSERT INTO test_table (k, v) values ('test k 6','test v 6')");
-        DatabaseUtil.writeDML(ddl, connection);
+        ddl.add("CREATE TABLE test_table1 (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k1 varchar(32), v1 varchar(32))");
+        ddl.add("CREATE TABLE test_table2 (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k2 varchar(32), v2 varchar(32))");
+        ddl.add("CREATE TABLE test_table3 (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k3 varchar(32), v3 varchar(32))");
+        DatabaseUtil.writeDDL(ddl, connection);
+        
+        ResultSet rs = connection.createStatement().executeQuery("SELECT TABLENAME FROM SYS.SYSTABLES WHERE TABLENAME LIKE 'test_table%'");
+        
+        int rowCount = 1;
+        while (rs.next()) {
+            String tableName = rs.getString(1);
+            assertThat(tableName, is(equalTo("test_table" + rowCount)));
+            rowCount++;
+        }
+        
+        DatabaseUtil.closeConnection(connection);
+    }
+    
+    @Test 
+    public void testWriteDML() throws SQLException, NamingException, ClassNotFoundException {
+        String DB_FULL_LOCATION = DB_LOCATION + "test1.db";
+        createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
+        destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
+        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
+        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
+        
+        List<String> dml = new ArrayList<String>();
+        dml.add("CREATE TABLE test_table (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k varchar(32), v varchar(32))");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 1','test v 1')");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 2','test v 2')");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 3','test v 3')");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 4','test v 4')");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 5','test v 5')");
+        dml.add("INSERT INTO test_table (k, v) values ('test k 6','test v 6')");
+        DatabaseUtil.writeDML(dml, connection);
         
         ResultSet rs = connection.createStatement().executeQuery("SELECT k, v FROM TEST_TABLE");
         
