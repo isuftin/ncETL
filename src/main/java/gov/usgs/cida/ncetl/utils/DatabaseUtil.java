@@ -1,7 +1,5 @@
 package gov.usgs.cida.ncetl.utils;
 
-import com.google.common.collect.Maps;
-import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.InputStream;
 import java.net.URI;
@@ -17,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import javax.naming.NamingException;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
@@ -244,7 +241,7 @@ public final class DatabaseUtil {
             
         }
         finally {
-            try {if (rs != null) rs.close();} catch (Exception e) { /* ignore */ };
+            try {if (rs != null) {rs.close();}} catch (Exception e) { /* ignore */ };
             SqlUtils.closeConnection(connection);
         }
         return rowMap;
