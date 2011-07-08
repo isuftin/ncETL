@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import javax.naming.NamingException;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
@@ -93,7 +94,7 @@ public final class DatabaseUtil {
             writeDDL(createTablesDDL, myConn);
                 
             // Populate the tables
-            // writeDML(populateTablesDML, myConn);
+             writeDML(populateTablesDML, myConn);
             
             
             
@@ -102,8 +103,6 @@ public final class DatabaseUtil {
         finally {
             SqlUtils.closeConnection(myConn);
         }
-        
-        
     }
 
     /**
@@ -120,7 +119,7 @@ public final class DatabaseUtil {
         
         while (scanner.hasNext()) {
             String ddlStatement = scanner.next().replaceAll("\n", " ").trim();
-            if (StringUtils.isNotBlank(ddlStatement)) {
+            if (StringUtils.isNotBlank(ddlStatement) && !ddlStatement.startsWith("--")) {
                 result.add(ddlStatement);
             }
         }
@@ -145,6 +144,13 @@ public final class DatabaseUtil {
             connection.commit();
     }
     
+    /**
+     * Writes DML to lookup tables.
+     * 
+     * @param ddlStatements
+     * @param connection
+     * @throws SQLException 
+     */
     public static void writeDML(List<String> ddlStatements, Connection connection) throws SQLException {
         Statement stmt = null;
         connection.setAutoCommit(false);
@@ -167,6 +173,7 @@ public final class DatabaseUtil {
                 if (connection != null && connection.isValid(0)) {
                     connection.rollback();
                     LOG.info("Rolling back changes successful");
+                    throw sqlException;
                 }
             } catch (SQLException ex) { LOG.error("An error occurred while trying to roll back changes.", ex); }
         } finally {

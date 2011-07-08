@@ -1,3 +1,8 @@
+-- This is just a test file. However, if the contents of the file are changed in any way, the test that depends
+-- on this file will no longer run.
+
+-- Also, always end comments with ;
+
 CREATE TABLE collection_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id));
 
