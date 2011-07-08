@@ -2,6 +2,7 @@ package gov.usgs.cida.ncetl.utils;
 
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
+import java.io.InputStream;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -11,10 +12,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import javax.naming.NamingException;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,12 +37,10 @@ public final class DatabaseUtil {
     private static final String DB_STARTUP = DB_URL + ";create=true;";
     private static final String DB_SHUTDOWN = DB_URL + ";shutdown=true";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
-    private final static Map<String, String> CREATE_MAP;
+    private static final Map<String, String> CREATE_MAP;
+    private static List<String> populateTablesDDL = new ArrayList<String>();
 
-    private DatabaseUtil() {
-    }
-
-    ;
+    private DatabaseUtil() {}
 
     static {
         // TODO Switch to using ddl at some point
@@ -89,6 +92,19 @@ public final class DatabaseUtil {
                        "CREATE TABLE contributor_join (dataset_id INT CONSTRAINT DATASET5_FK REFERENCES dataset, contributor_id INT CONSTRAINT CONTRIB_FK REFERENCES contributor, inserted boolean, updated boolean)");
         CREATE_MAP.put("CREATOR_JOIN", 
                        "CREATE TABLE creator_join (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean)");
+        
+        // Read in DDL from file
+        InputStream  configFileInputStream = null;
+        try {
+            configFileInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.ddl");
+            if (configFileInputStream != null) {
+                populateTablesDDL = readDDL(configFileInputStream);
+            } else {
+               populateTablesDDL.add("Some Insert Statements Here"); 
+            }
+        } finally {
+            IOUtils.closeQuietly(configFileInputStream);
+        }
     }
 
     public static void setupDatabase() throws SQLException, NamingException,
@@ -131,6 +147,21 @@ public final class DatabaseUtil {
         }
     }
 
+    public static List<String> readDDL(InputStream input) {
+        List<String> result = new ArrayList<String>();
+        Scanner scanner = new Scanner(input);
+        scanner.useDelimiter(";");
+        
+        while (scanner.hasNext()) {
+            String ddlStatement = scanner.next().replaceAll("\n", "").trim();
+            if (StringUtils.isNotBlank(ddlStatement)) {
+                result.add(ddlStatement);
+            }
+        }
+        scanner.close();
+        return result;
+    }
+    
     public static void shutdownDatabase() throws SQLException, NamingException,
                                                  ClassNotFoundException {
         shutdownDatabase(DB_SHUTDOWN);

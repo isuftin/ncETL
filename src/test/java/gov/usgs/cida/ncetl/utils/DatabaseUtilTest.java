@@ -1,5 +1,7 @@
 package gov.usgs.cida.ncetl.utils;
 
+import java.util.List;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.io.File;
@@ -45,7 +47,10 @@ public class DatabaseUtilTest {
         if (connection != null && !connection.isClosed()) {
             DatabaseUtil.closeConnection(connection);
         }
-        DatabaseUtil.shutdownDatabase(destroyDb);
+        if (destroyDb != null) {
+            DatabaseUtil.shutdownDatabase(destroyDb);
+        }
+        
         FileUtils.forceDelete(new File(DB_LOCATION));
     }
 
@@ -59,6 +64,13 @@ public class DatabaseUtilTest {
         assertThat(connection.isClosed(), is(false));
     }
     
+    
+    @Test
+    public void testReadDDL() {
+        ByteArrayInputStream bais = new ByteArrayInputStream("test one;test two;test three;".getBytes());
+        List<String> result = DatabaseUtil.readDDL(bais);
+        assertThat(result.size(), is(equalTo(3)));
+    }
 //    @Test
 //    public void testSetupDatabaseConnectionWithIncorrectJNDIContext() throws SQLException, NamingException, ClassNotFoundException {
 //        String DB_FULL_LOCATION = DB_LOCATION + "test2.db";
