@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package thredds.catalog;
 
 import java.net.URI;
@@ -23,7 +19,6 @@ public class InvCatalogModifier {
         }
         this.cat = (InvCatalogImpl)cat;
     }
-
    
     public void setBaseURI(URI baseURI) {
         cat.baseURI = baseURI;

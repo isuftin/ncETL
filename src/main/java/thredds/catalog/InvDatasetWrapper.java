@@ -14,13 +14,13 @@ import ucar.nc2.constants.FeatureType;
  * To sum up, there are smells here, but I didn't bother to remedy them.
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class InvDatasetBuilder {
+public class InvDatasetWrapper {
 
     /** dataset to build up */
     private InvDatasetImpl dataset; //= new InvDatasetImpl(parent, name);
     private boolean built = false;
 
-    public InvDatasetBuilder(String name, String id) {
+    public InvDatasetWrapper(String name, String id) {
         dataset = new InvDatasetImpl(null, name);
         dataset.id = id;
     }
@@ -29,27 +29,27 @@ public class InvDatasetBuilder {
      * Copy constructor for existing dataset
      * @param from dataset to copy
      */
-    public InvDatasetBuilder(InvDataset from) {
+    public InvDatasetWrapper(InvDataset from) {
         // I'm worried about this, we may need to cut this constructor out
         dataset = new InvDatasetImpl((InvDatasetImpl)from);
     }
 
-    public InvDatasetBuilder authorityName(String authorityName) {
+    public InvDatasetWrapper authorityName(String authorityName) {
         dataset.authorityName = authorityName;
         return this;
     }
 
-    public InvDatasetBuilder access(String serviceName, String urlPath,
+    public InvDatasetWrapper access(String serviceName, String urlPath,
                                     String dataFormat) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public InvDatasetBuilder collectionType(String ct) {
+    public InvDatasetWrapper collectionType(String ct) {
         dataset.collectionType = CollectionType.getType(ct);
         return this;
     }
 
-    public InvDatasetBuilder contributor(String name, String role) {
+    public InvDatasetWrapper contributor(String name, String role) {
         Contributor contrib = new Contributor(name, role);
         if (dataset.contributors == null) {
             dataset.contributors = new LinkedList<Contributor>();
@@ -67,7 +67,7 @@ public class InvDatasetBuilder {
      * @param vocab (optional) controlledVocabulary
      * @return 
      */
-    public InvDatasetBuilder creator(String name, String url, String email,
+    public InvDatasetWrapper creator(String name, String url, String email,
                                      String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
@@ -78,17 +78,17 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder dataFormatType(String dataFormatType) {
+    public InvDatasetWrapper dataFormatType(String dataFormatType) {
         dataset.dataFormatType = DataFormatType.getType(dataFormatType);
         return this;
     }
 
-    public InvDatasetBuilder dataType(String dataType) {
+    public InvDatasetWrapper dataType(String dataType) {
         dataset.dataType = FeatureType.getType(dataType);
         return this;
     }
 
-    public InvDatasetBuilder documentation(String type, String text) {
+    public InvDatasetWrapper documentation(String type, String text) {
         InvDocumentation doc = new InvDocumentation(null, null, null, type, text);
         if (dataset.docs == null) {
             dataset.docs = new LinkedList<InvDocumentation>();
@@ -97,7 +97,7 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder xlinkDocumentation(String href, String title) {
+    public InvDatasetWrapper xlinkDocumentation(String href, String title) {
         InvDocumentation doc = new InvDocumentation(href, null, title, null,
                                                     null);
         if (dataset.docs == null) {
@@ -107,7 +107,7 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder keyword(String keyword, String vocab) {
+    public InvDatasetWrapper keyword(String keyword, String vocab) {
         Vocab vocabulary = new Vocab(keyword, vocab);
         if (dataset.keywords == null) {
             dataset.keywords = new LinkedList<Vocab>();
@@ -116,11 +116,11 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder metadata() {
+    public InvDatasetWrapper metadata() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public InvDatasetBuilder project(String project, String vocab) {
+    public InvDatasetWrapper project(String project, String vocab) {
         Vocab vocabulary = new Vocab(project, vocab);
         if (dataset.projects == null) {
             dataset.projects = new LinkedList<Vocab>();
@@ -129,7 +129,7 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder property(String key, String value) {
+    public InvDatasetWrapper property(String key, String value) {
         InvProperty prop = new InvProperty(key, value);
         if (dataset.properties == null) {
             dataset.properties = new LinkedList<InvProperty>();
@@ -138,7 +138,7 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder publisher(String name, String url, String email,
+    public InvDatasetWrapper publisher(String name, String url, String email,
                                        String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
@@ -149,7 +149,7 @@ public class InvDatasetBuilder {
         return this;
     }
 
-    public InvDatasetBuilder restrictAccess() {
+    public InvDatasetWrapper restrictAccess() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -158,20 +158,20 @@ public class InvDatasetBuilder {
      * @param name serviceName
      * @return 
      */
-    public InvDatasetBuilder service(String name) {
+    public InvDatasetWrapper service(String name) {
         dataset.setServiceName(name);
         return this;
     }
 
-    public InvDatasetBuilder geospatialCoverage() {
+    public InvDatasetWrapper geospatialCoverage() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public InvDatasetBuilder timeCoverage() {
+    public InvDatasetWrapper timeCoverage() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
     
-    public InvDatasetBuilder variable() {
+    public InvDatasetWrapper variable() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

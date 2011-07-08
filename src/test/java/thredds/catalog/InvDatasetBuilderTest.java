@@ -15,7 +15,7 @@ public class InvDatasetBuilderTest {
 
     @Test
     public void testInvDatasetBuilder() {
-        InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
+        InvDatasetWrapper testBuilder = new InvDatasetWrapper("testName", "testID");
         InvDataset test = testBuilder.authorityName("testAuthorityName")
                 .collectionType("testCollectionType")
                 .contributor("testContributorName", "testContributorRole")
@@ -82,7 +82,7 @@ public class InvDatasetBuilderTest {
     
     @Test
     public void testInvDatasetBuilderWithAlreadyBuiltFlag() {
-        InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
+        InvDatasetWrapper testBuilder = new InvDatasetWrapper("testName", "testID");
         InvDataset test = testBuilder.build();
         try {
             test = testBuilder.build();
@@ -93,19 +93,19 @@ public class InvDatasetBuilderTest {
     
 //    @Test 
 //    public void testInvDatasetBuilderCopierConstructor() {
-//        InvDatasetBuilder testBuilderOriginal = new InvDatasetBuilder("testName", "testID");
+//        InvDatasetWrapper testBuilderOriginal = new InvDatasetWrapper("testName", "testID");
 //        InvDataset original = testBuilderOriginal
 //                .authorityName("testAuthorityName")
 //                .build();
 //        
-//        InvDatasetBuilder testBuilderCopier = new InvDatasetBuilder(original);
+//        InvDatasetWrapper testBuilderCopier = new InvDatasetWrapper(original);
 //        InvDataset copy = testBuilderCopier.build();
 //        assertThat(copy.authorityName, is(equalTo("testAuthorityName")));
 //    }
     
     @Test
     public void testNotYetImplementedFunctions() {
-        InvDatasetBuilder testBuilder = new InvDatasetBuilder("testName", "testID");
+        InvDatasetWrapper testBuilder = new InvDatasetWrapper("testName", "testID");
         try {
             testBuilder.access("", "", "");
         } catch (Exception e) {

@@ -125,7 +125,7 @@ public class CatalogHelperTest {
     public void testAddDataset() throws URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + tempDir + CatalogHelper.getDefaultCatalogFilename());
         InvCatalogImpl cat = CatalogHelper.createCatalogImpl(knownName, uri);
-        InvDatasetBuilder ds = new InvDatasetBuilder("test", "id");
+        InvDatasetWrapper ds = new InvDatasetWrapper("test", "id");
         CatalogHelper.addDataset(cat, ds.build());
         InvDataset test = cat.findDatasetByID("id");
         assertThat(test, is(notNullValue()));
@@ -143,7 +143,7 @@ public class CatalogHelperTest {
     public void testRemoveDataset() throws URISyntaxException, FileNotFoundException, IOException {
         URI uri = new URI("file://" + tempDir + CatalogHelper.getDefaultCatalogFilename());
         InvCatalogImpl cat = CatalogHelper.createCatalogImpl(knownName, uri);
-        InvDatasetBuilder ds = new InvDatasetBuilder("test", "id");
+        InvDatasetWrapper ds = new InvDatasetWrapper("test", "id");
         CatalogHelper.addDataset(cat, ds.build());
         InvDataset test = cat.findDatasetByID("id");
         assertThat(test, is(notNullValue()));

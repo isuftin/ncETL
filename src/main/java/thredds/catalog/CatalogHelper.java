@@ -109,7 +109,7 @@ public final class CatalogHelper {
     
     public static void removeDataset(InvCatalog cat, String datasetId) {
         InvCatalogImpl concreteCat = (InvCatalogImpl)cat;
-        InvDatasetImpl ds = (InvDatasetImpl)new InvDatasetBuilder("blah", datasetId).build();
+        InvDatasetImpl ds = (InvDatasetImpl)new InvDatasetWrapper("blah", datasetId).build();
         concreteCat.removeDatasetByID(ds);
     }
     

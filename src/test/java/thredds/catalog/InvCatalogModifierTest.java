@@ -69,7 +69,7 @@ public class InvCatalogModifierTest {
     @Test
     public void testSetDatasets() {
         List<InvDataset> datasets = Lists.asList(
-                new InvDatasetBuilder("test", "id").build(), new InvDataset[0]);
+                new InvDatasetWrapper("test", "id").build(), new InvDataset[0]);
         InvCatalogModifier instance = new InvCatalogModifier(catalog);
         instance.setDatasets(datasets);
         assertThat(catalog.getDatasets().size(), is(not(equalTo(0))));
