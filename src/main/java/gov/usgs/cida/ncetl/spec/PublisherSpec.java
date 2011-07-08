@@ -14,25 +14,27 @@ import java.util.Map;
 
 /**
  *
- * @author Ivan Suftin <isuftin@usgs.gov>
+ * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class CollectionTypeSpec extends Spec {
+public class PublisherSpec extends Spec {
+
     private static final long serialVersionUID = 1L;
-    //id int, type varchar(32), inserted boolean, updated boolean)
-    private static final String TABLE_NAME = "collection_types";
+    private static final String TABLE_NAME = "publisher";
     private static final String ID = "id";
-    private static final String TYPE = "type";
+    private static final String NAME = "name";
+    private static final String CONTACT_URL = "contact_url";
+    private static final String CONTACT_EMAIL = "contact_email";
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
-    
+
     @Override
     public boolean setupAccess_DELETE() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean setupAccess_INSERT() {
-        return false;
+        return true;
     }
 
     @Override
@@ -42,14 +44,16 @@ public class CollectionTypeSpec extends Spec {
 
     @Override
     public boolean setupAccess_UPDATE() {
-        return false;
+        return true;
     }
 
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(TYPE, TYPE),
+                    new ColumnMapping(NAME, NAME),
+                    new ColumnMapping(CONTACT_URL, CONTACT_URL),
+                    new ColumnMapping(CONTACT_EMAIL, CONTACT_EMAIL),
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
@@ -68,11 +72,21 @@ public class CollectionTypeSpec extends Spec {
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
-            new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
-        };
+                    new SearchMapping(ID, ID, null, WhereClauseType.equals, null,
+                                      null, null),
+                    new SearchMapping("s_" + NAME, NAME, NAME,
+                                      WhereClauseType.equals, null, null, null),
+                    new SearchMapping("s_" + CONTACT_URL, CONTACT_URL,
+                                      CONTACT_URL, WhereClauseType.equals, null,
+                                      null, null),
+                    new SearchMapping("s_" + CONTACT_EMAIL, CONTACT_EMAIL,
+                                      CONTACT_EMAIL, WhereClauseType.equals,
+                                      null, null, null),
+                    new SearchMapping("s_" + INSERTED, INSERTED, INSERTED,
+                                      WhereClauseType.equals, null, null, null),
+                    new SearchMapping("s_" + UPDATED, UPDATED, UPDATED,
+                                      WhereClauseType.equals, null, null, null)
+                };
     }
 
     @Override
@@ -83,23 +97,23 @@ public class CollectionTypeSpec extends Spec {
     @Override
     public ResultSet getUpdatedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new CollectionTypeSpec();
+        Spec spec = new PublisherSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
-        params.put("s_" + UPDATED, new String[] {"true"});
+        params.put("s_" + UPDATED, new String[] { "true" });
         Spec.loadParameters(spec, params);
         List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
-        
+
         params = new HashMap<String, String[]>();
-        params.put(UPDATED, new String[] {"false"});
+        params.put(UPDATED, new String[] { "false" });
         params.put(ID, names.toArray(new String[0]));
-        spec = new CollectionTypeSpec();
+        spec = new PublisherSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
-        
-        spec = new CollectionTypeSpec();
+
+        spec = new PublisherSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
-        
+
         result = Spec.getResultSet(spec, con);
         return result;
     }
@@ -107,26 +121,25 @@ public class CollectionTypeSpec extends Spec {
     @Override
     public ResultSet getInsertedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new CollectionTypeSpec();
+        Spec spec = new PublisherSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
-        params.put("s_" + INSERTED, new String[] {"true"});
+        params.put("s_" + INSERTED, new String[] { "true" });
         Spec.loadParameters(spec, params);
         List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
-        
+
         params = new HashMap<String, String[]>();
-        params.put(INSERTED, new String[] {"false"});
+        params.put(INSERTED, new String[] { "false" });
         params.put(ID, names.toArray(new String[0]));
-        spec = new CollectionTypeSpec();
+        spec = new PublisherSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
-        
-        spec = new CollectionTypeSpec();
+
+        spec = new PublisherSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         Spec.loadParameters(spec, params);
-        
+
         result = Spec.getResultSet(spec, con);
         return result;
     }
-    
 }

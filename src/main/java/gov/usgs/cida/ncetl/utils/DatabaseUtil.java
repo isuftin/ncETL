@@ -1,6 +1,7 @@
 package gov.usgs.cida.ncetl.utils;
 
 import com.google.common.collect.Maps;
+import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.InputStream;
 import java.net.URI;

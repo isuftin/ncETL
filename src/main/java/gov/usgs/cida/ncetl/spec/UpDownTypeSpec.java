@@ -14,12 +14,12 @@ import java.util.Map;
 
 /**
  *
- * @author Ivan Suftin <isuftin@usgs.gov>
+ * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class CollectionTypeSpec extends Spec {
+public class UpDownTypeSpec extends Spec {
     private static final long serialVersionUID = 1L;
-    //id int, type varchar(32), inserted boolean, updated boolean)
-    private static final String TABLE_NAME = "collection_types";
+    
+    private static final String TABLE_NAME = "up_down_type";
     private static final String ID = "id";
     private static final String TYPE = "type";
     private static final String INSERTED = "inserted";
@@ -83,7 +83,7 @@ public class CollectionTypeSpec extends Spec {
     @Override
     public ResultSet getUpdatedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new CollectionTypeSpec();
+        Spec spec = new UpDownTypeSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + UPDATED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -92,11 +92,11 @@ public class CollectionTypeSpec extends Spec {
         params = new HashMap<String, String[]>();
         params.put(UPDATED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new CollectionTypeSpec();
+        spec = new UpDownTypeSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new CollectionTypeSpec();
+        spec = new UpDownTypeSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         
@@ -107,7 +107,7 @@ public class CollectionTypeSpec extends Spec {
     @Override
     public ResultSet getInsertedRows(Connection con) throws SQLException {
         ResultSet result = null;
-        Spec spec = new CollectionTypeSpec();
+        Spec spec = new UpDownTypeSpec();
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + INSERTED, new String[] {"true"});
         Spec.loadParameters(spec, params);
@@ -116,11 +116,11 @@ public class CollectionTypeSpec extends Spec {
         params = new HashMap<String, String[]>();
         params.put(INSERTED, new String[] {"false"});
         params.put(ID, names.toArray(new String[0]));
-        spec = new CollectionTypeSpec();
+        spec = new UpDownTypeSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
-        spec = new CollectionTypeSpec();
+        spec = new UpDownTypeSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
         Spec.loadParameters(spec, params);
@@ -128,5 +128,4 @@ public class CollectionTypeSpec extends Spec {
         result = Spec.getResultSet(spec, con);
         return result;
     }
-    
 }
