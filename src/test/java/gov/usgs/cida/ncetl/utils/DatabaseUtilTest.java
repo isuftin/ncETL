@@ -93,7 +93,7 @@ public class DatabaseUtilTest {
         ddl.add("INSERT INTO test_table (k, v) values ('test k 4','test v 4')");
         ddl.add("INSERT INTO test_table (k, v) values ('test k 5','test v 5')");
         ddl.add("INSERT INTO test_table (k, v) values ('test k 6','test v 6')");
-        DatabaseUtil.writeDDL(ddl, connection);
+        DatabaseUtil.writeDML(ddl, connection);
         
         ResultSet rs = connection.createStatement().executeQuery("SELECT k, v FROM TEST_TABLE");
         

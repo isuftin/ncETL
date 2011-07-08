@@ -1,12 +1,10 @@
 package gov.usgs.cida.ncetl.utils;
 
-import ch.qos.logback.core.db.dialect.MySQLDialect;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.InputStream;
 import java.net.URI;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -18,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
 import javax.naming.NamingException;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
@@ -33,6 +30,7 @@ import org.slf4j.LoggerFactory;
 public final class DatabaseUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseUtil.class);
+    private static final int TABLE_OR_VIEW_ALREADY_EXISTS = 20000;
     private static final String DB_NAME = "NCETL";
     private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -41,7 +39,8 @@ public final class DatabaseUtil {
     private static final String DB_SHUTDOWN = DB_URL + ";shutdown=true";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
     private static final Map<String, String> CREATE_MAP;
-    private static List<String> populateTablesDDL = new ArrayList<String>();
+    private static List<String> createTablesDDL = new ArrayList<String>();
+    private static List<String> populateTablesDML = new ArrayList<String>();
 
     private DatabaseUtil() {}
 
@@ -96,30 +95,39 @@ public final class DatabaseUtil {
         CREATE_MAP.put("CREATOR_JOIN", 
                        "CREATE TABLE creator_join (dataset_id INT CONSTRAINT DATASET6_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean, updated boolean)");
         
-        // Read in DDL from file
-        InputStream configFileInputStream = null;
+        InputStream createTablesInputStream = null;
+        InputStream populateTablesInputStream = null;
+        // Read in populate table DDL from file
         try {
-            configFileInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.sql");
-            if (configFileInputStream != null) {
-                populateTablesDDL = readDDL(configFileInputStream);
+            createTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/create_tables.ddl");
+            if (createTablesInputStream != null) {
+                createTablesDDL = readDDL(createTablesInputStream);
             } else {
                 List<String> defaultDDL = new ArrayList<String>();
                 defaultDDL.add("Some Insert Statements Here");
-                populateTablesDDL = defaultDDL;
+                createTablesDDL = defaultDDL;
+            }
+
+            // Read in populate table DDL from file
+            populateTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/populate_tables.dml");
+            if (populateTablesInputStream != null) {
+                populateTablesDML = readDDL(populateTablesInputStream);
+            } else {
+                List<String> defaultDDL = new ArrayList<String>();
+                defaultDDL.add("Some Insert Statements Here");
+                populateTablesDML = defaultDDL;
             }
         } finally {
-            IOUtils.closeQuietly(configFileInputStream);
+            IOUtils.closeQuietly(populateTablesInputStream);
+            IOUtils.closeQuietly(createTablesInputStream);
         }
     }
 
-    public static void setupDatabase() throws SQLException, NamingException,
-                                              ClassNotFoundException {
+    public static void setupDatabase() throws SQLException, NamingException, ClassNotFoundException {
         setupDatabase(DB_STARTUP, DB_CLASS_NAME);
     }
 
-    public static void setupDatabase(final String dbConnection,
-                                        final String dbClassName) throws
-            SQLException, NamingException, ClassNotFoundException {
+    public static void setupDatabase(final String dbConnection, final String dbClassName) throws SQLException, NamingException, ClassNotFoundException {
         LOG.info("*************** Initializing database.");
 
         System.setProperty("dbuser", "");
@@ -128,28 +136,38 @@ public final class DatabaseUtil {
         System.setProperty("dbclass", dbClassName);
 
         Connection myConn = null;
+        // Create the tables
         try {
             myConn = getConnection();
             if (myConn != null) {
-                DatabaseMetaData dbMeta = myConn.getMetaData();
-                ResultSet rs = null;
-                try {
-                    for (String table : CREATE_MAP.keySet()) {
-                        rs = dbMeta.getTables(null, "APP", table, null);
-                        if (!rs.next()) {
-                            createTable(myConn, table);
+                myConn.setAutoCommit(false);
+                for (String createTableDDL : createTablesDDL) {
+                    try {
+                        myConn.createStatement().execute(createTableDDL);
+                    } catch (SQLException sqe) {
+                        if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS) {
+                            LOG.info(sqe.getMessage() + " -- Skipping");
+                        } else {
+                            myConn.rollback();
+                            throw sqe;
                         }
                     }
                 }
-                finally {
-                    rs.close();
-                }
+                myConn.commit();
+                
+                // Populate the tables
+//                writeDML(populateTablesDML, myConn);
             }
+            
+            
+            
             LOG.info("*************** Database has been initialized.");
         }
         finally {
             SqlUtils.closeConnection(myConn);
         }
+        
+        
     }
 
     public static List<String> readDDL(InputStream input) {
@@ -167,8 +185,9 @@ public final class DatabaseUtil {
         return result;
     }
     
-    public static void writeDDL(List<String> ddlStatements, Connection connection) throws ClassNotFoundException, NamingException {
+    public static void writeDML(List<String> ddlStatements, Connection connection) throws ClassNotFoundException, NamingException, SQLException {
         Statement stmt = null;
+        connection.setAutoCommit(false);
         try {
             if (connection.getMetaData().supportsBatchUpdates()) {
                 stmt = connection.createStatement();
@@ -181,6 +200,7 @@ public final class DatabaseUtil {
                     connection.createStatement().execute(ddlStatement);
                 }
             }
+            connection.commit();
         } catch (SQLException sqlException) {
             LOG.error("An error occurred while attempting to write  to the database. Will attempt to rollback changes.", sqlException);
             try {
