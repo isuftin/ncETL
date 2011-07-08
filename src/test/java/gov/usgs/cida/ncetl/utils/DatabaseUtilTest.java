@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +68,19 @@ public class DatabaseUtilTest {
     }
     
     
+    
     @Test
-    public void testReadDDL() {
+    public void testReadDxLUsingFileAsInput() {
+        InputStream createTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/test/create_tables.ddl");
+        List<String> result = DatabaseUtil.readDxL(createTablesInputStream);
+
+        assertThat(result.size(), is(not(equalTo(0))));
+        assertThat(result.size(), is(equalTo(20)));
+        assertThat(result.get(0), is(equalTo("CREATE TABLE collection_type      (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))")));
+    }
+    
+    @Test
+    public void testReadDxLUsingStringAsInput() {
         ByteArrayInputStream bais = new ByteArrayInputStream("test one;test two;test three;".getBytes());
         List<String> result = DatabaseUtil.readDxL(bais);
         assertThat(result.size(), is(equalTo(3)));
