@@ -20,6 +20,7 @@ public class IngestControlService extends WebService {
     public IngestControlService() {
         this.enableCaching = false;
         this.specMapping.put("default", IngestControlSpec.class);
+        this.specMapping.put("ingest", IngestControlSpec.class);
     }
 
     @Override

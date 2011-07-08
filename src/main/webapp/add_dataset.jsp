@@ -4,18 +4,13 @@
 
 <html>
     <head>
-        <%@include file="template/head.jspf" %>
-		<%@include file="template/css.jspf" %>
-		<%@include file="template/scripts.jspf" %>
-
-        <script type="text/javascript" language="javascript" src="js/ext/RowEditor.js"></script>
-        <script type="text/javascript" language="javascript" src="js/ext/CheckColumn.js"></script>
-        <script type="text/javascript" language="javascript" src="js/ext/TableGrid.js"></script>
-        <script type="text/javascript" language="javascript" src="js/ui/ingest.js"></script>
+        <jsp:include page="template/head.jsp"></jsp:include>
+		<jsp:include page="template/css.jsp"></jsp:include>
+		<jsp:include page="template/scripts.jsp">
+			<jsp:param value="js/ui/catalog.js" name="UIScriptFile"/>
+		</jsp:include>
 		
 		<script type="text/javascript">
-            // Path to the blank image should point to a valid location on your server
-            Ext.BLANK_IMAGE_URL = 'images/s.gif';
 
             Ext.onReady(function(){
                 var main = new Ext.Panel({

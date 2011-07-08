@@ -86,7 +86,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IngestControlService</servlet-name>
-        <url-pattern>/service/ingest/*</url-pattern>
+        <url-pattern>/service/task/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RandomNumberServlet</servlet-name>

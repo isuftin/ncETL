@@ -10,13 +10,12 @@
 
 <html>
     <head>
-        <%@include file="template/head.jspf" %>
-		<%@include file="template/css.jspf" %>
-		<%@include file="template/scripts.jspf" %>
+        <jsp:include page="template/head.jsp"></jsp:include>
+		<jsp:include page="template/css.jsp"></jsp:include>
+		<jsp:include page="template/scripts.jsp">
+			<jsp:param value="js/ui/decorate.js" name="UIScriptFile"/>
+		</jsp:include>
 
-		<script type="text/javascript" language="JavaScript" src="js/ext/RowEditor.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ext/CheckColumn.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ext/TableGrid.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ext/XmlTreeLoader.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/decorate.js"></script>
 		<script type="text/javascript" language="JavaScript" src="js/ui/wrapper.js"></script>

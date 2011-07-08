@@ -31,8 +31,6 @@
     </head>
     <body>
         <script type="text/javascript">
-			// Path to the blank image should point to a valid location on your server
-			Ext.BLANK_IMAGE_URL = 'images/s.gif';
 
 			Ext.onReady(function(){
 				

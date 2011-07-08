@@ -19,7 +19,7 @@ import java.util.Map;
 public class IngestControlSpec extends Spec {
     private static final long serialVersionUID = 1L;
     
-    private static final String TABLE_NAME = "ingests";
+    private static final String TABLE_NAME = "ingest";
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String FTP_LOCATION = "ftpLocation";
@@ -123,6 +123,7 @@ public class IngestControlSpec extends Spec {
         spec = new IngestControlSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[0]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

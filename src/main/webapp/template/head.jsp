@@ -1,4 +1,3 @@
-<%@ page pageEncoding="UTF-8" %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ncETL</title>
 <meta name="title" content="ncETL">

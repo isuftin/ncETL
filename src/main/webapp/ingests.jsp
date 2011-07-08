@@ -4,22 +4,11 @@
 
 <html>
     <head>
-        <%@include file="template/head.jspf" %>
-		<%@include file="template/css.jspf" %>
-		<%@include file="template/scripts.jspf" %>
-
-		<script type="text/javascript" language="JavaScript" src="js/components/RowEditor.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/components/CheckColumn.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/components/TableGrid.js"></script>
-		<script type="text/javascript" language="JavaScript" src="js/ui/ingest.js"></script>
+        <jsp:include page="template/head.jsp"></jsp:include>
+		<jsp:include page="template/css.jsp"></jsp:include>
+		<jsp:include page="template/scripts.jsp">
+			<jsp:param value="js/ui/ingest.js" name="UIScriptFile"/>
+		</jsp:include>
     </head>
-    <body>
-		<div id="ingest" class="x-hidden"></div>
-		<div id="verify" class="x-hidden"></div>
-		<div id="cleanup" class="x-hidden"></div>
-		<div id="decorate" class="x-hidden"></div>
-		<div id="publish" class="x-hidden"></div>
-
-		<div id="decorateContent" class="x-hidden"></div>
-    </body>
+    <body></body>
 </html>
