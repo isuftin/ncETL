@@ -20,7 +20,7 @@ Ext.onReady(function() {
 					name : '',
 					ftpLocation : '',
 					rescanEvery : '300000',
-					filePattern : '.*',
+					fileRegex : '.*',
 					successDate : '2011-01-01',
 					successTime : '00:00:00',
 					username : '',
