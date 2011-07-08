@@ -1,10 +1,82 @@
-INSERT INTO PROPERTY (DATASET_ID, NAME, VALUE, INSERTED, UPDATED)
-    VALUES  (1,'TEST_NAME','TEST_VALUE',FALSE,FALSE),
-            (2,'TEST_NAME_2','TEST_VALUE_2',FALSE,FALSE);
+INSERT INTO collection_type (type)
+    VALUES  ('TimeSeries'),
+            ('Stations'),
+            ('ForecastModelRuns');
 
-INSERT INTO PROPERTY (DATASET_ID, NAME, VALUE, INSERTED, UPDATED)
-    VALUES  (3,'TEST_NAME_3','TEST_VALUE_3',FALSE,FALSE),
-            (4,'TEST_NAME_4','TEST_VALUE_4',FALSE,FALSE);
+INSERT INTO data_type (type)
+    VALUES  ('Grid'),
+            ('Image'),
+            ('Point'),
+            ('Radial'),
+            ('Station'),
+            ('Swath'),
+            ('Trajectory');
 
+INSERT INTO data_format (type)
+    VALUES  ('BUFR'),
+            ('ESML'),
+            ('GEMPAK'),
+            ('GINI'),
+            ('GRIB-1'),
+            ('GRIB-2'),
+            ('HDF4'),
+            ('HDF5'),
+            ('NcML'),
+            ('NetCDF'),
+            ('NEXRAD2'),
+            ('NIDS'),
+            ('image/gif'),
+            ('image/jpeg'),
+            ('image/tiff'),
+            ('text/plain'),
+            ('text/tab-separated-values'),
+            ('text/xml'),
+            ('video/mpeg'),
+            ('video/quicktime'),
+            ('video/realtime');
 
-    
+-- not exclusive, next iteration maybe look into not dropping table;
+INSERT INTO documentation_type (type)
+    VALUES  ('funding'),
+            ('history'),
+            ('processing_level'),
+            ('rights'),
+            ('summary');
+
+INSERT INTO service_type (type)
+    VALUES  ('ADDE'),
+            ('OpenDAP'),
+            ('OpenDAP-G'),
+            ('HTTPServer'),
+            ('FTP'),
+            ('GridFTP'),
+            ('File'),
+            ('NetcdfServer'),
+            ('LAS'),
+            ('WMS'),
+            ('WFS'),
+            ('WCS'),
+            ('WSDL'),
+            ('WebForm'),
+            ('Catalog'),
+            ('QueryCapability'),
+            ('Resolver'),
+            ('Compound');
+
+-- not exclusive, should allow user to add and not drop these
+INSERT INTO date_type_enum (token)
+    VALUES  ('created'),
+            ('modified'),
+            ('valid'),
+            ('issued'),
+            ('available'),
+            ('metadataCreated');
+
+INSERT INTO spation_range_type (type)
+    VALUES  ('northsouth'),
+            ('eastwest'),
+            ('updown');
+            
+INSERT INTO up_down_type (type)
+    VALUES  ('up'),
+            ('down');
