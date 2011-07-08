@@ -1,6 +1,5 @@
 package gov.usgs.cida.ncetl.utils;
 
-import org.apache.commons.dbutils.BasicRowProcessor;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +8,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Map;
 import javax.naming.NamingException;
-import org.apache.commons.dbutils.BeanProcessor;
-import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -99,7 +95,7 @@ public class DatabaseUtilTest {
         ddl.add("INSERT INTO test_table (k, v) values ('test k 6','test v 6')");
         DatabaseUtil.writeDDL(ddl, connection);
         
-        ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM TEST_TABLE");
+        ResultSet rs = connection.createStatement().executeQuery("SELECT k, v FROM TEST_TABLE");
         
         int rowCount = 1;
         while (rs.next()) {
