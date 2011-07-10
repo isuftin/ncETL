@@ -4,6 +4,9 @@
 -- multiline comment
 -- ;
 
+-- All comments whether single or multi-line
+-- must end in ;
+
 -- Lookup tables, be sure to drop the table before creating it
 DROP TABLE collection_type;
 CREATE TABLE collection_type 

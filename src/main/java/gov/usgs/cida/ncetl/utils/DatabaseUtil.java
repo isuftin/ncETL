@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 public final class DatabaseUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseUtil.class);
-    private static final int TABLE_OR_VIEW_ALREADY_EXISTS = 20000;
+    private static final int TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE = 20000;
     private static final String DB_NAME = "NCETL";
     private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -75,7 +75,7 @@ public final class DatabaseUtil {
         setupDatabase(DB_STARTUP, DB_CLASS_NAME);
     }
 
-    public static void setupDatabase(final String dbConnection, final String dbClassName)  throws SQLException, NamingException, ClassNotFoundException {
+    public static void setupDatabase(final String dbConnection, final String dbClassName) throws SQLException, NamingException, ClassNotFoundException {
         LOG.info("*************** Initializing database.");
 
         System.setProperty("dbuser", "");
@@ -87,18 +87,25 @@ public final class DatabaseUtil {
         // Create the tables
         try {
             myConn = getConnection();
-            
+
             // Create the tables
-            writeDDL(createTablesDDL, myConn);
-                
+            try {
+                writeDDL(createTablesDDL, myConn);
+            } catch (SQLException sqe) {
+                LOG.error("Could not write DDL to database. Skipping DML writing.", sqe);
+                throw sqe;
+            }
+
             // Populate the tables
-             writeDML(populateTablesDML, myConn);
-            
-            
-            
+            try {
+                writeDML(populateTablesDML, myConn);
+            } catch (SQLException sqe) {
+                LOG.error("Could not write DML to database.", sqe);
+                throw sqe;
+            }
+
             LOG.info("*************** Database has been initialized.");
-        }
-        finally {
+        } finally {
             SqlUtils.closeConnection(myConn);
         }
     }
@@ -126,12 +133,14 @@ public final class DatabaseUtil {
     }
     
     public static void writeDDL(List<String> ddlStatements, Connection connection) throws SQLException {
+        LOG.info("Attempting to write DDL to database");
             connection.setAutoCommit(false);
             for (String createTableDDL : createTablesDDL) {
                 try {
+                    LOG.debug("Trying: " + createTableDDL);
                     connection.createStatement().execute(createTableDDL);
                 } catch (SQLException sqe) {
-                    if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS) {
+                    if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE) {
                         LOG.info(sqe.getMessage() + " -- Skipping");
                     } else {
                         connection.rollback();
@@ -140,6 +149,7 @@ public final class DatabaseUtil {
                 }
             }
             connection.commit();
+            LOG.info("DDL successfully written to database");
     }
     
     /**
