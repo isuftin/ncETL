@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class DatasetSpec extends Spec {
+public class DatasetSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     // id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean
     private static final String TABLE_NAME = "datasets";
@@ -29,26 +29,6 @@ public class DatasetSpec extends Spec {
     private static final String NAME = "name";
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
-    
-    @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
 
     @Override
     public ColumnMapping[] setupColumnMap() {
@@ -66,16 +46,6 @@ public class DatasetSpec extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -88,11 +58,6 @@ public class DatasetSpec extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

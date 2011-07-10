@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class DateTypeFormattedSpec extends Spec {
+public class DateTypeFormattedSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "date_type_formatted";
@@ -28,26 +28,6 @@ public class DateTypeFormattedSpec extends Spec {
     private static final String UPDATED = "updated";
 
     @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
-
-    @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
@@ -57,16 +37,6 @@ public class DateTypeFormattedSpec extends Spec {
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
-    }
-
-    @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
     }
 
     @Override
@@ -87,11 +57,6 @@ public class DateTypeFormattedSpec extends Spec {
                     new SearchMapping("s_" + UPDATED, UPDATED, UPDATED,
                                       WhereClauseType.equals, null, null, null)
                 };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

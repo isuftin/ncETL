@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class ServiceSpec extends Spec {
+public class ServiceSpec extends AbstractNcetlSpec {
     
     private static final long serialVersionUID = 1L;
     
@@ -32,26 +32,6 @@ public class ServiceSpec extends Spec {
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
     
-    @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
-
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
@@ -69,16 +49,6 @@ public class ServiceSpec extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -92,11 +62,6 @@ public class ServiceSpec extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

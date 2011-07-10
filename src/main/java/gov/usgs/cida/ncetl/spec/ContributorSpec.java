@@ -16,35 +16,14 @@ import java.util.Map;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class ContributorSpec  extends Spec {
+public class ContributorSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
-    
     private static final String TABLE_NAME = "contributor";
     private static final String ID = "id";
     private static final String ROLE = "role";
     private static final String TEXT = "text";
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
-    
-    @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
 
     @Override
     public ColumnMapping[] setupColumnMap() {
@@ -58,16 +37,6 @@ public class ContributorSpec  extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -76,11 +45,6 @@ public class ContributorSpec  extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

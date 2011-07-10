@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.spec;
 
-import gov.usgs.cida.ncetl.utils.DatabaseUtil;
-import java.sql.ResultSet;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.naming.NamingException;

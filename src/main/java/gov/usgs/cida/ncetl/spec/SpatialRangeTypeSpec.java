@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class SpatialRangeTypeSpec extends Spec {
+public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "spatial_range_type";
@@ -36,11 +36,6 @@ public class SpatialRangeTypeSpec extends Spec {
     }
 
     @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
     public boolean setupAccess_UPDATE() {
         return false;
     }
@@ -56,16 +51,6 @@ public class SpatialRangeTypeSpec extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -73,11 +58,6 @@ public class SpatialRangeTypeSpec extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

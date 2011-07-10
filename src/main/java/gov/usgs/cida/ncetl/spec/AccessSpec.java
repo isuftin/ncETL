@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.spec;
 
 import gov.usgs.webservices.jdbc.spec.Spec;
@@ -20,10 +16,10 @@ import java.util.Map;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class AccessSpec  extends Spec {
+public class AccessSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
 
-    private static final String TABLE_NAME = "access";
+    private String TABLE_NAME = "access";
     private static final String ID = "id";
     private static final String DATASET_ID = "dataset_id";
     private static final String SERVICE_ID = "service_id";
@@ -31,26 +27,6 @@ public class AccessSpec  extends Spec {
     private static final String URL_PATH = "url_path";
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
-    
-    @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
 
     @Override
     public ColumnMapping[] setupColumnMap() {
@@ -66,16 +42,6 @@ public class AccessSpec  extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -86,11 +52,6 @@ public class AccessSpec  extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

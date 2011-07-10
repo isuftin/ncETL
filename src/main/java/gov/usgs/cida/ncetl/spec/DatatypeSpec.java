@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package gov.usgs.cida.ncetl.spec;
 
 import gov.usgs.webservices.jdbc.spec.Spec;
@@ -20,7 +16,7 @@ import java.util.Map;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class DatatypeSpec extends Spec {
+public class DatatypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "data_types";
@@ -28,26 +24,6 @@ public class DatatypeSpec extends Spec {
     private static final String TYPE = "type";
     private static final String INSERTED = "inserted";
     private static final String UPDATED = "updated";
-    
-    @Override
-    public boolean setupAccess_DELETE() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_INSERT() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return true;
-    }
 
     @Override
     public ColumnMapping[] setupColumnMap() {
@@ -60,16 +36,6 @@ public class DatatypeSpec extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -77,11 +43,6 @@ public class DatatypeSpec extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override

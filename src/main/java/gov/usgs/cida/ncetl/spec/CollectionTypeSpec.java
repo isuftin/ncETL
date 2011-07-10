@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
-public class CollectionTypeSpec extends Spec {
+public class CollectionTypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     //id int, type varchar(32), inserted boolean, updated boolean)
     private static final String TABLE_NAME = "collection_types";
@@ -36,11 +36,6 @@ public class CollectionTypeSpec extends Spec {
     }
 
     @Override
-    public boolean setupAccess_READ() {
-        return true;
-    }
-
-    @Override
     public boolean setupAccess_UPDATE() {
         return false;
     }
@@ -56,16 +51,6 @@ public class CollectionTypeSpec extends Spec {
     }
 
     @Override
-    public String setupDocTag() {
-        return "success";
-    }
-
-    @Override
-    public String setupRowTag() {
-        return "data";
-    }
-
-    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
@@ -73,11 +58,6 @@ public class CollectionTypeSpec extends Spec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
-    }
-
-    @Override
-    public String setupTableName() {
-        return TABLE_NAME;
     }
 
     @Override
