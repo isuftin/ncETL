@@ -1,13 +1,7 @@
--- This is a comment;
-
--- This is a 
--- multiline comment
--- ;
-
 -- All comments whether single or multi-line
 -- must end in ;
 
--- Lookup tables, be sure to drop the table before creating it
+-- Lookup tables, be sure to drop the table before creating it;
 DROP TABLE collection_type;
 CREATE TABLE collection_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
@@ -40,7 +34,7 @@ DROP TABLE up_down_type;
 CREATE TABLE up_down_type
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(4), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
 
--- This is an append table, users define their own vocabularies        
+-- This is an append table, users define their own vocabularies;      
 CREATE TABLE controlled_vocabulary 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), vocab varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
 
@@ -89,7 +83,7 @@ CREATE TABLE publisher
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), name varchar(256), controlled_vocabulary_id INT CONSTRAINT VOCAB4_FK REFERENCES controlled_vocabulary, contact_url varchar(512), contact_email varchar(256), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
 
 CREATE TABLE geospatial_coverage
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), dataset_id INT CONSTRAINT DATASET10_FK REFERENCES dataset, name controlled _vocabulary_id INT CONSTRAINT VOCAB5_FK REFERENCES controlled_vocabulary, name varchar(128), zpositive_id INT CONSTRAINT UPDOWN_FK REFERENCES up_down_type, inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), dataset_id INT CONSTRAINT DATASET10_FK REFERENCES dataset, controlled_vocabulary_id INT CONSTRAINT VOCAB5_FK REFERENCES controlled_vocabulary, name varchar(128), zpositive_id INT CONSTRAINT UPDOWN_FK REFERENCES up_down_type, inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
 
 CREATE TABLE spatial_range
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), geospatial_coverage_id INT CONSTRAINT GSCOVER1_FK REFERENCES geospatial_coverage, spatial_range_type_id INT CONSTRAINT SRTYPE1_FK REFERENCES spatial_range_type, start DOUBLE, size DOUBLE, resolution DOUBLE, units varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
