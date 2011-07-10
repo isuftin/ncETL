@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class NcMLUtilTest {
     
-    private static String testFile;
+    private static File testFile;
     private static String destination = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
     private static String destinationFile = destination + "temp.QPE.20110214.009.105";
     private static WrapperNetcdfFile wrapper;
@@ -34,7 +34,7 @@ public class NcMLUtilTest {
     public static void setUpClass() throws Exception {
         wrapper = new WrapperNetcdfFile();
         URL resource = NcMLUtilTest.class.getClassLoader().getResource("QPE.20110214.009.105");
-        testFile = resource.getFile();
+        testFile = new File(resource.getFile());
     }
 
     @AfterClass
@@ -44,7 +44,7 @@ public class NcMLUtilTest {
     @Before
     public void setUp() throws IOException {
         FileUtils.forceMkdir(new File(destination));
-        FileUtils.copyFile(new File(testFile), new File(destinationFile));
+        FileUtils.copyFile(testFile, new File(destinationFile));
     }
     
     @After

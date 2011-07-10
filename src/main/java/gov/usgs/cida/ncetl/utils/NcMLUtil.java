@@ -54,11 +54,11 @@ public final class NcMLUtil {
      * @return 
      * @throws IOException 
      */
-    public static Group globalAttributesToMeta(String inFile, WrapperNetcdfFile attNcml) throws
+    public static Group globalAttributesToMeta(File inFile, WrapperNetcdfFile attNcml) throws
             IOException {
-        NetcdfFile ncf = NetcdfFile.open(inFile);
+        NetcdfFile ncf = NetcdfFile.open(inFile.getPath());
         List<Attribute> globalAttributes = ncf.getGlobalAttributes();
-        Group group = new Group(attNcml, attNcml.getRootGroup(), inFile);
+        Group group = new Group(attNcml, attNcml.getRootGroup(), inFile.getName());
         for (Attribute att : globalAttributes) {
             group.addAttribute(att);
         }

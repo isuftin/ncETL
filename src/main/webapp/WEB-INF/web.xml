@@ -11,13 +11,11 @@
         <filter-name>CheckErrorStateFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
     <!-- #################### LISTENERS #################### -->
     <listener>
         <description>ServletContextListener</description>
         <listener-class>gov.usgs.cida.ncetl.servlet.Bootstrapper</listener-class>
     </listener>
-    
     <!-- #################### SERVLET CONFIGURATION #################### -->
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
@@ -47,7 +45,7 @@
         <servlet-name>IngestControlService</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
         <!-- Not needed? -->
-        <init-param> 
+        <init-param>
             <param-name>jndi_name</param-name>
             <param-value>java:comp/env/jdbc/NCETL</param-value>
         </init-param>
@@ -63,6 +61,10 @@
     <servlet>
         <servlet-name>WrapperServlet</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.servlet.WrapperServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GlobalAttributeDeaggregationServlet</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.servlet.GlobalAttributeDeaggregationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IngestControlServlet</servlet-name>
@@ -86,7 +88,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IngestControlService</servlet-name>
-        <url-pattern>/service/task/*</url-pattern>
+        <url-pattern>/service/ingest/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RandomNumberServlet</servlet-name>
@@ -103,5 +105,9 @@
     <servlet-mapping>
         <servlet-name>WrapperServlet</servlet-name>
         <url-pattern>/WrapperServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GlobalAttributeDeaggregationServlet</servlet-name>
+        <url-pattern>/globalattrs</url-pattern>
     </servlet-mapping>
 </web-app>
