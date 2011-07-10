@@ -63,7 +63,7 @@ INSERT INTO service_type (type)
             ('Resolver'),
             ('Compound');
 
--- not exclusive, should allow user to add and not drop these
+-- not exclusive, should allow user to add and not drop these;
 INSERT INTO date_type_enum (token)
     VALUES  ('created'),
             ('modified'),
