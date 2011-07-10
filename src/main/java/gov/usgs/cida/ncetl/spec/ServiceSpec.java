@@ -33,6 +33,12 @@ public class ServiceSpec extends AbstractNcetlSpec {
     private static final String UPDATED = "updated";
     
     @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+    
+    
+    @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),

@@ -20,7 +20,7 @@ public class CatalogSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
     
-    private  String TABLE_NAME = "catalog";
+    private static final String TABLE_NAME = "catalog";
     private static final String ID = "id";
     private static final String CATALOG_ID = "catalog_id";
     private static final String LOCATION = "location";
@@ -44,6 +44,12 @@ public class CatalogSpec extends AbstractNcetlSpec {
                 };
     }
 
+    
+    @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+            
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {

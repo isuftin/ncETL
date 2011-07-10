@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.spec;
 
+import gov.usgs.webservices.jdbc.spec.Spec;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.naming.NamingException;
@@ -21,7 +22,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class IngestControlSpecTest {
 
-    IngestControlSpec test = new IngestControlSpec();
+    Spec test;
     String DB_LOCATION = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
     Connection connection;
     String DB_FULL_LOCATION = DB_LOCATION + "test.db";
@@ -49,7 +50,11 @@ public class IngestControlSpecTest {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
-        FileUtils.forceDelete(new File(DB_LOCATION));
+        File dbLoc = new File(DB_LOCATION);
+        if (dbLoc.exists()) {
+            FileUtils.forceDelete(new File(DB_LOCATION));
+        }
+        
     }
 
     @Test

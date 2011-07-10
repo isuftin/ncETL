@@ -31,6 +31,11 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
     }
 
     @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+    
+    @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),

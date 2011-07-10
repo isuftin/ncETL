@@ -26,6 +26,11 @@ public class UpDownTypeSpec extends AbstractNcetlSpec {
     private static final String UPDATED = "updated";
     
     @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+    
+    @Override
     public boolean setupAccess_DELETE() {
         return false;
     }

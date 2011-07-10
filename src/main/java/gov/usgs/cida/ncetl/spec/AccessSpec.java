@@ -19,7 +19,7 @@ import java.util.Map;
 public class AccessSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
 
-    private String TABLE_NAME = "access";
+    private static final String TABLE_NAME = "access";
     private static final String ID = "id";
     private static final String DATASET_ID = "dataset_id";
     private static final String SERVICE_ID = "service_id";
@@ -41,6 +41,11 @@ public class AccessSpec extends AbstractNcetlSpec {
                 };
     }
 
+    @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+    
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {

@@ -40,6 +40,11 @@ public class CreatorSpec extends AbstractNcetlSpec {
     }
 
     @Override
+    public String setupTableName() {
+        return TABLE_NAME;
+    }
+    
+    @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
                     new SearchMapping(ID, ID, null, WhereClauseType.equals, null,

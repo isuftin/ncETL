@@ -13,7 +13,6 @@ import java.sql.SQLException;
  */
 public abstract class AbstractNcetlSpec extends Spec {
     private long serialVersionUID;
-    private String TABLE_NAME;
     
     @Override
     public boolean setupAccess_DELETE() {
@@ -46,9 +45,8 @@ public abstract class AbstractNcetlSpec extends Spec {
     }
 
     @Override
-    public String setupTableName() {
-        return TABLE_NAME;
-    }
+    public abstract String setupTableName();
+    
     @Override
     public abstract SearchMapping[] setupSearchMap();
     
