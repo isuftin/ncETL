@@ -102,9 +102,10 @@ public final class NcMLUtil {
         String datasetdir = FileHelper.dirAppend(FileHelper.getDatasetsDirectory(), dataset);
         String ncmlWrapperName = FileHelper.dirAppend(datasetdir, "aggregation.ncml");
         File ncml = new File(ncmlWrapperName);
-        if (!ncml.exists()) {
+        //TODO- If ncml variable doesn't exist, create NCML stub
+//        if (!ncml.exists()) {
 //            createNcmlStub();
-        }
+//        }
         return null;
     }
 
