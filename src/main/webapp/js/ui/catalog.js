@@ -65,7 +65,7 @@ Ext.onReady(function() {
 		}, {
 			header : 'Expires',
 			xtype : 'datecolumn',
-			dataIndex : 'successDate',
+			dataIndex : 'expires',
 			format : 'Y-m-d'
 		}, {
 			header : 'Version',
@@ -76,7 +76,8 @@ Ext.onReady(function() {
 				allowBlank : false
 			}
 		}, {
-            xtype:'actioncolumn', 
+            header : 'View',
+            xtype:'actioncolumn',
             width:50,
             items: [{
                 icon: 'images/edit.png',
@@ -94,6 +95,7 @@ Ext.onReady(function() {
 		items : [ {
 			xtype : 'panel',
 			title : "THREDDS",
+			layout: 'fit',
 			store : store,
 			region : 'center',
 			border : false,
