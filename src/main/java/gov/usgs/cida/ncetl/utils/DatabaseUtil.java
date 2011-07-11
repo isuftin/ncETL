@@ -37,8 +37,8 @@ public final class DatabaseUtil {
     private static final String DB_STARTUP = DB_URL + ";create=true;";
     private static final String DB_SHUTDOWN = DB_URL + ";shutdown=true";
     private static final String JNDI_CONTEXT = "java:comp/env/jdbc/" + DB_NAME;
-    private static List<String> createTablesDDL = new ArrayList<String>();
-    private static List<String> populateTablesDML = new ArrayList<String>();
+    private static List<String> createTablesDDL;
+    private static List<String> populateTablesDML;
 
     private DatabaseUtil() {}
 
@@ -217,13 +217,13 @@ public final class DatabaseUtil {
         return false;
     }
 
-    protected static Connection getConnection() throws SQLException,
+    static Connection getConnection() throws SQLException,
                                                        NamingException,
                                                        ClassNotFoundException {
         return getConnection(JNDI_CONTEXT);
     }
 
-    protected static Connection getConnection(String jndiContext) throws
+    static Connection getConnection(String jndiContext) throws
             SQLException, NamingException, ClassNotFoundException {
         return SqlUtils.getConnection(jndiContext);
     }
