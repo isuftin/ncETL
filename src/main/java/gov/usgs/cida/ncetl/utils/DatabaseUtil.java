@@ -51,9 +51,11 @@ public final class DatabaseUtil {
             if (createTablesInputStream != null) {
                 createTablesDDL = readDxL(createTablesInputStream);
             } else {
-                List<String> defaultDDL = new ArrayList<String>();
-                defaultDDL.add("Some Insert Statements Here");
-                createTablesDDL = defaultDDL;
+                LOG.error("Could not read the create_tables.ddl file. Tables that have not been created, and should be created, will not be created.");
+                // TODO - Handle the else case if we don't have a DDL file. Do we write default tables or do we throw an exception?
+//                List<String> defaultDDL = new ArrayList<String>();
+//                defaultDDL.add("Some Insert Statements Here");
+//                createTablesDDL = defaultDDL;
             }
 
             // Read in populate table DDL from file
@@ -61,9 +63,11 @@ public final class DatabaseUtil {
             if (populateTablesInputStream != null) {
                 populateTablesDML = readDxL(populateTablesInputStream);
             } else {
-                List<String> defaultDDL = new ArrayList<String>();
-                defaultDDL.add("Some Insert Statements Here");
-                populateTablesDML = defaultDDL;
+                LOG.error("Could not read the populate_tables.ddl file. Lookup tables may be missing data as a result.");
+                // TODO - Handle the else case if we don't have a DML file. Do we write default tables or do we throw an exception?
+//                List<String> defaultDDL = new ArrayList<String>();
+//                defaultDDL.add("Some Insert Statements Here");
+//                populateTablesDML = defaultDDL;
             }
         } finally {
             IOUtils.closeQuietly(populateTablesInputStream);
