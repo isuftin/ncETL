@@ -1,9 +1,10 @@
 Ext.define('Catalog', {
 	extend: 'Ext.data.Model',
 	idProperty: 'id',
+	hasMany: 'Ingestor',
 	fields: [{
 		name : 'id',
-		type : 'string'
+		type : 'int'
 	}, {
 		name : 'name',
 		type : 'string'

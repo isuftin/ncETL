@@ -12,6 +12,7 @@ public class IngestControlSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "ingest";
+    public static final String CATALOG_ID = "catalog_id";
     public static final String NAME = "name";
     public static final String FTP_LOCATION = "ftpLocation";
     public static final String RESCAN_EVERY = "rescanEvery";
@@ -32,6 +33,7 @@ public class IngestControlSpec extends AbstractNcetlSpec {
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
+                    new ColumnMapping(CATALOG_ID, CATALOG_ID),
                     new ColumnMapping(NAME, NAME),
                     new ColumnMapping(FTP_LOCATION, FTP_LOCATION),
                     new ColumnMapping(RESCAN_EVERY, RESCAN_EVERY),
@@ -50,6 +52,7 @@ public class IngestControlSpec extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + CATALOG_ID, CATALOG_ID, CATALOG_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + NAME, NAME, NAME, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + FTP_LOCATION, FTP_LOCATION, FTP_LOCATION, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + RESCAN_EVERY, RESCAN_EVERY, RESCAN_EVERY, WhereClauseType.equals, null, null, null),

@@ -1,149 +1,102 @@
 Ext.onReady(function() {
-
-	var ingestStore = new Ext.data.Store({
-		storeId : 'ingestStore',
-		autoSync : false,
-		autoLoad : true,
-		model : "Ingestor"
-	});
-
-	var ingestGrid = new Ext.grid.Panel({
-		title : "Ingestors",
-		store : ingestStore,
-		forceFit : true,
-		plugins : [ new Ext.grid.plugin.RowEditing({errorSummary:false}) ],
-		tbar : [ {
-			// iconCls: 'icon-user-add',
-			text : 'Add',
-			handler : function() {
-				var e = new Ingestor({
-					name : '',
-					ftpLocation : '',
-					rescanEvery : '300000',
-					fileRegex : '.*',
-					successDate : '2011-01-01',
-					successTime : '00:00:00',
-					username : '',
-					password : '',
-					active : false
+	
+	var cat_id = Page.queryString['catalog_id'];
+	if (!cat_id) cat_id = "ERROR";
+	
+	var parentCatalog = Ext.ModelManager.getModel('Catalog').load(cat_id, {
+		failure : function(record, operation) { //Due to Ext response handling stupidity, this actually won't be called
+			new Ext.container.Viewport({
+				layout : 'fit',
+				items : [ new Ext.tab.Panel({
+					title : "ERROR OCCURRED",
+					layout : 'fit',
+					region : 'center',
+					margins : '2 2 2 2',
+					border : false,
+					defaults : {
+						autoScroll : true
+					},
+					html: 'Something went wrong!'
+				}) ]
+			});
+		},
+		success : function(record, operation) {
+			if (!record) {
+				new Ext.container.Viewport({
+					layout : 'fit',
+					items : [ new Ext.tab.Panel({
+						title : 'ERROR OCCURRED',
+						layout : 'fit',
+						region : 'center',
+						margins : '2 2 2 2',
+						border : false,
+						defaults : {
+							autoScroll : true
+						},
+						html: 'Invalid Catalog ID!'
+					}) ]
 				});
-				ingestStore.insert(0, [e]);
+				
+			} else {
+				//################ NORMAL EXECUTION ##################
+				var formItems = [];
+				
+				var catalogForm = new ncETL.form.Model({
+					model : "Catalog",
+					defaults: {anchor: '100%'}
+				});
+				catalogForm.loadRecord(record);
+				formItems.push(catalogForm);
+				
+				var ingestStore = record.ingestors().load({
+					callback : function(ingestRecords) {
+						Ext.Array.each(ingestRecords, function(item) {
+							var inges = new ncETL.form.Model({
+								model : 'Ingestor',
+								defaults : {anchor: '100%'}
+							});
+							inges.loadRecord(item);
+							editMetadataPanel.add(inges);
+						});
+					}
+				});
+				
+				var ingestGrid = new ncETL.grid.Ingestor({
+					store : ingestStore
+				});
+				
+				var editMetadataPanel = new Ext.panel.Panel({
+					title: 'Edit Metadata',
+					border : false,
+					padding : '2 2 2 2',
+					items: formItems
+				});
+				
+				var ncISOPanel = new Ext.panel.Panel({
+					title: 'ncISO',
+					layout : 'fit',
+					border : false,
+					contentEl : 'decorate'
+				});
+				
+				new Ext.container.Viewport({
+					layout : 'fit',
+					items : [ new Ext.tab.Panel({
+						title : record.get('name'),
+						layout : 'fit',
+						region : 'center',
+						margins : '2 2 2 2',
+						border : false,
+						defaults : {
+							autoScroll : true
+						},
+						items : [ ingestGrid, editMetadataPanel, ncISOPanel ]
+					}) ]
+				});
 			}
-		}, {
-			ref : '../removeBtn',
-			// iconCls: 'icon-user-delete',
-			text : 'Remove',
-			handler : function() {
-				var s = ingestGrid.getSelectionModel().getSelections();
-				ingestStore.remove(s);
-			}
-		}, {
-			text : 'Save',
-			handler : function() {
-				ingestStore.sync();
-			}
-		} ],
-		columns : [ {
-			header : 'Name',
-			dataIndex : 'name',
-			xtype : 'gridcolumn',
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			header : 'Location',
-			xtype : 'gridcolumn',
-			dataIndex : 'ftpLocation',
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false,
-				vtype : 'url'
-			}
-		}, {
-			header : 'Rescan (ms)',
-			xtype : 'numbercolumn',
-			format : '0',
-			dataIndex : 'rescanEvery',
-			editor : {
-				xtype : 'numberfield',
-				allowBlank : false
-			}
-		}, {
-			header : 'Pattern (regex)',
-			xtype : 'gridcolumn',
-			dataIndex : 'fileRegex',
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false
-			}
-		}, {
-			header : 'Username',
-			xtype : 'gridcolumn',
-			dataIndex : 'username',
-			editor : {
-				xtype : 'textfield',
-				allowBlank : true
-			}
-		}, {
-			header : 'Password',
-			xtype : 'gridcolumn',
-			dataIndex : 'password',
-			editor : {
-				xtype : 'textfield',
-				inputType : 'password'
-			},
-			renderer : function(value) {
-				return (value.length > 0) ? "******" : "";
-			}
-		}, {
-			header : 'Active',
-			xtype : 'booleancolumn',
-			dataIndex : 'active',
-			editor : {
-				xtype : 'checkbox',
-				inputValue : true
-			}
-		}, {
-			header : 'Success Date',
-			xtype : 'datecolumn',
-			dataIndex : 'successDate',
-			format : 'Y-m-d'
-		}, {
-			header : 'Success Time',
-			xtype : 'datecolumn',
-			dataIndex : 'successTime',
-			format : 'H:i:s'
-		} ]
+		}
 	});
+
 	
-	var ncISOPanel = new Ext.panel.Panel({
-		title: 'ncISO',
-		layout : 'fit',
-		border : false,
-		contentEl : 'decorate'
-	});
-	
-	var editMetadataPanel = new Ext.panel.Panel({
-		title: 'Edit Metadata',
-		layout : 'fit',
-		border : false,
-		contentEl : 'dummy-delete-me'
-	});
-	
-	new Ext.container.Viewport({
-		layout : 'fit',
-		items : [ new Ext.tab.Panel({
-			title : "CATALOG/DATASET NAME HERE",
-			layout : 'fit',
-			region : 'center',
-			margins : '2 2 2 2',
-			border : false,
-			defaults : {
-				autoScroll : true
-			},
-			items : [ ingestGrid, ncISOPanel, editMetadataPanel ]
-		}) ]
-	});
 
 });

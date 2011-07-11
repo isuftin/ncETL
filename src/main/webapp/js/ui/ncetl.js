@@ -1,10 +1,5 @@
-var log = function() {
-	
-	function _notifyDebug(msg) {
-		
-	}
-	
+var Page = function() {
 	return {
-		debug : _notifyDebug
+		queryString : Ext.Object.fromQueryString(window.location.search.substring(1))
 	};
 }();

@@ -1,21 +1,50 @@
 Ext.define('Ingestor', {
 	extend : 'Ext.data.Model',
 	idProperty : 'id',
+	belongsTo : 'Catalog',
 	fields : [ {
 		name : 'id',
-		type : 'string'
-	}, {
-		name : 'name',
-		type : 'string'
-	}, {
-		name : 'ftpLocation',
-		type : 'string'
-	}, {
-		name : 'rescanEvery',
 		type : 'int'
 	}, {
+		name : 'catalog_id',
+		type : 'int'
+	}, {
+		name : 'name',
+		type : 'string',
+		editor : {
+			xtype: 'textfield',
+			fieldLabel : 'Name',
+			allowBlank : false,
+			name : 'name'
+		}
+	}, {
+		name : 'ftpLocation',
+		type : 'string',
+		editor : {
+			xtype : 'textfield',
+			fieldLabel : 'Location',
+			name : 'ftpLocation',
+			allowBlank : false,
+			vtype : 'url'
+		}
+	}, {
+		name : 'rescanEvery',
+		type : 'int',
+		editor : {
+			xtype : 'numberfield',
+			fieldLabel : 'Rescan (ms)',
+			name : 'rescanEvery',
+			allowBlank : false
+		}
+	}, {
 		name : 'fileRegex',
-		type : 'string'
+		type : 'string',
+		editor : {
+			xtype : 'textfield',
+			fieldLabel : 'Pattern (regex)',
+			name : 'fileRegex',
+			allowBlank : false
+		}
 	}, {
 		name : 'successDate',
 		type : 'date',
@@ -26,13 +55,31 @@ Ext.define('Ingestor', {
 		dateFormat : 'H:i:s'
 	}, {
 		name : 'username',
-		type : 'string'
+		type : 'string',
+		editor : {
+			xtype : 'textfield',
+			fieldLabel : 'Username',
+			name : 'username',
+			allowBlank : true
+		}
 	}, {
 		name : 'password',
-		type : 'string'
+		type : 'string',
+		editor : {
+			xtype : 'textfield',
+			fieldLabel : 'Password',
+			name : 'password',
+			inputType : 'password'
+		}
 	}, {
 		name : 'active',
-		type : 'bool'
+		type : 'bool',
+		editor : {
+			xtype : 'checkbox',
+			fieldLabel : 'Active',
+			name : 'active',
+			inputValue : true
+		}
 	} ],
 	proxy : {
 		type : 'spec',

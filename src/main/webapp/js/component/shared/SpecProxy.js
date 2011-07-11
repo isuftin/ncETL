@@ -16,5 +16,15 @@ Ext.define('ncETL.data.proxy.Spec', {
 
 		return sortStrs.join(",");
 	},
-	filterParam : undefined
+	filterParam : 'narrow',
+	encodeFilters : function(filters) { //Currently filtering does not work on multiple parameters at once.
+		var length = filters.length, filterStr = '', filter, i;
+
+		if (0 < length) {
+			filter = filters[0];
+			filterStr = 's_' + filter.property + ',' + filter.value;
+		}
+
+		return filterStr;
+	}
 });

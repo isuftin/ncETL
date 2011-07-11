@@ -31,7 +31,7 @@ Ext.onReady(function() {
 			// iconCls: 'icon-user-delete',
 			text : 'Remove',
 			handler : function() {
-				var s = grid.getSelectionModel().getSelections();
+				var s = grid.getSelectionModel().getSelection();
 				store.remove(s);
 			}
 		}, {
@@ -78,9 +78,8 @@ Ext.onReady(function() {
                 icon: 'images/edit.png',
                 tooltip: 'Edit',
                 handler: function(grid, rowIndex, colIndex) {
-                	window.location.href = 'ingests.jsp';
-//                    var rec = grid.getStore().getAt(rowIndex);
-//                    alert("Edit " + rec.get('firstname'));
+                	var cat_id = grid.getStore().getAt(rowIndex).getId();
+                	window.location.href = 'ingests.jsp?catalog_id=' + cat_id;
                 }
             }]
         } ]
