@@ -10,5 +10,10 @@
 			<jsp:param value="js/ui/ingest.js" name="UIScriptFile"/>
 		</jsp:include>
     </head>
-    <body></body>
+    <body>
+    <div id="decorate" class="x-hidden"></div>
+	<div id="dummy-delete-me" class="x-hidden"></div>
+	<div id="decorateContent" class="x-hidden"></div>
+	<div id="tempDiv" class="x-hidden"></div>
+    </body>
 </html>

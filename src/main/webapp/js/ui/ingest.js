@@ -1,15 +1,15 @@
 Ext.onReady(function() {
 
-	var store = new Ext.data.Store({
+	var ingestStore = new Ext.data.Store({
 		storeId : 'ingestStore',
 		autoSync : false,
 		autoLoad : true,
 		model : "Ingestor"
 	});
 
-	var grid = new Ext.grid.Panel({
+	var ingestGrid = new Ext.grid.Panel({
 		title : "Ingestors",
-		store : store,
+		store : ingestStore,
 		forceFit : true,
 		plugins : [ new Ext.grid.plugin.RowEditing({errorSummary:false}) ],
 		tbar : [ {
@@ -27,20 +27,20 @@ Ext.onReady(function() {
 					password : '',
 					active : false
 				});
-				store.insert(0, [e]);
+				ingestStore.insert(0, [e]);
 			}
 		}, {
 			ref : '../removeBtn',
 			// iconCls: 'icon-user-delete',
 			text : 'Remove',
 			handler : function() {
-				var s = grid.getSelectionModel().getSelections();
-				store.remove(s);
+				var s = ingestGrid.getSelectionModel().getSelections();
+				ingestStore.remove(s);
 			}
 		}, {
 			text : 'Save',
 			handler : function() {
-				store.sync();
+				ingestStore.sync();
 			}
 		} ],
 		columns : [ {
@@ -117,9 +117,23 @@ Ext.onReady(function() {
 		} ]
 	});
 	
+	var ncISOPanel = new Ext.panel.Panel({
+		title: 'ncISO',
+		layout : 'fit',
+		border : false,
+		contentEl : 'decorate'
+	});
+	
+	var editMetadataPanel = new Ext.panel.Panel({
+		title: 'Edit Metadata',
+		layout : 'fit',
+		border : false,
+		contentEl : 'dummy-delete-me'
+	});
+	
 	new Ext.container.Viewport({
 		layout : 'fit',
-		items : [ new Ext.panel.Panel({
+		items : [ new Ext.tab.Panel({
 			title : "CATALOG/DATASET NAME HERE",
 			layout : 'fit',
 			region : 'center',
@@ -128,7 +142,7 @@ Ext.onReady(function() {
 			defaults : {
 				autoScroll : true
 			},
-			items : [ grid ]
+			items : [ ingestGrid, ncISOPanel, editMetadataPanel ]
 		}) ]
 	});
 

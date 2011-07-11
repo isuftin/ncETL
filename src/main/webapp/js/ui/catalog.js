@@ -56,12 +56,7 @@ Ext.onReady(function() {
 		}, {
 			header : 'Location',
 			xtype : 'gridcolumn',
-			dataIndex : 'location',
-			editor : {
-				xtype : 'textfield',
-				allowBlank : false,
-				vtype : 'url'
-			}
+			dataIndex : 'location'
 		}, {
 			header : 'Expires',
 			xtype : 'datecolumn',

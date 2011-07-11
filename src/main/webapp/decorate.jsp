@@ -22,7 +22,7 @@
     </head>
     <body>
 		<div id="decorate" class="x-hidden"></div>
-
+		
 		<div id="decorateContent" class="x-hidden"></div>
 		<div id="tempDiv" class="x-hidden"></div>
     </body>
