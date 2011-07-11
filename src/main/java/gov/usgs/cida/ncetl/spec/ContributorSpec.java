@@ -71,6 +71,7 @@ public class ContributorSpec  extends AbstractNcetlSpec {
         spec = new ContributorSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

@@ -69,6 +69,7 @@ public class DatatypeSpec extends AbstractNcetlSpec {
         spec = new DatatypeSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

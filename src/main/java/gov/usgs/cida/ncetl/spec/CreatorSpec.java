@@ -83,7 +83,8 @@ public class CreatorSpec extends AbstractNcetlSpec {
         spec = new CreatorSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
-
+        Spec.loadParameters(spec, params);
+        
         result = Spec.getResultSet(spec, con);
         return result;
     }

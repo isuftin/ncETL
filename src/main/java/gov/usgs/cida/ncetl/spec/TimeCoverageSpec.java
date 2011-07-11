@@ -81,6 +81,7 @@ public class TimeCoverageSpec  extends AbstractNcetlSpec {
         spec = new TimeCoverageSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

@@ -72,6 +72,7 @@ public class KeywordSpec  extends AbstractNcetlSpec {
         spec = new KeywordSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

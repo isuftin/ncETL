@@ -89,6 +89,7 @@ public class IngestControlSpec extends AbstractNcetlSpec {
         spec = new IngestControlSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
+        Spec.loadParameters(spec, params);
         
         spec = new IngestControlSpec();
         params = new HashMap<String, String[]>();

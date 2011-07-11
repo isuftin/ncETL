@@ -84,6 +84,7 @@ public class ServiceTypeSpec extends AbstractNcetlSpec {
         spec = new ServiceTypeSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;

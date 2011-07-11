@@ -83,7 +83,8 @@ public class PublisherSpec extends AbstractNcetlSpec {
         spec = new PublisherSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
-
+        Spec.loadParameters(spec, params);
+        
         result = Spec.getResultSet(spec, con);
         return result;
     }

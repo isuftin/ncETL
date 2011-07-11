@@ -78,6 +78,7 @@ public class GeospatialCoverageSpec  extends AbstractNcetlSpec {
         spec = new GeospatialCoverageSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;
