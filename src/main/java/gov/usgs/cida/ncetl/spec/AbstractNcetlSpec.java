@@ -12,8 +12,6 @@ import java.sql.SQLException;
  * @author isuftin
  */
 public abstract class AbstractNcetlSpec extends Spec {
-    private long serialVersionUID;
-    
     @Override
     public boolean setupAccess_DELETE() {
         return true;
