@@ -91,7 +91,7 @@ CREATE TABLE spatial_range
 CREATE TABLE time_coverage
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), dataset_id INT CONSTRAINT DATASET11_FK REFERENCES dataset, start_id INT CONSTRAINT DTF2_FK REFERENCES date_type_formatted, end_id INT CONSTRAINT DTF3_FK REFERENCES date_type_formatted, duration varchar(32), resolution varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
 
--- Join tables - help to manage many to one relationships;
+-- Join tables - help to manage many to many relationships;
 CREATE TABLE keyword_join 
     (dataset_id INT CONSTRAINT DATASET5_FK REFERENCES dataset, keyword_id INT CONSTRAINT KEYWORD_FK REFERENCES keyword, inserted boolean DEFAULT false, updated boolean DEFAULT false);
 

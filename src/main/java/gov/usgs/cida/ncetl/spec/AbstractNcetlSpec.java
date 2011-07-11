@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author isuftin
  */
 public abstract class AbstractNcetlSpec extends Spec {
-    protected static final String ID = "id";
+    public static final String ID = "id";
     protected static final String INSERTED = "inserted";
     protected static final String UPDATED = "updated";
     

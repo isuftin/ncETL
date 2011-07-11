@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import gov.usgs.webservices.jdbc.util.SqlUtils;
 import java.io.InputStream;
 import java.net.URI;
@@ -237,6 +238,7 @@ public final class DatabaseUtil {
     }
 
     public static Map<String, String> getCatalogInfo(URI location) throws SQLException, NamingException, ClassNotFoundException {
+        CatalogSpec spec = new CatalogSpec();
         Connection connection = null;
         Map<String, String> rowMap = new HashMap<String, String>();
         ResultSet rs = null;
