@@ -160,17 +160,22 @@ public final class DatabaseUtil {
      * @throws SQLException 
      */
     public static void writeDML(List<String> ddlStatements, Connection connection) throws SQLException {
+        LOG.info("Attempting to write DML to database");
         Statement stmt = null;
         connection.setAutoCommit(false);
         try {
             if (connection.getMetaData().supportsBatchUpdates()) {
+                LOG.debug("Will be using batch updating since the database supports it");
                 stmt = connection.createStatement();
                 for (String ddlStatement : ddlStatements) {
+                    LOG.debug("Adding to DML batch: " + ddlStatement);
                     stmt.addBatch(ddlStatement);
                 }
                 stmt.executeBatch();
+                LOG.info("DML successfully written to the database.");
             } else {
                 for (String ddlStatement : ddlStatements) {
+                    LOG.debug("Executing statement: " + ddlStatement);
                     connection.createStatement().execute(ddlStatement);
                 }
             }
