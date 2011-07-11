@@ -83,6 +83,7 @@ Ext.onReady(function() {
                 icon: 'images/edit.png',
                 tooltip: 'Edit',
                 handler: function(grid, rowIndex, colIndex) {
+                	window.location.href = 'ingests.jsp';
 //                    var rec = grid.getStore().getAt(rowIndex);
 //                    alert("Edit " + rec.get('firstname'));
                 }
