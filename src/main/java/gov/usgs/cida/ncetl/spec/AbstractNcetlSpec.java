@@ -72,7 +72,7 @@ public abstract class AbstractNcetlSpec extends Spec {
         return getChangedRows(con, INSERTED, this.getClass());
     }
     
-    public static ResultSet getChangedRows(Connection con, String action, Class<? extends AbstractNcetlSpec> clazz)  throws SQLException {
+    protected static ResultSet getChangedRows(Connection con, String action, Class<? extends AbstractNcetlSpec> clazz)  throws SQLException {
         ResultSet result = null;
         Spec spec;
         try {
