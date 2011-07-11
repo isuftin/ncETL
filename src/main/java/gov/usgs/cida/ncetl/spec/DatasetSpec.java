@@ -1,8 +1,20 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import thredds.catalog.InvCatalog;
+import thredds.catalog.InvDataset;
+import thredds.catalog.InvDatasetWrapper;
 
 /**
  *
@@ -53,4 +65,55 @@ public class DatasetSpec extends AbstractNcetlSpec {
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
+    
+    public static List<InvDataset> unmarshal(int id, InvCatalog cat, Connection con) throws SQLException {
+        List<InvDataset> result = Lists.newLinkedList();
+        DatasetSpec spec = new DatasetSpec();
+        Map<String, String[]> params = new HashMap<String, String[]>(1);
+        params.put("s_catalog_id", new String[]{"" + id});
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        while (rs.next()) {
+            InvDatasetWrapper invDsWrapper = null;
+            InvDataset findDatasetByID = cat.findDatasetByID(rs.getString("NCID"));
+            if (findDatasetByID == null) {
+                invDsWrapper = new InvDatasetWrapper("", ""); // name and id are set below
+            } else {
+                invDsWrapper = new InvDatasetWrapper(findDatasetByID);
+            }
+            int datasetId = -1;
+
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = metaData.getColumnName(i);
+                if (ID.equalsIgnoreCase(columnName)) {
+                    datasetId = rs.getInt(columnName);
+                } else if (AUTHORITY.equalsIgnoreCase(columnName)) {
+                    invDsWrapper.setAuthority(rs.getString(columnName));
+                } else if (NAME.equalsIgnoreCase(columnName)) {
+                    invDsWrapper.setName(rs.getString(columnName));
+                } else if (COLLECTION_TYPE_ID.equalsIgnoreCase(columnName)) {
+                    int ctId = rs.getInt(columnName);
+                    // TODO: do lookup on ctId
+                } else if (DATA_TYPE_ID.equalsIgnoreCase(columnName)) {
+                    int dtId = rs.getInt(columnName);
+                    // TODO: do lookup on dtId
+                } else if (NCID.equalsIgnoreCase(columnName)) {
+                    invDsWrapper.setID(rs.getString(columnName));
+                }
+            }
+            invDsWrapper.setServiceName(ServiceSpec.lookupServiceNameByCatalogId(id, con));
+            result.add(invDsWrapper);
+        }
+        
+        return result;
+        // search database for datasets with id=id
+        // set all the attributes and leaf nodes
+        // search for children
+        // recurse!
+    }
+
+    
 }
