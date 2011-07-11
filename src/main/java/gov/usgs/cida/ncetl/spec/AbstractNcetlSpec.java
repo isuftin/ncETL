@@ -82,12 +82,12 @@ public abstract class AbstractNcetlSpec extends Spec {
         } catch (IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
-        Map<String, String[]> params = new HashMap<String, String[]>();
+        Map<String, String[]> params = new HashMap<String, String[]>(1);
         params.put("s_" + action, new String[] {"true"});
         Spec.loadParameters(spec, params);
         List<String> changedIds = ServiceUtils.getStringsFromDB(spec, con, ID);
         
-        params = new HashMap<String, String[]>();
+        params = new HashMap<String, String[]>(2);
         params.put(action, new String[] {"false"});
         params.put(ID, changedIds.toArray(new String[changedIds.size()]));
         try {
@@ -107,7 +107,7 @@ public abstract class AbstractNcetlSpec extends Spec {
         } catch (IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
-        params = new HashMap<String, String[]>();
+        params = new HashMap<String, String[]>(1);
         params.put(ID, changedIds.toArray(new String[changedIds.size()]));
         Spec.loadParameters(spec, params);
         
