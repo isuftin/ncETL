@@ -240,9 +240,10 @@ public final class DatabaseUtil {
         Connection connection = null;
         Map<String, String> rowMap = new HashMap<String, String>();
         ResultSet rs = null;
+        PreparedStatement stmt = null;
         try {
             connection = getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
+            stmt = connection.prepareStatement(
                     "SELECT * FROM catalog WHERE location = ?");
             stmt.setString(1, location.toString());
             rs = stmt.executeQuery();
@@ -258,7 +259,7 @@ public final class DatabaseUtil {
             
         }
         finally {
-            try {if (rs != null) {rs.close();}} catch (Exception e) { /* ignore */ };
+            DbUtils.closeQuietly(stmt);
             SqlUtils.closeConnection(connection);
         }
         return rowMap;

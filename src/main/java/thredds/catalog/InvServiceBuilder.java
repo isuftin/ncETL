@@ -63,7 +63,7 @@ public class InvServiceBuilder {
         return this;
     }
 
-    private void addServiceRules(String type) throws IllegalArgumentException {
+    private void addServiceRules(String type) {
         if ("dods".equalsIgnoreCase(type) || "opendap".equalsIgnoreCase(type)) {
             InvService subservice = new InvService(DODS_NAME, type, DODS_BASE,
                                                    "", DODS_DESCRIPTION);

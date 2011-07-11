@@ -3,7 +3,6 @@ package thredds.catalog;
 import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -29,25 +28,23 @@ public final class CatalogHelper {
      * Sets up a location in the default location location.
      * 
      * @throws URISyntaxException
-     * @throws FileNotFoundException
      * @throws IOException 
      */
-    public static void setupCatalog() throws URISyntaxException, FileNotFoundException, IOException {
+    public static void setupCatalog() throws URISyntaxException, IOException  {
         setupCatalog(new File(DEFAULT_CATALOG_LOCATION), DEFAULT_CATALOG_NAME);
     }
     
-    public static void setupCatalog(File location) throws URISyntaxException, FileNotFoundException, IOException {
+    public static void setupCatalog(File location) throws URISyntaxException, IOException {
         setupCatalog(location, DEFAULT_CATALOG_NAME);
     }
     
-    public static void setupCatalog(File location, String catalogName) throws URISyntaxException, FileNotFoundException, IOException {
+    public static void setupCatalog(File location, String catalogName) throws URISyntaxException, IOException {
         if (!location.exists()) {
             createNewCatalog(catalogName, location.getPath());
         }
     }
     
-    public static void createNewCatalog(String name, String absolutePath) throws
-        URISyntaxException, FileNotFoundException, IOException {
+    public static void createNewCatalog(String name, String absolutePath) throws URISyntaxException, IOException {
         URI uri = new URI("file://" + absolutePath);
         InvCatalogImpl impl = createCatalogImpl(name, uri);
         writeCatalog(impl);

@@ -134,7 +134,7 @@ public final class NcMLUtil {
         return builder.build(location);
     }
     
-    public static void writeDocument(Document doc, File ncml) throws FileNotFoundException, IOException {
+    public static void writeDocument(Document doc, File ncml) throws IOException {
         XMLOutputter output = new XMLOutputter(Format.getPrettyFormat());
         FileWriter writer = new FileWriter(ncml);
         output.output(doc, writer);
