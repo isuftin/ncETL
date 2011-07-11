@@ -14,28 +14,27 @@ import ucar.nc2.constants.FeatureType;
  * To sum up, there are smells here, but I didn't bother to remedy them.
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class InvDatasetWrapper {
+public class InvDatasetWrapper extends InvDatasetImpl{
 
     /** dataset to build up */
-    private InvDatasetImpl dataset; //= new InvDatasetImpl(parent, name);
     private boolean built = false;
-
-    public InvDatasetWrapper(String name, String id) {
-        dataset = new InvDatasetImpl(null, name);
-        dataset.id = id;
-    }
 
     /**
      * Copy constructor for existing dataset
      * @param from dataset to copy
      */
     public InvDatasetWrapper(InvDataset from) {
-        // I'm worried about this, we may need to cut this constructor out
-        dataset = new InvDatasetImpl((InvDatasetImpl)from);
+        super((InvDatasetImpl) from);
+        //TDO - Make sure that all necessary elements are being set via parent's copy constructor
     }
-
+    
+    public InvDatasetWrapper(String name, String id) {
+        super(null, name);
+        this.id = id;
+    }
+    
     public InvDatasetWrapper authorityName(String authorityName) {
-        dataset.authorityName = authorityName;
+        this.authorityName = authorityName;
         return this;
     }
 
@@ -45,16 +44,16 @@ public class InvDatasetWrapper {
     }
 
     public InvDatasetWrapper collectionType(String ct) {
-        dataset.collectionType = CollectionType.getType(ct);
+        this.collectionType = CollectionType.getType(ct);
         return this;
     }
 
     public InvDatasetWrapper contributor(String name, String role) {
         Contributor contrib = new Contributor(name, role);
-        if (dataset.contributors == null) {
-            dataset.contributors = new LinkedList<Contributor>();
+        if (this.contributors == null) {
+            this.contributors = new LinkedList<Contributor>();
         }
-        dataset.contributors.add(contrib);
+        this.contributors.add(contrib);
         return this;
     }
 
@@ -71,48 +70,48 @@ public class InvDatasetWrapper {
                                      String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
-        if (dataset.creators == null) {
-            dataset.creators = new LinkedList<Source>();
+        if (this.creators == null) {
+            this.creators = new LinkedList<Source>();
         }
-        dataset.creators.add(source);
+        this.creators.add(source);
         return this;
     }
 
     public InvDatasetWrapper dataFormatType(String dataFormatType) {
-        dataset.dataFormatType = DataFormatType.getType(dataFormatType);
+        this.dataFormatType = DataFormatType.getType(dataFormatType);
         return this;
     }
 
     public InvDatasetWrapper dataType(String dataType) {
-        dataset.dataType = FeatureType.getType(dataType);
+        this.dataType = FeatureType.getType(dataType);
         return this;
     }
 
     public InvDatasetWrapper documentation(String type, String text) {
         InvDocumentation doc = new InvDocumentation(null, null, null, type, text);
-        if (dataset.docs == null) {
-            dataset.docs = new LinkedList<InvDocumentation>();
+        if (this.docs == null) {
+            this.docs = new LinkedList<InvDocumentation>();
         }
-        dataset.docs.add(doc);
+        this.docs.add(doc);
         return this;
     }
 
     public InvDatasetWrapper xlinkDocumentation(String href, String title) {
         InvDocumentation doc = new InvDocumentation(href, null, title, null,
                                                     null);
-        if (dataset.docs == null) {
-            dataset.docs = new LinkedList<InvDocumentation>();
+        if (this.docs == null) {
+            this.docs = new LinkedList<InvDocumentation>();
         }
-        dataset.docs.add(doc);
+        this.docs.add(doc);
         return this;
     }
 
     public InvDatasetWrapper keyword(String keyword, String vocab) {
         Vocab vocabulary = new Vocab(keyword, vocab);
-        if (dataset.keywords == null) {
-            dataset.keywords = new LinkedList<Vocab>();
+        if (this.keywords == null) {
+            this.keywords = new LinkedList<Vocab>();
         }
-        dataset.keywords.add(vocabulary);
+        this.keywords.add(vocabulary);
         return this;
     }
 
@@ -122,19 +121,19 @@ public class InvDatasetWrapper {
 
     public InvDatasetWrapper project(String project, String vocab) {
         Vocab vocabulary = new Vocab(project, vocab);
-        if (dataset.projects == null) {
-            dataset.projects = new LinkedList<Vocab>();
+        if (this.projects == null) {
+            this.projects = new LinkedList<Vocab>();
         }
-        dataset.projects.add(vocabulary);
+        this.projects.add(vocabulary);
         return this;
     }
 
     public InvDatasetWrapper property(String key, String value) {
         InvProperty prop = new InvProperty(key, value);
-        if (dataset.properties == null) {
-            dataset.properties = new LinkedList<InvProperty>();
+        if (this.properties == null) {
+            this.properties = new LinkedList<InvProperty>();
         }
-        dataset.properties.add(prop);
+        this.properties.add(prop);
         return this;
     }
 
@@ -142,10 +141,10 @@ public class InvDatasetWrapper {
                                        String vocab) {
         Vocab vocabulary = new Vocab(name, vocab);
         Source source = new Source(vocabulary, url, email);
-        if (dataset.publishers == null) {
-            dataset.publishers = new LinkedList<Source>();
+        if (this.publishers == null) {
+            this.publishers = new LinkedList<Source>();
         }
-        dataset.publishers.add(source);
+        this.publishers.add(source);
         return this;
     }
 
@@ -159,7 +158,7 @@ public class InvDatasetWrapper {
      * @return 
      */
     public InvDatasetWrapper service(String name) {
-        dataset.setServiceName(name);
+        this.setServiceName(name);
         return this;
     }
 
@@ -182,7 +181,7 @@ public class InvDatasetWrapper {
     public InvDataset build() {
         if (!built) {
             built = true;
-            return dataset;
+            return this;
         }
         else {
             throw new UnsupportedOperationException("build() can only be called once");
