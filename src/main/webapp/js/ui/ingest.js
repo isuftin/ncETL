@@ -33,12 +33,9 @@ Ext.onReady(function() {
 			ref : '../removeBtn',
 			// iconCls: 'icon-user-delete',
 			text : 'Remove',
-			disabled : true,
 			handler : function() {
 				var s = grid.getSelectionModel().getSelections();
-				for ( var i = 0, r; r = s[i]; i++) {
-					store.remove(r);
-				}
+				store.remove(s);
 			}
 		}, {
 			text : 'Save',

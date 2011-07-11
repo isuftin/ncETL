@@ -22,7 +22,6 @@ public class CatalogSpec extends AbstractNcetlSpec {
     
     private static final String TABLE_NAME = "catalog";
     private static final String ID = "id";
-    private static final String CATALOG_ID = "catalog_id";
     private static final String LOCATION = "location";
     private static final String NAME = "name";
     private static final String EXPIRES = "expires";
@@ -34,7 +33,6 @@ public class CatalogSpec extends AbstractNcetlSpec {
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(CATALOG_ID, CATALOG_ID),
                     new ColumnMapping(LOCATION, LOCATION),
                     new ColumnMapping(NAME, NAME),
                     new ColumnMapping(EXPIRES, EXPIRES),
@@ -54,7 +52,6 @@ public class CatalogSpec extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + CATALOG_ID, CATALOG_ID, CATALOG_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + LOCATION, LOCATION, LOCATION, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + NAME, NAME, NAME, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + EXPIRES, EXPIRES, EXPIRES, WhereClauseType.equals, null, null, null),
@@ -71,7 +68,7 @@ public class CatalogSpec extends AbstractNcetlSpec {
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + UPDATED, new String[] {"true"});
         Spec.loadParameters(spec, params);
-        List<String> names = ServiceUtils.getStringsFromDB(spec, con, "name");
+        List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
         
         params = new HashMap<String, String[]>();
         params.put(UPDATED, new String[] {"false"});
@@ -83,6 +80,7 @@ public class CatalogSpec extends AbstractNcetlSpec {
         spec = new CatalogSpec();
         params = new HashMap<String, String[]>();
         params.put(ID, names.toArray(new String[names.size()]));
+        Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);
         return result;
@@ -95,7 +93,7 @@ public class CatalogSpec extends AbstractNcetlSpec {
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("s_" + INSERTED, new String[] {"true"});
         Spec.loadParameters(spec, params);
-        List<String> names = ServiceUtils.getStringsFromDB(spec, con, "name");
+        List<String> names = ServiceUtils.getStringsFromDB(spec, con, ID);
         
         params = new HashMap<String, String[]>();
         params.put(INSERTED, new String[] {"false"});

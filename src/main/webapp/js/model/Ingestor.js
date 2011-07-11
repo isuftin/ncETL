@@ -52,7 +52,7 @@ Ext.define('Ingestor', {
 		},
 		listeners : {
 			"exception" : function(proxy, response, operation, options) {
-				console.log("Proxy Exception");
+//				console.log("Proxy Exception");
 			}
 		}
 	}

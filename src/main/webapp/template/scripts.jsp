@@ -15,6 +15,7 @@ Ext.BLANK_IMAGE_URL = 'images/s.gif';
 
 <%-- Models --%>
 <script type="text/javascript" src="js/model/Ingestor.js"></script>
+<script type="text/javascript" src="js/model/Catalog.js"></script>
 
 <%-- Ext.onReady UI Script --%>
 <script type="text/javascript" src='${param["UIScriptFile"]}'></script>

@@ -42,15 +42,6 @@
         <servlet-class>gov.usgs.cida.ncetl.servlet.EchoServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>IngestControlService</servlet-name>
-        <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
-        <!-- Not needed? -->
-        <init-param>
-            <param-name>jndi_name</param-name>
-            <param-value>java:comp/env/jdbc/NCETL</param-value>
-        </init-param>
-    </servlet>
-    <servlet>
         <servlet-name>RandomNumberServlet</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.servlet.RandomNumberServlet</servlet-class>
     </servlet>
@@ -87,10 +78,6 @@
         <url-pattern>/dates</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>IngestControlService</servlet-name>
-        <url-pattern>/service/ingest/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RandomNumberServlet</servlet-name>
         <url-pattern>/random</url-pattern>
     </servlet-mapping>
@@ -109,5 +96,32 @@
     <servlet-mapping>
         <servlet-name>GlobalAttributeDeaggregationServlet</servlet-name>
         <url-pattern>/globalattrs</url-pattern>
+    </servlet-mapping>
+    <!-- #################### JSL SERVICES CONFIGURATION #################### -->
+    <servlet>
+        <servlet-name>IngestControlService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
+        <!-- Not needed? -->
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IngestControlService</servlet-name>
+        <url-pattern>/service/task/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CatalogService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.CatalogService</servlet-class>
+        <!-- Not needed? -->
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CatalogService</servlet-name>
+        <url-pattern>/service/catalog/*</url-pattern>
     </servlet-mapping>
 </web-app>
