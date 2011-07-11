@@ -187,11 +187,9 @@ public final class DatabaseUtil {
         } catch (SQLException sqlException) {
             LOG.error("An error occurred while attempting to write  to the database. Will attempt to rollback changes.", sqlException);
             try {
-                if (connection != null && connection.isValid(0)) {
-                    connection.rollback();
-                    LOG.info("Rolling back changes successful");
-                    throw sqlException;
-                }
+                connection.rollback();
+                LOG.info("Rolling back changes successful");
+                throw sqlException;
             } catch (SQLException ex) { LOG.error("An error occurred while trying to roll back changes.", ex); }
         } finally {
             DbUtils.closeQuietly(stmt);
