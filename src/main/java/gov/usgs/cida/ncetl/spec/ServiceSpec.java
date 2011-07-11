@@ -1,8 +1,19 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.dbutils.DbUtils;
+import thredds.catalog.InvCatalog;
+import thredds.catalog.InvService;
 
 /**
  *
@@ -57,5 +68,27 @@ public class ServiceSpec extends AbstractNcetlSpec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
+    }
+    
+    protected static String lookupServiceNameByCatalogId(int catalogId, Connection con) throws SQLException {
+        Spec spec = new ServiceSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_catalog_id", new String[]{"" + catalogId});
+        Spec.loadParameters(spec, params);
+        ResultSet rs = null;
+        try {
+            Spec.getResultSet(spec, con);
+            if (rs.next()) {
+                return rs.getString(NAME.toUpperCase());
+            }
+        } finally {
+            DbUtils.closeQuietly(rs);
+        }
+        
+        return null;
+    }
+    
+    protected static List<InvService> unmarshal(int id, InvCatalog parent, Connection con) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
