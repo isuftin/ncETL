@@ -12,7 +12,7 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "controlled_vocabulary";
-    private static final String VOCAB = "vocab";
+    public static final String VOCAB = "vocab";
     
     @Override
     public boolean setupAccess_DELETE() {

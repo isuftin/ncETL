@@ -12,9 +12,9 @@ public class PropertySpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "property";
-    private static final String DATASET_ID = "dataset_id";
-    private static final String NAME = "name";
-    private static final String VALUE = "value";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String NAME = "name";
+    public static final String VALUE = "value";
     
     @Override
     public String setupTableName() {

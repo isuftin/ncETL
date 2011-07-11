@@ -12,12 +12,12 @@ public class SpatialRangeSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "spatial_range";
-    private static final String GEOSPATIAL_COVERAGE_ID = "geospatial_coverage_id";
-    private static final String SPATIAL_RANGE_TYPE_ID = "spatial_range_type_id";
-    private static final String START = "start";
-    private static final String SIZE = "size";
-    private static final String RESOLUTION = "resolution";
-    private static final String UNITS = "units";
+    public static final String GEOSPATIAL_COVERAGE_ID = "geospatial_coverage_id";
+    public static final String SPATIAL_RANGE_TYPE_ID = "spatial_range_type_id";
+    public static final String START = "start";
+    public static final String SIZE = "size";
+    public static final String RESOLUTION = "resolution";
+    public static final String UNITS = "units";
     
     @Override
     public String setupTableName() {

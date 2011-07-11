@@ -12,7 +12,7 @@ public class DatatypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "data_types";
-    private static final String TYPE = "type";
+    public static final String TYPE = "type";
 
     @Override
     public String setupTableName() {

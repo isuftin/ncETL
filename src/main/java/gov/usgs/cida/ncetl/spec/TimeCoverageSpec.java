@@ -12,11 +12,11 @@ public class TimeCoverageSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "time_coverage";
-    private static final String DATASET_ID = "dataset_id";
-    private static final String START_ID = "start_id";
-    private static final String END_ID = "end_id";
-    private static final String DURATION = "duration";
-    private static final String RESOLUTION = "resolution";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String START_ID = "start_id";
+    public static final String END_ID = "end_id";
+    public static final String DURATION = "duration";
+    public static final String RESOLUTION = "resolution";
     
     @Override
     public String setupTableName() {

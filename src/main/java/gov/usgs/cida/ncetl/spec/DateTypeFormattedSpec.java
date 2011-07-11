@@ -12,9 +12,9 @@ public class DateTypeFormattedSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "date_type_formatted";
-    private static final String FORMAT = "format";
-    private static final String VALUE = "value";
-    private static final String DATE_TYPE_ENUM_ID = "date_type_enum_id";
+    public static final String FORMAT = "format";
+    public static final String VALUE = "value";
+    public static final String DATE_TYPE_ENUM_ID = "date_type_enum_id";
 
     @Override
     public String setupTableName() {

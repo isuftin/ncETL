@@ -12,11 +12,11 @@ public class DocumentationSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "documentation";
-    private static final String DOCUMENTATION_TYPE_ID = "documentation_type_id";
-    private static final String DATASET_ID = "dataset_id";
-    private static final String XLINK_HREF = "xlink_href";
-    private static final String XLINK_TITLE = "xlink_title";
-    private static final String TEXT = "text";
+    public static final String DOCUMENTATION_TYPE_ID = "documentation_type_id";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String XLINK_HREF = "xlink_href";
+    public static final String XLINK_TITLE = "xlink_title";
+    public static final String TEXT = "text";
     
     @Override
     public String setupTableName() {

@@ -12,15 +12,15 @@ public class IngestControlSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "ingest";
-    private static final String NAME = "name";
-    private static final String FTP_LOCATION = "ftpLocation";
-    private static final String RESCAN_EVERY = "rescanEvery";
-    private static final String FILE_REGEX = "fileRegex";
-    private static final String SUCCESS_DATE = "successDate";
-    private static final String SUCCESS_TIME = "successTime";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String ACTIVE = "active";
+    public static final String NAME = "name";
+    public static final String FTP_LOCATION = "ftpLocation";
+    public static final String RESCAN_EVERY = "rescanEvery";
+    public static final String FILE_REGEX = "fileRegex";
+    public static final String SUCCESS_DATE = "successDate";
+    public static final String SUCCESS_TIME = "successTime";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String ACTIVE = "active";
     
 
     @Override

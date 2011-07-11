@@ -12,8 +12,8 @@ public class KeywordSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "keyword";
-    private static final String CONTROLLED_VOCABULARY_ID = "controlled_vocabulary_id";
-    private static final String VALUE = "value";
+    public static final String CONTROLLED_VOCABULARY_ID = "controlled_vocabulary_id";
+    public static final String VALUE = "value";
     
     @Override
     public String setupTableName() {

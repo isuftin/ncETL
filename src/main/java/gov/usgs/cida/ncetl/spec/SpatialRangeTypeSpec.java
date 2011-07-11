@@ -12,7 +12,7 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "spatial_range_type";
-    private static final String TYPE = "type";
+    public static final String TYPE = "type";
     
     @Override
     public String setupTableName() {

@@ -11,8 +11,8 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 public class ContributorSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "contributor";
-    private static final String ROLE = "role";
-    private static final String TEXT = "text";
+    public static final String ROLE = "role";
+    public static final String TEXT = "text";
 
     @Override
     public String setupTableName() {

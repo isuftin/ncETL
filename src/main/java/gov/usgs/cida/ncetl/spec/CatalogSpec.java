@@ -13,10 +13,10 @@ public class CatalogSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "catalog";
-    private static final String LOCATION = "location";
-    private static final String NAME = "name";
-    private static final String EXPIRES = "expires";
-    private static final String VERSION = "version";
+    public static final String LOCATION = "location";
+    public static final String NAME = "name";
+    public static final String EXPIRES = "expires";
+    public static final String VERSION = "version";
     
     @Override
     public ColumnMapping[] setupColumnMap() {

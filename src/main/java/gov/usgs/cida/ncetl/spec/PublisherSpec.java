@@ -11,10 +11,10 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 public class PublisherSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
-    private static final String TABLE_NAME = "publisher";
-    private static final String NAME = "name";
-    private static final String CONTACT_URL = "contact_url";
-    private static final String CONTACT_EMAIL = "contact_email";
+    public static final String TABLE_NAME = "publisher";
+    public static final String NAME = "name";
+    public static final String CONTACT_URL = "contact_url";
+    public static final String CONTACT_EMAIL = "contact_email";
 
     @Override
     public String setupTableName() {

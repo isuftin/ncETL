@@ -12,7 +12,7 @@ public class DateTypeEnumSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "date_type_enum";
-    private static final String TOKEN = "token";
+    public static final String TOKEN = "token";
     
     @Override
     public String setupTableName() {

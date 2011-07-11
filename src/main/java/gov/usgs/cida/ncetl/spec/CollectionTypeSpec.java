@@ -12,7 +12,7 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     //id int, type varchar(32), inserted boolean, updated boolean)
     private static final String TABLE_NAME = "collection_types";
-    private static final String TYPE = "type";
+    public static final String TYPE = "type";
     
     @Override
     public boolean setupAccess_DELETE() {

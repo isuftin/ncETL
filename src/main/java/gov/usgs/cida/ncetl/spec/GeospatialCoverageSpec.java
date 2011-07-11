@@ -12,10 +12,10 @@ public class GeospatialCoverageSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "geospatial_coverage";
-    private static final String DATASET_ID = "dataset_id";
-    private static final String CONTROLLED_VOCAB_ID = "controlled_vocabulary_id";
-    private static final String NAME = "name";
-    private static final String ZPOSITIVE_ID = "zpositive_id";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String CONTROLLED_VOCAB_ID = "controlled_vocabulary_id";
+    public static final String NAME = "name";
+    public static final String ZPOSITIVE_ID = "zpositive_id";
     
     @Override
     public String setupTableName() {

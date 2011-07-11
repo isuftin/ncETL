@@ -12,10 +12,10 @@ public class AccessSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
 
     private static final String TABLE_NAME = "access";
-    private static final String DATASET_ID = "dataset_id";
-    private static final String SERVICE_ID = "service_id";
-    private static final String DATAFORMAT_ID = "dataformat_id";
-    private static final String URL_PATH = "url_path";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String SERVICE_ID = "service_id";
+    public static final String DATAFORMAT_ID = "dataformat_id";
+    public static final String URL_PATH = "url_path";
 
     @Override
     public ColumnMapping[] setupColumnMap() {

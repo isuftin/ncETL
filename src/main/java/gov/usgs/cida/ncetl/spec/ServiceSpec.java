@@ -13,13 +13,13 @@ public class ServiceSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
     private static final String TABLE_NAME = "services";
-    private static final String SERVICE_ID = "service_id";
-    private static final String CATALOG_ID = "catalog_id";
-    private static final String SERVICE_TYPE_ID = "service_type_id";
-    private static final String NAME = "name";
-    private static final String BASE = "base";
-    private static final String DESCRIPTION = "description";
-    private static final String SUFFIX = "suffix";
+    public static final String SERVICE_ID = "service_id";
+    public static final String CATALOG_ID = "catalog_id";
+    public static final String SERVICE_TYPE_ID = "service_type_id";
+    public static final String NAME = "name";
+    public static final String BASE = "base";
+    public static final String DESCRIPTION = "description";
+    public static final String SUFFIX = "suffix";
     
     @Override
     public String setupTableName() {
