@@ -1,6 +1,6 @@
 package thredds.catalog;
 
-import gov.usgs.cida.ncetl.utils.SyncWithDatabase;
+import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import org.junit.After;
 import java.util.Date;
 import org.junit.BeforeClass;
@@ -179,7 +179,7 @@ public class CatalogHelperTest {
         CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
         InvCatalog cat = CatalogHelper.readCatalog(tempLocation.toURI());
         assertThat(cat.getName(), is(equalTo(knownName)));
-        cat = SyncWithDatabase.syncCatalog(tempLocation.toURI(), SqlUtils.getConnection(""));
+        cat = CatalogSpec.unmarshal(tempLocation.toURI(), SqlUtils.getConnection(""));
         assertThat(cat.getName(), is(equalTo("testName")));
         CatalogHelper.writeCatalog(cat);
         InvCatalog readCatalog = CatalogHelper.readCatalog(tempLocation.toURI());
