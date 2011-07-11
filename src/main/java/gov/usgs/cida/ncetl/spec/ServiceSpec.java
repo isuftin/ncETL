@@ -81,14 +81,14 @@ public class ServiceSpec extends AbstractNcetlSpec {
         
         params = new HashMap<String, String[]>();
         params.put(UPDATED, new String[] {"false"});
-        params.put(ID, names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[names.size()]));
         spec = new ServiceSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
         spec = new ServiceSpec();
         params = new HashMap<String, String[]>();
-        params.put(ID, names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[names.size()]));
         
         result = Spec.getResultSet(spec, con);
         return result;
@@ -105,14 +105,14 @@ public class ServiceSpec extends AbstractNcetlSpec {
         
         params = new HashMap<String, String[]>();
         params.put(INSERTED, new String[] {"false"});
-        params.put(ID, names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[names.size()]));
         spec = new ServiceSpec();
         Spec.loadParameters(spec, params);
         Spec.updateRow(spec, con);
         
         spec = new ServiceSpec();
         params = new HashMap<String, String[]>();
-        params.put(ID, names.toArray(new String[0]));
+        params.put(ID, names.toArray(new String[names.size()]));
         Spec.loadParameters(spec, params);
         
         result = Spec.getResultSet(spec, con);

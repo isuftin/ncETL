@@ -85,25 +85,26 @@ public class DatasetServlet extends HttpServlet {
     }// </editor-fold>
 
     private void addMetaData(HttpServletRequest request) {
-        String id = null;
-        String coverage = null;
-        String datasetShortName = request.getParameter("name");
-        String datasetName = request.getParameter("description");
-        String docXlink = request.getParameter("doc-xlink");
-        String docRights = request.getParameter("doc-rights");
-        String docSummary = request.getParameter("doc-summary");
-        String docReference = request.getParameter("doc-reference");
-        String servicesOpenDap = request.getParameter("services-opendap");
-        String servicesNetCDFSubset = request.getParameter("services-netcdfsubset");
-        String servicesHttpDownload = request.getParameter("services-httpdownload");
-        String servicesWCS = request.getParameter("services-wcs");
-        String servicesWMS = request.getParameter("services-wms");
-        String servicesNcisoNCML = request.getParameter("services-nciso-ncml");
-        String servicesNcisoIso = request.getParameter("services-nciso-iso");
-        String servicesNcisoUDDC = request.getParameter("services-nciso-uddc");
-        String dataFormat = request.getParameter("dataFormat");
-        String keywords = request.getParameter("keywords");
-        String creator = request.getParameter("creator");
+        // Not being used (yet?)
+//        String id = null;
+//        String coverage = null;
+//        String datasetShortName = request.getParameter("name");
+//        String datasetName = request.getParameter("description");
+//        String docXlink = request.getParameter("doc-xlink");
+//        String docRights = request.getParameter("doc-rights");
+//        String docSummary = request.getParameter("doc-summary");
+//        String docReference = request.getParameter("doc-reference");
+//        String servicesOpenDap = request.getParameter("services-opendap");
+//        String servicesNetCDFSubset = request.getParameter("services-netcdfsubset");
+//        String servicesHttpDownload = request.getParameter("services-httpdownload");
+//        String servicesWCS = request.getParameter("services-wcs");
+//        String servicesWMS = request.getParameter("services-wms");
+//        String servicesNcisoNCML = request.getParameter("services-nciso-ncml");
+//        String servicesNcisoIso = request.getParameter("services-nciso-iso");
+//        String servicesNcisoUDDC = request.getParameter("services-nciso-uddc");
+//        String dataFormat = request.getParameter("dataFormat");
+//        String keywords = request.getParameter("keywords");
+//        String creator = request.getParameter("creator");
     }
     
 }
