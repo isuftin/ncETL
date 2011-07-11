@@ -17,9 +17,9 @@ import thredds.catalog.CatalogHelper;
  */
 public class Bootstrapper implements ServletContextListener {
 
-    private final static String ERRORS_ENCOUNTERED = "errors-encountered";
-    private final static String FALSE = "false";
-    private final static String TRUE = "true";
+    private static final String ERRORS_ENCOUNTERED = "errors-encountered";
+    private static final String FALSE = "false";
+    private static final String TRUE = "true";
     private static Logger log = LoggerFactory.getLogger(Bootstrapper.class);
 
     @Override

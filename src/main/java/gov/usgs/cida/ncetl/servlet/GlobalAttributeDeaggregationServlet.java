@@ -39,7 +39,7 @@ public class GlobalAttributeDeaggregationServlet extends HttpServlet {
         final String regex = request.getParameter("regex");
         
         FileFilter filter = new FileFilter() {
-            Pattern pattern = null;
+            private Pattern pattern = null;
 
             @Override
             public boolean accept(File pathname) {

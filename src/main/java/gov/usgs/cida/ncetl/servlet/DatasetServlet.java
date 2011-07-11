@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class DatasetServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final static String requestedAction = "action";
+    private static final String REQUESTED_ACTION = "action";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String action = request.getParameter(requestedAction);
+        String action = request.getParameter(REQUESTED_ACTION);
         
         if ("getDatasets".equals(action)) {
             response.setContentType("text/xml;charset=UTF-8");
