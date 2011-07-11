@@ -47,17 +47,17 @@ public class DecorateServlet extends HttpServlet {
 			int depth = Integer.parseInt(request.getParameter("depth"));
 
 			ServiceController serviceController = new ServiceController();
-                    if (tsUrl!=null) { // TODO: This is never going to be null
+//                    if (tsUrl!=null) { // This is never going to be null -- commenting out for now, remove the code later
    		    	if (wafDir==null) {
    		            serviceController.launch(tsUrl, sampleNum, depth, isoExtract, customExtract, xsltFile);
    		    	} else {
    		    		//Generate flat WAF
    		    		serviceController.createWaf(tsUrl, sampleNum, depth, isoExtract, customExtract, xsltFile, wafDir);
    		    	}
-   		    } else {
-   		    	//Check to see if wafScore option set
-   		    	serviceController.calcWafScore(wafScoreDir);
-   		    }
+//   		    } else {
+//   		    	//Check to see if wafScore option set
+//   		    	serviceController.calcWafScore(wafScoreDir);
+//   		    }
 			
 			//serviceController.createWaf("http://igsarm-cida-javatest2.er.usgs.gov:8080/thredds", 2, 2, false, false, null, "/home/scratch");
 			out.print("{success:true}");
