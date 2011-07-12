@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
@@ -20,7 +21,7 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "contributor";
     public static final String DATASET_ID = "dataset_id";
-    public static final String KEYWORD_ID = "keyword_id";
+    public static final String PROJECT_ID = "project_id";
 
 
     @Override
@@ -33,7 +34,7 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
                     new ColumnMapping(DATASET_ID, DATASET_ID),
-                    new ColumnMapping(KEYWORD_ID, KEYWORD_ID),
+                    new ColumnMapping(PROJECT_ID, PROJECT_ID),
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
@@ -44,14 +45,14 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + KEYWORD_ID, KEYWORD_ID, KEYWORD_ID, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + PROJECT_ID, PROJECT_ID, PROJECT_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
     
-    public static List<ProjectSpec> unmarshal(int datasetId, Connection con) throws SQLException {
-        List<ProjectSpec> result = Lists.newLinkedList();
+    public static List<Vocab> unmarshal(int datasetId, Connection con) throws SQLException {
+        List<Vocab> result = Lists.newLinkedList();
         Spec spec = new ProjectJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
@@ -59,8 +60,8 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int contrib_id = rs.getInt(DATASET_ID);
-//            result.add(ProjectSpec.lookup(contrib_id, con));
+            int proj_id = rs.getInt(PROJECT_ID);
+            result.add(ProjectSpec.unmarshal(proj_id, con));
         }
         return result;
     }

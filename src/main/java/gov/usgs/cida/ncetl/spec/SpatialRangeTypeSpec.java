@@ -20,7 +20,7 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     
     private static final String TABLE_NAME = "spatial_range_type";
     public static final String TYPE = "type";
-    
+
     @Override
     public String setupTableName() {
         return TABLE_NAME;
@@ -57,8 +57,8 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
         };
     }
     
-    public static SpatialRangeType lookup(int id, Connection con) throws SQLException {
-        Spec spec = new CollectionTypeSpec();
+    public static SpatialRangeType unmarshal(int id, Connection con) throws SQLException {
+        Spec spec = new SpatialRangeTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

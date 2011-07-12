@@ -1,8 +1,18 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import thredds.catalog.SpatialRangeType;
+import thredds.catalog.ThreddsMetadata.Range;
 
 /**
  *
@@ -18,7 +28,7 @@ public class SpatialRangeSpec  extends AbstractNcetlSpec {
     public static final String SIZE = "size";
     public static final String RESOLUTION = "resolution";
     public static final String UNITS = "units";
-    
+
     @Override
     public String setupTableName() {
         return TABLE_NAME;
@@ -53,4 +63,27 @@ public class SpatialRangeSpec  extends AbstractNcetlSpec {
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
+
+    static Map<SpatialRangeType, Range> unmarshal(int id, Connection con) throws SQLException {
+        Map<SpatialRangeType, Range> ranges = Maps.newTreeMap();
+        Spec spec = new SpatialRangeSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + GEOSPATIAL_COVERAGE_ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        
+        while (rs.next()) {
+            double start = rs.getDouble(START);
+            double size = rs.getDouble(SIZE);
+            double resolution = rs.getDouble(RESOLUTION);
+            String units = rs.getString(UNITS);
+            Range range = new Range(start, size, resolution, units);
+            
+            int type_id = rs.getInt(SPATIAL_RANGE_TYPE_ID);
+            SpatialRangeType type = SpatialRangeTypeSpec.unmarshal(type_id, con);
+            ranges.put(type, range);
+        }
+        return ranges;
+    }
+    
 }

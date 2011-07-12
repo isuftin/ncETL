@@ -16,11 +16,12 @@ import thredds.catalog.CollectionType;
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
 public class CollectionTypeSpec extends AbstractNcetlSpec {
+
     private static final long serialVersionUID = 1L;
     //id int, type varchar(32), inserted boolean, updated boolean)
     private static final String TABLE_NAME = "collection_types";
     public static final String TYPE = "type";
-    
+
     @Override
     public boolean setupAccess_DELETE() {
         return false;
@@ -40,7 +41,7 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     public String setupTableName() {
         return TABLE_NAME;
     }
-    
+
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
@@ -52,24 +53,25 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
-            new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null)
-        };
+                    new SearchMapping(ID, ID, null, WhereClauseType.equals, null,
+                                      null, null),
+                    new SearchMapping("s_" + TYPE, TYPE, TYPE,
+                                      WhereClauseType.equals, null, null, null)
+                };
     }
-    
-    public static CollectionType lookup(int id, Connection con) throws SQLException {
+
+    public static CollectionType lookup(int id, Connection con) throws
+            SQLException {
         Spec spec = new CollectionTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
-        
+
         String type = null;
         if (rs.next()) {
             type = rs.getString(TYPE);
-            return CollectionType.getType(type);
         }
-        return null;
-        
+        return CollectionType.getType(type);
     }
 }

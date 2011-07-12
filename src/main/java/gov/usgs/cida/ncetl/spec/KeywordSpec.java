@@ -49,21 +49,18 @@ public class KeywordSpec  extends AbstractNcetlSpec {
         };
     }
 
-    static Vocab lookup(int contrib_id, Connection con) throws SQLException {
+    static Vocab unmarshal(int id, Connection con) throws SQLException {
         Spec spec = new KeywordSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + CONTROLLED_VOCABULARY_ID });
-        params.put("s_" + VALUE, new String[] { "" + VALUE });
+        params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         
         Vocab vocab = null;
         if (rs.next()) {
-            vocab = new Vocab();
-            vocab.setText(rs.getString(VALUE));
-//            vocab.setText();
-//            vocab.setVocabulary();
-            //rs.getString(VALUE));
+            String value = rs.getString(VALUE);
+            int vocab_id = rs.getInt(CONTROLLED_VOCABULARY_ID);
+            vocab = ControlledVocabularySpec.lookupAndAddText(vocab_id, value, con);
         }
         return vocab;
     }

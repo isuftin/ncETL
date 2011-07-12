@@ -139,6 +139,12 @@ public class DatasetSpec extends AbstractNcetlSpec {
             List<Source> creators = CreatorJoinSpec.unmarshal(datasetId, con);
             invDsWrapper.setCreators(creators);
             
+            List<Source> publishers = PublisherJoinSpec.unmarshal(datasetId, con);
+            invDsWrapper.setPublishers(publishers);
+            
+            List<Vocab> projects = ProjectJoinSpec.unmarshal(datasetId, con);
+            invDsWrapper.setProjects(projects);
+            
             result.add(invDsWrapper);
         }
 

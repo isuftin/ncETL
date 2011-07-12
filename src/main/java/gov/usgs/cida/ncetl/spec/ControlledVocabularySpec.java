@@ -51,7 +51,7 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
         };
     }
     
-        public static Vocab lookup(int id, Connection con) throws SQLException {
+        public static Vocab lookupAndAddText(int id, String text, Connection con) throws SQLException {
         Spec spec = new ContributorSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
@@ -60,7 +60,7 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
 
         if (rs.next()) {
             String vocab = rs.getString(VOCAB);
-            return new Vocab("", vocab);
+            return new Vocab(text, vocab);
         }
         else {
             return null;

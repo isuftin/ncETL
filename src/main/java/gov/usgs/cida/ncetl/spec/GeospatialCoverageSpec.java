@@ -1,10 +1,20 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import thredds.catalog.SpatialRangeType;
 import thredds.catalog.ThreddsMetadata.GeospatialCoverage;
+import thredds.catalog.ThreddsMetadata.Range;
+import thredds.catalog.ThreddsMetadata.Vocab;
+import static thredds.catalog.SpatialRangeType.*;
 
 /**
  *
@@ -50,7 +60,28 @@ public class GeospatialCoverageSpec  extends AbstractNcetlSpec {
         };
     }
     
-    public static GeospatialCoverage unmarshal(int datasetId, Connection con) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static GeospatialCoverage unmarshal(int datasetId, Connection con) throws SQLException {
+        Spec spec = new GeospatialCoverageSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        
+        GeospatialCoverage gc = null;
+        if (rs.next()) {
+            String name = rs.getString(NAME);
+            int vocab_id = rs.getInt(CONTROLLED_VOCAB_ID);
+            Vocab vocab = ControlledVocabularySpec.lookupAndAddText(vocab_id, name, con);
+            
+            int z_id = rs.getInt(ZPOSITIVE_ID);
+            String upOrDown = UpDownTypeSpec.lookup(z_id, con);
+            
+            int id = rs.getInt(ID);
+            Map<SpatialRangeType, Range> ranges = SpatialRangeSpec.unmarshal(id, con);
+            
+            gc = new GeospatialCoverage(ranges.get(EAST_WEST), ranges.get(NORTH_SOUTH),
+                    ranges.get(UP_DOWN), Lists.asList(vocab, new Vocab[0]), upOrDown);
+        }
+        return gc;
     }
 }

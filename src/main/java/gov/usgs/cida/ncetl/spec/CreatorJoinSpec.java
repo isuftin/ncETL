@@ -61,7 +61,7 @@ public class CreatorJoinSpec  extends AbstractNcetlSpec {
 
         while (rs.next()) {
             int creator_id = rs.getInt(CREATOR_ID);
-            result.add(CreatorSpec.lookup(creator_id, con));
+            result.add(CreatorSpec.unmarshal(creator_id, con));
         }
         return result;
     }

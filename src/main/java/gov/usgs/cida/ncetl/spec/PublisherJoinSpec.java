@@ -52,20 +52,20 @@ public class PublisherJoinSpec  extends AbstractNcetlSpec {
         };
     }
     
-//    public static List<Source> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
-//        List<Source> result = Lists.newLinkedList();
-//        Spec spec = new PublisherJoinSpec();
-//        Map<String, String[]> params = Maps.newHashMap();
-//        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
-//        Spec.loadParameters(spec, params);
-//        ResultSet rs = Spec.getResultSet(spec, con);
-//
-//        while (rs.next()) {
-//            int dsId = rs.getInt(DATASET_ID);
-//            result.add(PublisherSpec.lookup(dsId, con));
-//        }
-//        
-//        return result;
-//    }
+    public static List<Source> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
+        List<Source> result = Lists.newLinkedList();
+        Spec spec = new PublisherJoinSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+
+        while (rs.next()) {
+            int dsId = rs.getInt(DATASET_ID);
+            result.add(PublisherSpec.unmarshal(dsId, con));
+        }
+        
+        return result;
+    }
 
 }

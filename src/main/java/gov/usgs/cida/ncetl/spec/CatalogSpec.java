@@ -12,11 +12,14 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.naming.NamingException;
 import thredds.catalog.CatalogHelper;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvCatalogModifier;
+import thredds.catalog.InvDataset;
+import thredds.catalog.InvService;
 import ucar.nc2.units.DateType;
 
 /**
@@ -96,8 +99,8 @@ public class CatalogSpec extends AbstractNcetlSpec {
             }
         }
         // Recursively do syncCatalog for sub-catalogs, datasets, services
-        ServiceSpec.unmarshal(catalog_id, cat, con);
-        DatasetSpec.unmarshal(catalog_id, cat, con);
+        List<InvService> services = ServiceSpec.unmarshal(catalog_id, cat, con);
+        List<InvDataset> datasets = DatasetSpec.unmarshal(catalog_id, cat, con);
 
         return cat;
     }

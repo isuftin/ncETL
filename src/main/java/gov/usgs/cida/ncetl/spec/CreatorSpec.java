@@ -21,6 +21,7 @@ public class CreatorSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "creator";
     public static final String NAME = "name";
+    public static final String CONTROLLED_VOCAB_ID = "controlled_vocabulary_id";
     public static final String CONTACT_URL = "contact_url";
     public static final String CONTACT_EMAIL = "contact_email";
 
@@ -29,6 +30,7 @@ public class CreatorSpec extends AbstractNcetlSpec {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
                     new ColumnMapping(NAME, NAME),
+                    new ColumnMapping(CONTROLLED_VOCAB_ID, CONTROLLED_VOCAB_ID),
                     new ColumnMapping(CONTACT_URL, CONTACT_URL),
                     new ColumnMapping(CONTACT_EMAIL, CONTACT_EMAIL),
                     new ColumnMapping(INSERTED, null),
@@ -48,6 +50,8 @@ public class CreatorSpec extends AbstractNcetlSpec {
                                       null, null),
                     new SearchMapping("s_" + NAME, NAME, NAME,
                                       WhereClauseType.equals, null, null, null),
+                    new SearchMapping("s_" + CONTROLLED_VOCAB_ID, CONTROLLED_VOCAB_ID, CONTROLLED_VOCAB_ID,
+                                      WhereClauseType.equals, null, null, null),
                     new SearchMapping("s_" + CONTACT_URL, CONTACT_URL,
                                       CONTACT_URL, WhereClauseType.equals, null,
                                       null, null),
@@ -61,22 +65,23 @@ public class CreatorSpec extends AbstractNcetlSpec {
                 };
     }
     
-    public static Source lookup(int id, Connection con) throws SQLException {
+    public static Source unmarshal(int id, Connection con) throws SQLException {
         Spec spec = new CreatorSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
-
+        Source source = null;
+        
         if (rs.next()) {
             String name = rs.getString(NAME);
             String contactUrl = rs.getString(CONTACT_URL);
             String email = rs.getString(CONTACT_EMAIL);
-            return new Source(new Vocab(name, ""), contactUrl, email);
+            int vocab_id = rs.getInt(CONTROLLED_VOCAB_ID);
+            Vocab vocab = ControlledVocabularySpec.lookupAndAddText(vocab_id, name, con);
+            source = new Source(vocab, contactUrl, email);
         }
-        else {
-            return null;
-        }
+        return source;
     }
 
 }
