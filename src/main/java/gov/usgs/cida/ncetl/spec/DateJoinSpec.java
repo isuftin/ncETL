@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import thredds.catalog.ThreddsMetadata.Range;
-import thredds.catalog.ThreddsMetadata.Vocab;
 import ucar.nc2.units.DateType;
 
 /**
@@ -56,7 +54,7 @@ public class DateJoinSpec  extends AbstractNcetlSpec {
     
     public static List<DateType> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
         List<DateType> result = Lists.newLinkedList();
-        DateJoinSpec spec = new DateJoinSpec();
+        Spec spec = new DateJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);

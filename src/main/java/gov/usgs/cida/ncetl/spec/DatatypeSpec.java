@@ -58,7 +58,7 @@ public class DatatypeSpec extends AbstractNcetlSpec {
     }
     
     public static FeatureType lookup(int id, Connection con) throws SQLException {
-        CollectionTypeSpec spec = new CollectionTypeSpec();
+        Spec spec = new DatatypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

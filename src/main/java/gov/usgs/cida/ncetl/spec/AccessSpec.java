@@ -5,6 +5,7 @@ import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 
 /**
+ * 
  *
  * @author Ivan Suftin <isuftin@usgs.gov>
  */

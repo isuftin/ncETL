@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.CollectionType;
@@ -97,8 +96,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
 
         while (rs.next()) {
             InvDatasetWrapper invDsWrapper = null;
-            InvDataset findDatasetByID = cat.findDatasetByID(
-                    rs.getString("NCID"));
+            InvDataset findDatasetByID = cat.findDatasetByID(rs.getString("NCID"));
             if (findDatasetByID == null) {
                 invDsWrapper = new InvDatasetWrapper("", ""); // name and id are set below
             }

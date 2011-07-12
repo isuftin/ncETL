@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
@@ -51,17 +50,17 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
         };
     }
     
-    public static List<Vocab> unmarshal(int datasetId, Connection con) throws SQLException {
-        List<Vocab> result = Lists.newLinkedList();
-        ProjectJoinSpec spec = new ProjectJoinSpec();
+    public static List<ProjectSpec> unmarshal(int datasetId, Connection con) throws SQLException {
+        List<ProjectSpec> result = Lists.newLinkedList();
+        Spec spec = new ProjectJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int contrib_id = rs.getInt(KEYWORD_ID);
-            result.add(KeywordSpec.lookup(contrib_id, con));
+            int contrib_id = rs.getInt(DATASET_ID);
+//            result.add(ProjectSpec.lookup(contrib_id, con));
         }
         return result;
     }

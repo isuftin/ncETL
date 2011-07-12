@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import thredds.catalog.CollectionType;
 import thredds.catalog.ServiceType;
 
 /**
@@ -59,7 +58,7 @@ public class ServiceTypeSpec extends AbstractNcetlSpec {
     }
     
     public static ServiceType lookup(int id, Connection con) throws SQLException {
-        ServiceTypeSpec spec = new ServiceTypeSpec();
+        Spec spec = new ServiceTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

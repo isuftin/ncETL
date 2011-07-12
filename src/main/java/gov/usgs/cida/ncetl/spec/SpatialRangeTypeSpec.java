@@ -58,7 +58,7 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     }
     
     public static SpatialRangeType lookup(int id, Connection con) throws SQLException {
-        CollectionTypeSpec spec = new CollectionTypeSpec();
+        Spec spec = new CollectionTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

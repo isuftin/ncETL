@@ -9,8 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import thredds.catalog.CollectionType;
-import thredds.catalog.InvDocumentation;
 
 /**
  *
@@ -59,7 +57,7 @@ public class DocumentationTypeSpec extends AbstractNcetlSpec {
     }
     
     public static String lookup(int id, Connection con) throws SQLException {
-        DocumentationTypeSpec spec = new DocumentationTypeSpec();
+        Spec spec = new DocumentationTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

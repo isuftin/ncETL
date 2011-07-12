@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import thredds.catalog.DataFormatType;
-import thredds.catalog.ThreddsMetadata.Contributor;
 
 /**
  *
@@ -48,7 +47,7 @@ public class DataFormatSpec extends AbstractNcetlSpec {
     }
     
     public static DataFormatType lookup(int id, Connection con) throws SQLException {
-        DataFormatSpec spec = new DataFormatSpec();
+        Spec spec = new DataFormatSpec();
         Map<String, String[]> params = new HashMap<String, String[]>(1);
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

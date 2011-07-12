@@ -1,9 +1,14 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
@@ -44,8 +49,23 @@ public class KeywordSpec  extends AbstractNcetlSpec {
         };
     }
 
-    static Vocab lookup(int contrib_id, Connection con) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    static Vocab lookup(int contrib_id, Connection con) throws SQLException {
+        Spec spec = new KeywordSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + ID, new String[] { "" + CONTROLLED_VOCABULARY_ID });
+        params.put("s_" + VALUE, new String[] { "" + VALUE });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        
+        Vocab vocab = null;
+        if (rs.next()) {
+            vocab = new Vocab();
+            vocab.setText(rs.getString(VALUE));
+//            vocab.setText();
+//            vocab.setVocabulary();
+            //rs.getString(VALUE));
+        }
+        return vocab;
     }
     
 }

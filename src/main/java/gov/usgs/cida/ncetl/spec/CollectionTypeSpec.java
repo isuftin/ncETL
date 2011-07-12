@@ -58,15 +58,18 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     }
     
     public static CollectionType lookup(int id, Connection con) throws SQLException {
-        CollectionTypeSpec spec = new CollectionTypeSpec();
+        Spec spec = new CollectionTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
+        
         String type = null;
         if (rs.next()) {
             type = rs.getString(TYPE);
+            return CollectionType.getType(type);
         }
-        return CollectionType.getType(type);
+        return null;
+        
     }
 }

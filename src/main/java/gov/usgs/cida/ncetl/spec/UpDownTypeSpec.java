@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import thredds.catalog.CollectionType;
 
 /**
  *
@@ -58,7 +57,7 @@ public class UpDownTypeSpec extends AbstractNcetlSpec {
     }
     
     public static String lookup(int id, Connection con) throws SQLException {
-        UpDownTypeSpec spec = new UpDownTypeSpec();
+        Spec spec = new UpDownTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);

@@ -1,17 +1,8 @@
 package gov.usgs.cida.ncetl.spec;
 
-import com.google.common.collect.Maps;
-import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.Map;
-import thredds.catalog.ThreddsMetadata.Source;
-import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
@@ -62,25 +53,25 @@ public class PublisherSpec extends AbstractNcetlSpec {
                 };
     }
     
-    static Source lookup(int datasetId, Connection con)  throws SQLException, ParseException {
-        Spec spec = new PublisherSpec();
-        Map<String, String[]> params = Maps.newHashMap();
-        Source source = null;
-        
-        params.put("s_" + ID, new String[] { "" + datasetId });
-        Spec.loadParameters(spec, params);
-        ResultSet rs = Spec.getResultSet(spec, con);
-        
-        if (rs.next()) {
-            String name = rs.getString(NAME);
-            String contactUrl = rs.getString(CONTACT_URL);
-            String contactEmail = rs.getString(CONTACT_EMAIL);
-            
-            //TODO: What to put for the vocabulary parameter in Vocab constructor?
-            source = new Source(new Vocab(name, ""), contactUrl, contactEmail);
-        }
-        
-        return source;
-    }
+//    static Source lookup(int datasetId, Connection con)  throws SQLException, ParseException {
+//        Spec spec = new PublisherSpec();
+//        Map<String, String[]> params = Maps.newHashMap();
+//        Source source = null;
+//        
+//        params.put("s_" + ID, new String[] { "" + datasetId });
+//        Spec.loadParameters(spec, params);
+//        ResultSet rs = Spec.getResultSet(spec, con);
+//        
+//        if (rs.next()) {
+//            String name = rs.getString(NAME);
+//            String contactUrl = rs.getString(CONTACT_URL);
+//            String contactEmail = rs.getString(CONTACT_EMAIL);
+//            
+//            //TODO: What to put for the vocabulary parameter in Vocab constructor?
+//            source = new Source(new Vocab(name, ""), contactUrl, contactEmail);
+//        }
+//        
+//        return source;
+//    }
 
 }

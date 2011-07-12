@@ -1,10 +1,16 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Source;
+import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
@@ -55,8 +61,22 @@ public class CreatorSpec extends AbstractNcetlSpec {
                 };
     }
     
-    public static Source lookup(int id, Connection con) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static Source lookup(int id, Connection con) throws SQLException {
+        Spec spec = new CreatorSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+
+        if (rs.next()) {
+            String name = rs.getString(NAME);
+            String contactUrl = rs.getString(CONTACT_URL);
+            String email = rs.getString(CONTACT_EMAIL);
+            return new Source(new Vocab(name, ""), contactUrl, email);
+        }
+        else {
+            return null;
+        }
     }
 
 }

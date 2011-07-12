@@ -9,7 +9,6 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Contributor;
@@ -54,8 +53,9 @@ public class ContributorJoinSpec  extends AbstractNcetlSpec {
     
     public static List<Contributor> unmarshal(int datasetId, Connection con) throws SQLException {
         List<Contributor> result = Lists.newLinkedList();
-        ContributorJoinSpec spec = new ContributorJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
+        Spec spec = new ContributorJoinSpec();
+        
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);

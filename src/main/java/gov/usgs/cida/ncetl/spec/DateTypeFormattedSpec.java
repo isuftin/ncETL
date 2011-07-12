@@ -63,7 +63,7 @@ public class DateTypeFormattedSpec extends AbstractNcetlSpec {
     
     
     public static DateType lookup(int id, Connection con) throws SQLException, ParseException {
-        DateTypeFormattedSpec spec = new DateTypeFormattedSpec();
+        Spec spec = new DateTypeFormattedSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
