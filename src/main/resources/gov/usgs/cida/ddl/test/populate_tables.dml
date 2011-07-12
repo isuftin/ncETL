@@ -1,0 +1,106 @@
+
+INSERT INTO collection_type (type)
+    VALUES  ('TimeSeries'),
+            ('Stations'),
+            ('ForecastModelRuns');
+
+INSERT INTO data_type (type)
+    VALUES  ('Grid'),
+            ('Image'),
+            ('Point'),
+            ('Radial'),
+            ('Station'),
+            ('Swath'),
+            ('Trajectory');
+
+INSERT INTO data_format (type)
+    VALUES  ('BUFR'),
+            ('ESML'),
+            ('GEMPAK'),
+            ('GINI'),
+            ('GRIB-1'),
+            ('GRIB-2'),
+            ('HDF4'),
+            ('HDF5'),
+            ('NcML'),
+            ('NetCDF'),
+            ('NEXRAD2'),
+            ('NIDS'),
+            ('image/gif'),
+            ('image/jpeg'),
+            ('image/tiff'),
+            ('text/plain'),
+            ('text/tab-separated-values'),
+            ('text/xml'),
+            ('video/mpeg'),
+            ('video/quicktime'),
+            ('video/realtime');
+
+-- not exclusive, next iteration maybe look into not dropping table;
+INSERT INTO documentation_type (type)
+    VALUES  ('funding'),
+            ('history'),
+            ('processing_level'),
+            ('rights'),
+            ('summary');
+
+INSERT INTO service_type (type)
+    VALUES  ('ADDE'),
+            ('OpenDAP'),
+            ('OpenDAP-G'),
+            ('HTTPServer'),
+            ('FTP'),
+            ('GridFTP'),
+            ('File'),
+            ('NetcdfServer'),
+            ('LAS'),
+            ('WMS'),
+            ('WFS'),
+            ('WCS'),
+            ('WSDL'),
+            ('WebForm'),
+            ('Catalog'),
+            ('QueryCapability'),
+            ('Resolver'),
+            ('Compound');
+
+-- not exclusive, should allow user to add and not drop these;
+INSERT INTO date_type_enum (type)
+    VALUES  ('created'),
+            ('modified'),
+            ('valid'),
+            ('issued'),
+            ('available'),
+            ('metadataCreated');
+
+INSERT INTO spatial_range_type (type)
+    VALUES  ('northsouth'),
+            ('eastwest'),
+            ('updown');
+            
+INSERT INTO up_down_type (type)
+    VALUES  ('up'),
+            ('down');
+
+
+INSERT INTO catalog (location, name, expires, version)
+    VALUES  ('file:///tmp/not/real','test-catalog','2012-01-01','1.0.1');
+    
+INSERT INTO service (catalog_id, service_id, service_type_id, name, base, description, suffix)
+    VALUES  (1,NULL,18,'test service','','test description',''),
+            (NULL,1,2,'test opendap child service','/thredds/dodsC/','test child service description','');
+
+INSERT INTO dataset (catalog_id, collection_type_id,data_type_id,name,ncid,authority)
+    VALUES  (1,1,1,'test dataset','test','gov.usgs.cida');
+
+INSERT INTO controlled_vocabulary (vocab)
+    VALUES  ('test_controlled_vocabulary_1'),
+            ('test_controlled_vocabulary_2');
+
+INSERT INTO keyword (value, controlled_vocabulary_id)
+    VALUES  ('test',1),
+            ('test2',2);
+
+INSERT INTO keyword_join (dataset_id, keyword_id)
+    VALUES  (1,1),
+            (1,2);

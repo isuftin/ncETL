@@ -33,7 +33,6 @@ public class DateJoinSpec  extends AbstractNcetlSpec {
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
-                    new ColumnMapping(ID, ID),
                     new ColumnMapping(DATASET_ID, DATASET_ID),
                     new ColumnMapping(DATE_ID, DATE_ID),
                     new ColumnMapping(INSERTED, null),
@@ -44,7 +43,6 @@ public class DateJoinSpec  extends AbstractNcetlSpec {
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
-            new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + DATE_ID, DATE_ID, DATE_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),

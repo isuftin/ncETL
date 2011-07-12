@@ -30,7 +30,8 @@ import org.slf4j.LoggerFactory;
 public final class DatabaseUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseUtil.class);
-    private static final int TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE = 20000;
+    private static final String TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE = "X0Y32";
+    private static final String TABLE_OR_VIEW_DOESNT_EXIST_ERROR_CODE = "42Y55";
     private static final String DB_NAME = "NCETL";
     private static final String DB_LOCATION = FileHelper.getDatabaseDirectory() + DB_NAME;
     private static final String DB_CLASS_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -81,6 +82,10 @@ public final class DatabaseUtil {
     }
 
     public static void setupDatabase(final String dbConnection, final String dbClassName) throws SQLException, NamingException, ClassNotFoundException {
+        DatabaseUtil.setupDatabase(dbConnection, dbClassName, createTablesDDL, populateTablesDML);
+    }
+    
+    public static void setupDatabase(final String dbConnection, final String dbClassName, List<String> createTablesDDL, List<String> populateTablesDML) throws SQLException, NamingException, ClassNotFoundException {
         LOG.info("*************** Initializing database.");
 
         System.setProperty("dbuser", "");
@@ -140,12 +145,13 @@ public final class DatabaseUtil {
     public static void writeDDL(List<String> ddlStatements, Connection connection) throws SQLException {
         LOG.info("Attempting to write DDL to database");
             connection.setAutoCommit(false);
-            for (String createTableDDL : createTablesDDL) {
+            for (String createTableDDL : ddlStatements) {
                 try {
-                    LOG.debug("Trying: " + createTableDDL);
+                    LOG.debug("\nTrying: " + createTableDDL);
                     connection.createStatement().execute(createTableDDL);
                 } catch (SQLException sqe) {
-                    if (sqe.getErrorCode() == TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE) {
+                    if (sqe.getSQLState().contains(TABLE_OR_VIEW_ALREADY_EXISTS_ERROR_CODE) || 
+                            sqe.getSQLState().contains(TABLE_OR_VIEW_DOESNT_EXIST_ERROR_CODE)) {
                         LOG.info(sqe.getMessage() + " -- Skipping");
                     } else {
                         connection.rollback();

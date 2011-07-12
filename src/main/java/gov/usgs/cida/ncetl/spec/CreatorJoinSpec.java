@@ -32,7 +32,6 @@ public class CreatorJoinSpec  extends AbstractNcetlSpec {
     @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
-                    new ColumnMapping(ID, ID),
                     new ColumnMapping(DATASET_ID, DATASET_ID),
                     new ColumnMapping(CREATOR_ID, CREATOR_ID),
                     new ColumnMapping(INSERTED, null),
@@ -43,7 +42,6 @@ public class CreatorJoinSpec  extends AbstractNcetlSpec {
     @Override
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
-            new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + CREATOR_ID, CREATOR_ID, CREATOR_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),

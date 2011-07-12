@@ -2,35 +2,35 @@
 -- must end in ;
 
 -- Lookup tables, be sure to drop the table before creating it;
-DROP TABLE collection_type;
+--DROP TABLE collection_type;
 CREATE TABLE collection_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE data_type;
+--DROP TABLE data_type;
 CREATE TABLE data_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE data_format;
+--DROP TABLE data_format;
 CREATE TABLE data_format 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE documentation_type;
+--DROP TABLE documentation_type;
 CREATE TABLE documentation_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE service_type;
+--DROP TABLE service_type;
 CREATE TABLE service_type 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE date_type_enum;
+--DROP TABLE date_type_enum;
 CREATE TABLE date_type_enum 
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
     
-DROP TABLE spatial_range_type;    
+--DROP TABLE spatial_range_type;    
 CREATE TABLE spatial_range_type
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
-DROP TABLE up_down_type;
+--DROP TABLE up_down_type;
 CREATE TABLE up_down_type
     (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(4), PRIMARY KEY (id));
 
@@ -102,10 +102,10 @@ CREATE TABLE creator_join
     (dataset_id INT CONSTRAINT DATASET7_FK REFERENCES dataset, creator_id INT CONSTRAINT CREATOR_FK REFERENCES creator, inserted boolean DEFAULT false, updated boolean DEFAULT false);
 
 CREATE TABLE project_join 
-    (dataset_id INT CONSTRAINT DATASET8_FK REFERENCES dataset, project_id INT CONSTRAINT CREATOR_FK REFERENCES project, inserted boolean DEFAULT false, updated boolean DEFAULT false);
+    (dataset_id INT CONSTRAINT DATASET8_FK REFERENCES dataset, project_id INT CONSTRAINT PROJECT_FK REFERENCES project, inserted boolean DEFAULT false, updated boolean DEFAULT false);
 
 CREATE TABLE publisher_join 
-    (dataset_id INT CONSTRAINT DATASET9_FK REFERENCES dataset, publisher_id INT CONSTRAINT CREATOR_FK REFERENCES publisher, inserted boolean DEFAULT false, updated boolean DEFAULT false);
+    (dataset_id INT CONSTRAINT DATASET9_FK REFERENCES dataset, publisher_id INT CONSTRAINT PUBLISHER_FK REFERENCES publisher, inserted boolean DEFAULT false, updated boolean DEFAULT false);
 
 CREATE TABLE date_join
     (dataset_id INT CONSTRAINT DATASET12_FK REFERENCES dataset, date_type_formatted_id INT CONSTRAINT DTF1_FK REFERENCES date_type_formatted, inserted boolean DEFAULT false, updated boolean DEFAULT false);

@@ -78,7 +78,7 @@ public class ServiceSpec extends AbstractNcetlSpec {
         Spec.loadParameters(spec, params);
         ResultSet rs = null;
         try {
-            Spec.getResultSet(spec, con);
+            rs = Spec.getResultSet(spec, con);
             if (rs.next()) {
                 return rs.getString(NAME.toUpperCase());
             }

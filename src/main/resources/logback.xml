@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
+<!--        <encoder>
             <pattern>%d{HH:mm:ss} %p %C.%M(%L): %m%n</pattern>
+        </encoder>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss} %p %c{1}: %m%n</pattern>
         </encoder>
     </appender>
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
