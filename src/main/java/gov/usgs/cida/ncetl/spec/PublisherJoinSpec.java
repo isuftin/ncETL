@@ -9,9 +9,10 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import thredds.catalog.ThreddsMetadata.Vocab;
+import thredds.catalog.ThreddsMetadata.Source;
 
 /**
  *
@@ -51,18 +52,19 @@ public class PublisherJoinSpec  extends AbstractNcetlSpec {
         };
     }
     
-    public static List<Vocab> unmarshal(int datasetId, Connection con) throws SQLException {
-        List<Vocab> result = Lists.newLinkedList();
-        PublisherJoinSpec spec = new PublisherJoinSpec();
+    public static List<Source> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
+        List<Source> result = Lists.newLinkedList();
+        Spec spec = new PublisherJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int contrib_id = rs.getInt(KEYWORD_ID);
-            result.add(KeywordSpec.lookup(contrib_id, con));
+            int dsId = rs.getInt(DATASET_ID);
+            result.add(PublisherSpec.lookup(dsId, con));
         }
+        
         return result;
     }
 
