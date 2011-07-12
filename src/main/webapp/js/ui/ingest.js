@@ -1,8 +1,9 @@
 Ext.onReady(function() {
-	
+
 	var cat_id = Page.queryString['catalog_id'];
-	if (!cat_id) cat_id = "ERROR";
-	
+	if (!cat_id)
+		cat_id = "ERROR";
+
 	var parentCatalog = Ext.ModelManager.getModel('Catalog').load(cat_id, {
 		failure : function(record, operation) { //Due to Ext response handling stupidity, this actually won't be called
 			new Ext.container.Viewport({
@@ -16,7 +17,7 @@ Ext.onReady(function() {
 					defaults : {
 						autoScroll : true
 					},
-					html: 'Something went wrong!'
+					html : 'Something went wrong!'
 				}) ]
 			});
 		},
@@ -33,52 +34,54 @@ Ext.onReady(function() {
 						defaults : {
 							autoScroll : true
 						},
-						html: 'Invalid Catalog ID!'
+						html : 'Invalid Catalog ID!'
 					}) ]
 				});
-				
+
 			} else {
 				//################ NORMAL EXECUTION ##################
 				var formItems = [];
-				
-				var catalogForm = new ncETL.form.Model({
-					model : "Catalog",
-					defaults: {anchor: '100%'}
-				});
-				catalogForm.loadRecord(record);
-				formItems.push(catalogForm);
-				
-				var ingestStore = record.ingestors().load({
-					callback : function(ingestRecords) {
-						Ext.Array.each(ingestRecords, function(item) {
-							var inges = new ncETL.form.Model({
-								model : 'Ingestor',
-								defaults : {anchor: '100%'}
-							});
-							inges.loadRecord(item);
-							editMetadataPanel.add(inges);
-						});
-					}
-				});
-				
+
+//				var catalogForm = new ncETL.form.Model({
+//					model : "Catalog",
+//					defaults : {
+//						anchor : '100%'
+//					}
+//				});
+//				catalogForm.loadRecord(record);
+//				formItems.push(catalogForm);
+
+				var ingestStore = record.ingestors();
+
 				var ingestGrid = new ncETL.grid.Ingestor({
 					store : ingestStore
 				});
 				
-				var editMetadataPanel = new Ext.panel.Panel({
-					title: 'Edit Metadata',
+//				ingestStore.each(function(item) {
+//					var inges = new ncETL.form.Model({
+//						model : 'Ingestor',
+//						defaults : {
+//							anchor : '100%'
+//						}
+//					});
+//					inges.loadRecord(item);
+//					formItems.push(inges);
+//				});
+
+				var editMetadataPanel = new ncETL.panel.ModelForm({
+					title : 'Edit Metadata',
+					model : record,
 					border : false,
-					padding : '2 2 2 2',
-					items: formItems
+					padding : '2 2 2 2'
 				});
-				
+
 				var ncISOPanel = new Ext.panel.Panel({
-					title: 'ncISO',
+					title : 'ncISO',
 					layout : 'fit',
 					border : false,
 					contentEl : 'decorate'
 				});
-				
+
 				new Ext.container.Viewport({
 					layout : 'fit',
 					items : [ new Ext.tab.Panel({
@@ -96,7 +99,5 @@ Ext.onReady(function() {
 			}
 		}
 	});
-
-	
 
 });

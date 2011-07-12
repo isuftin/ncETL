@@ -1,5 +1,18 @@
 Ext.define("ncETL.form.Model", {
 	extend: 'Ext.form.Panel',
+	saveRecord: function() {
+		var me = this;
+		
+		var rec = me.getRecord();
+		var form = me.getForm();
+		
+		form.updateRecord(rec);
+		
+		if (rec.dirty) {
+			rec.save();
+		}
+		
+	},
 	constructor : function(config) {
 		if (!config) config = {};
 		

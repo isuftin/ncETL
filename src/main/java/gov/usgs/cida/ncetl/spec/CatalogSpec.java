@@ -1,9 +1,13 @@
 package gov.usgs.cida.ncetl.spec;
 
+import gov.usgs.webservices.jdbc.routing.ActionType;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import gov.usgs.webservices.jdbc.spec.validator.ValidationFailEvent;
+import gov.usgs.webservices.jdbc.spec.validator.Validator;
+
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,11 +18,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.naming.NamingException;
+
 import thredds.catalog.CatalogHelper;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvCatalogModifier;
-import thredds.catalog.InvDataset;
 import thredds.catalog.InvService;
 import ucar.nc2.units.DateType;
 
@@ -61,7 +66,21 @@ public class CatalogSpec extends AbstractNcetlSpec {
                     new SearchMapping("s_" + LOCATION, LOCATION, LOCATION,
                                       WhereClauseType.equals, null, null, null),
                     new SearchMapping("s_" + NAME, NAME, NAME,
-                                      WhereClauseType.equals, null, null, null),
+                                      WhereClauseType.equals, null, null, null, new Validator(ActionType.create, "CREATE") {
+                          				
+                          				@Override
+                          				public ValidationFailEvent validate(String field, String value, Spec spec,
+                          						Connection con) {
+                          					
+                          					//Create the directory
+                          					
+                          					
+                          					//Add that URL to spec as LOCATION
+                          					
+                          					
+                          					return null;
+                          				}
+                          			}),
                     new SearchMapping("s_" + EXPIRES, EXPIRES, EXPIRES,
                                       WhereClauseType.equals, null, null, null),
                     new SearchMapping("s_" + VERSION, VERSION, VERSION,

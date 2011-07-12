@@ -1,7 +1,26 @@
 Ext.define('Catalog', {
 	extend: 'Ext.data.Model',
 	idProperty: 'id',
-	hasMany: 'Ingestor',
+	associations: [{
+		type: 'hasMany',
+		model: 'Ingestor',
+		primaryKey: 'id',
+		foreignKey: 'catalog_id',
+		autoLoad: true
+	}, {
+		type: 'hasMany',
+		model: 'Dataset',
+		primaryKey: 'id',
+		foreignKey: 'catalog_id',
+		autoLoad: true
+	}, {
+		type: 'hasMany',
+		model: 'Service',
+		primaryKey: 'id',
+		foreignKey: 'catalog_id',
+		autoLoad: true
+	}
+	],
 	fields: [{
 		name : 'id',
 		type : 'int'

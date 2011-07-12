@@ -99,9 +99,92 @@
     </servlet-mapping>
     <!-- #################### JSL SERVICES CONFIGURATION #################### -->
     <servlet>
+        <servlet-name>AccessService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.AccessService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccessService</servlet-name>
+        <url-pattern>/service/access/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CatalogService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.CatalogService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CatalogService</servlet-name>
+        <url-pattern>/service/catalog/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CollectionTypeService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.CollectionTypeService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CollectionTypeService</servlet-name>
+        <url-pattern>/service/collectiontype/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DataFormatService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.DataFormatService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataFormatService</servlet-name>
+        <url-pattern>/service/dataformat/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DatasetService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.DatasetService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatasetService</servlet-name>
+        <url-pattern>/service/dataset/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DatatypeService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.DatatypeService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatatypeService</servlet-name>
+        <url-pattern>/service/datatype/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DocumentationService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.DocumentationService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DocumentationService</servlet-name>
+        <url-pattern>/service/documentation/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>IngestControlService</servlet-name>
         <servlet-class>gov.usgs.cida.ncetl.service.IngestControlService</servlet-class>
-        <!-- Not needed? -->
         <init-param>
             <param-name>jndi_name</param-name>
             <param-value>java:comp/env/jdbc/NCETL</param-value>
@@ -112,16 +195,27 @@
         <url-pattern>/service/task/*</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>CatalogService</servlet-name>
-        <servlet-class>gov.usgs.cida.ncetl.service.CatalogService</servlet-class>
-        <!-- Not needed? -->
+        <servlet-name>PropertyService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.PropertyService</servlet-class>
         <init-param>
             <param-name>jndi_name</param-name>
             <param-value>java:comp/env/jdbc/NCETL</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>CatalogService</servlet-name>
-        <url-pattern>/service/catalog/*</url-pattern>
+        <servlet-name>PropertyService</servlet-name>
+        <url-pattern>/service/property/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServiceService</servlet-name>
+        <servlet-class>gov.usgs.cida.ncetl.service.ServiceService</servlet-class>
+        <init-param>
+            <param-name>jndi_name</param-name>
+            <param-value>java:comp/env/jdbc/NCETL</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServiceService</servlet-name>
+        <url-pattern>/service/srvc/*</url-pattern>
     </servlet-mapping>
 </web-app>
