@@ -52,7 +52,7 @@ public class KeywordSpec  extends AbstractNcetlSpec {
     static Vocab unmarshal(int id, Connection con) throws SQLException {
         Spec spec = new KeywordSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         

@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import com.google.common.collect.Lists;
 import java.net.URI;
 import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import java.io.InputStream;
@@ -76,6 +77,7 @@ public class DatabaseUtilTest {
         connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
         assertThat(connection.isClosed(), is(false));
     }
+    
     @Test
     public void testWriteDxLToDatabase() throws SQLException, NamingException, ClassNotFoundException, ParseException, URISyntaxException {
         String DB_FULL_LOCATION = DB_LOCATION + "test1.db";
@@ -88,14 +90,13 @@ public class DatabaseUtilTest {
         DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver", ddlList, dmlList);
         connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
         
-        DatabaseUtil.writeDDL(ddlList, connection);
-        DatabaseUtil.writeDML(dmlList, connection);
         InvCatalog catalog = CatalogSpec.unmarshal(new URI("file:///tmp/not/real"), connection);
         assertThat(catalog, is(notNullValue()));
+        assertThat(catalog.getVersion(), is(equalTo("1.0.1")));
+        assertThat(catalog.getDatasets().size(), is(equalTo(1)));
+        assertThat(catalog.getDatasets().get(0).getKeywords().size(), is(equalTo(2)));
     }
-    
-    
-    
+
     @Test
     public void testReadDxLUsingFileAsInput() {
         InputStream createTablesInputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("gov/usgs/cida/ddl/test/create_tables.ddl");
@@ -127,7 +128,6 @@ public class DatabaseUtilTest {
         ddl.add("CREATE TABLE test_table3 (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k3 varchar(32), v3 varchar(32))");
         DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver", ddl, new ArrayList<String>(0));
         connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
-        DatabaseUtil.writeDDL(ddl, connection);
         
         
         ResultSet rs = connection.createStatement().executeQuery("SELECT TABLENAME FROM SYS.SYSTABLES WHERE TABLENAME LIKE 'test_table%'");
@@ -147,10 +147,8 @@ public class DatabaseUtilTest {
         String DB_FULL_LOCATION = DB_LOCATION + "test1.db";
         createDb = "jdbc:derby:" + DB_FULL_LOCATION + ";create=true;";
         destroyDb = "jdbc:derby:" + DB_FULL_LOCATION + ";shutdown=true;";
-        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver");
-        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
-        
         List<String> dml = new ArrayList<String>();
+        List<String> ddl = Lists.newArrayList();
         dml.add("CREATE TABLE test_table (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), k varchar(32), v varchar(32))");
         dml.add("INSERT INTO test_table (k, v) values ('test k 1','test v 1')");
         dml.add("INSERT INTO test_table (k, v) values ('test k 2','test v 2')");
@@ -158,8 +156,9 @@ public class DatabaseUtilTest {
         dml.add("INSERT INTO test_table (k, v) values ('test k 4','test v 4')");
         dml.add("INSERT INTO test_table (k, v) values ('test k 5','test v 5')");
         dml.add("INSERT INTO test_table (k, v) values ('test k 6','test v 6')");
-        DatabaseUtil.writeDML(dml, connection);
-        
+        DatabaseUtil.setupDatabase(createDb, "org.apache.derby.jdbc.EmbeddedDriver", ddl, dml);
+        connection = DatabaseUtil.getConnection("java:comp/env/jdbc/test1.db");
+
         ResultSet rs = connection.createStatement().executeQuery("SELECT k, v FROM TEST_TABLE");
         
         int rowCount = 1;

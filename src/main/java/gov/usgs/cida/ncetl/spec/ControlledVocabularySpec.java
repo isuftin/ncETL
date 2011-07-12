@@ -54,7 +54,7 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
     public static Vocab lookupAndAddText(int id, String text, Connection con) throws SQLException {
         Spec spec = new ControlledVocabularySpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 

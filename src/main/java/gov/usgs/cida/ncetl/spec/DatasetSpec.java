@@ -154,6 +154,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
             List<Vocab> projects = ProjectJoinSpec.unmarshal(datasetId, con);
             invDsWrapper.setProjects(projects);
 
+            invDsWrapper.finish();
             
             result.add(invDsWrapper);
         }
