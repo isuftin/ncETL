@@ -19,7 +19,7 @@ import thredds.catalog.ThreddsMetadata.Contributor;
  */
 public class ContributorJoinSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
-    private static final String TABLE_NAME = "contributor";
+    private static final String TABLE_NAME = "contributor_join";
     public static final String DATASET_ID = "dataset_id";
     public static final String CONTRIBUTOR_ID = "contributor_id";
 

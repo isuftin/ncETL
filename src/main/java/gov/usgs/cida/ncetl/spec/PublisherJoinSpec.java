@@ -20,9 +20,9 @@ import thredds.catalog.ThreddsMetadata.Source;
  */
 public class PublisherJoinSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
-    private static final String TABLE_NAME = "contributor";
+    private static final String TABLE_NAME = "publisher_join";
     public static final String DATASET_ID = "dataset_id";
-    public static final String KEYWORD_ID = "keyword_id";
+    public static final String PUBLISHER_ID = "publisher_id";
 
 
     @Override
@@ -35,7 +35,7 @@ public class PublisherJoinSpec  extends AbstractNcetlSpec {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
                     new ColumnMapping(DATASET_ID, DATASET_ID),
-                    new ColumnMapping(KEYWORD_ID, KEYWORD_ID),
+                    new ColumnMapping(PUBLISHER_ID, PUBLISHER_ID),
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
@@ -46,7 +46,7 @@ public class PublisherJoinSpec  extends AbstractNcetlSpec {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + KEYWORD_ID, KEYWORD_ID, KEYWORD_ID, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + PUBLISHER_ID, PUBLISHER_ID, PUBLISHER_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
@@ -61,8 +61,8 @@ public class PublisherJoinSpec  extends AbstractNcetlSpec {
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int dsId = rs.getInt(DATASET_ID);
-            result.add(PublisherSpec.unmarshal(dsId, con));
+            int pubId = rs.getInt(PUBLISHER_ID);
+            result.add(PublisherSpec.unmarshal(pubId, con));
         }
         
         return result;

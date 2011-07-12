@@ -18,8 +18,8 @@ import thredds.catalog.CollectionType;
 public class CollectionTypeSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
-    //id int, type varchar(32), inserted boolean, updated boolean)
-    private static final String TABLE_NAME = "collection_types";
+    //id int, type varchar(32)
+    private static final String TABLE_NAME = "collection_type";
     public static final String TYPE = "type";
 
     @Override

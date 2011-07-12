@@ -15,7 +15,7 @@ import thredds.catalog.ThreddsMetadata.Contributor;
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class ContributorSpec  extends AbstractNcetlSpec {
+public class ContributorSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "contributor";
     public static final String ROLE = "role";

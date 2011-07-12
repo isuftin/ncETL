@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.CollectionType;
+import thredds.catalog.DataFormatType;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvDataset;
 import thredds.catalog.InvDatasetWrapper;
@@ -90,7 +91,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
         List<InvDataset> result = Lists.newLinkedList();
         DatasetSpec spec = new DatasetSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_catalog_id", new String[] { "" + id });
+        params.put("s_" + CATALOG_ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 
@@ -118,6 +119,10 @@ public class DatasetSpec extends AbstractNcetlSpec {
             int dtId = rs.getInt(DATA_TYPE_ID.toUpperCase());
             FeatureType dtype = DatatypeSpec.lookup(dtId, con);
             invDsWrapper.setDataType(dtype);
+                        
+//            int dfId = rs.getInt()
+//            DataFormatType dft = DataFormatSpec.lookup(datasetId, con);
+//            invDsWrapper.setDataFormatType(dft);
             
             invDsWrapper.setID(rs.getString(NCID.toUpperCase()));
 
@@ -144,6 +149,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
             
             List<Vocab> projects = ProjectJoinSpec.unmarshal(datasetId, con);
             invDsWrapper.setProjects(projects);
+
             
             result.add(invDsWrapper);
         }

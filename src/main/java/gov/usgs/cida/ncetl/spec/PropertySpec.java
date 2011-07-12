@@ -44,4 +44,6 @@ public class PropertySpec  extends AbstractNcetlSpec {
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
+    
+    // TODO unmarshal this and add to Dataset
 }

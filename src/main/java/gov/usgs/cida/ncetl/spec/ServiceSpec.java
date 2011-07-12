@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
@@ -13,6 +14,7 @@ import java.util.Map;
 import org.apache.commons.dbutils.DbUtils;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvService;
+import thredds.catalog.ServiceType;
 
 /**
  *
@@ -22,7 +24,7 @@ public class ServiceSpec extends AbstractNcetlSpec {
     
     private static final long serialVersionUID = 1L;
     
-    private static final String TABLE_NAME = "services";
+    private static final String TABLE_NAME = "service";
     public static final String SERVICE_ID = "service_id";
     public static final String CATALOG_ID = "catalog_id";
     public static final String SERVICE_TYPE_ID = "service_type_id";
@@ -72,7 +74,7 @@ public class ServiceSpec extends AbstractNcetlSpec {
     protected static String lookupServiceNameByCatalogId(int catalogId, Connection con) throws SQLException {
         Spec spec = new ServiceSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_catalog_id", new String[]{"" + catalogId});
+        params.put("s_" + CATALOG_ID, new String[]{"" + catalogId});
         Spec.loadParameters(spec, params);
         ResultSet rs = null;
         try {
@@ -87,7 +89,33 @@ public class ServiceSpec extends AbstractNcetlSpec {
         return null;
     }
     
-    protected static List<InvService> unmarshal(int id, InvCatalog parent, Connection con) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private static List<InvService> unmarshalWithColumn(int id, String column, Connection con) throws SQLException {
+        List<InvService> services = Lists.newLinkedList();
+        Spec spec = new ServiceSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + column, new String[]{"" + id});
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        
+        while (rs.next()) {
+            int serviceId = rs.getInt(SERVICE_ID);
+            List<InvService> subservices = unmarshalWithColumn(serviceId, SERVICE_ID, con);
+            ServiceType type = ServiceTypeSpec.lookup(rs.getInt(SERVICE_TYPE_ID), con);
+            String name = rs.getString(NAME);
+            String base = rs.getString(BASE);
+            String description = rs.getString(DESCRIPTION);
+            String suffix = rs.getString(SUFFIX);
+            InvService service = new InvService(name, type.toString(), base, suffix, description);
+            for(InvService subservice : subservices) {
+                service.addService(subservice);
+            }
+            services.add(service);
+        }
+        
+        return services;
+    }
+    
+    protected static List<InvService> unmarshal(int id, Connection con) throws SQLException {
+        return unmarshalWithColumn(id, CATALOG_ID, con);
     }
 }
