@@ -75,8 +75,8 @@ public class DatabaseUtilTest {
         List<String> result = DatabaseUtil.readDxL(createTablesInputStream);
 
         assertThat(result.size(), is(not(equalTo(0))));
-        assertThat(result.size(), is(equalTo(20)));
-        assertThat(result.get(0), is(equalTo("CREATE TABLE collection_type      (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean, updated boolean, PRIMARY KEY (id))")));
+        assertThat(result.size(), is(equalTo(40)));
+        assertThat(result.get(0), is(equalTo("DROP TABLE collection_type")));
     }
     
     @Test

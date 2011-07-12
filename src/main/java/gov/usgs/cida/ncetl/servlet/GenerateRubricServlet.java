@@ -67,6 +67,8 @@ public class GenerateRubricServlet extends HttpServlet {
             //NetcdfFileWriteable netCDFfile = NetcdfFileWriteable.openExisting("/home/scratch/ncrfc2000.nc");
             File ncmlFile = NcMLUtil.createNcML(filename);
 
+            // in NCISO directory/waf we need to have NCML, HTML and XML
+            
             // always recreate html
             String htmlFile = filename + ".html";
             File html = ThreddsTranslatorUtil.transform(

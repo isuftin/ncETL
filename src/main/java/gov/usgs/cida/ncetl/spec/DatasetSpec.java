@@ -32,7 +32,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
     // id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean
-    private static final String TABLE_NAME = "datasets";
+    private static final String TABLE_NAME = "dataset";
     public static final String CATALOG_ID = "catalog_id";
     public static final String COLLECTION_TYPE_ID = "collection_type_id";
     public static final String DATA_TYPE_ID = "data_type_id";

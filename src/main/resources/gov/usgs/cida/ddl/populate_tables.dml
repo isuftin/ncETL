@@ -64,7 +64,7 @@ INSERT INTO service_type (type)
             ('Compound');
 
 -- not exclusive, should allow user to add and not drop these;
-INSERT INTO date_type_enum (token)
+INSERT INTO date_type_enum (type)
     VALUES  ('created'),
             ('modified'),
             ('valid'),
