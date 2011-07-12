@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.dbutils.DbUtils;
-import thredds.catalog.InvCatalog;
 import thredds.catalog.InvService;
 import thredds.catalog.ServiceType;
 

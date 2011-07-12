@@ -10,11 +10,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.CollectionType;
 import thredds.catalog.DataFormatType;
 import thredds.catalog.InvCatalog;
+import thredds.catalog.InvCatalogModifier;
 import thredds.catalog.InvDataset;
 import thredds.catalog.InvDatasetWrapper;
 import thredds.catalog.ThreddsMetadata.Contributor;
@@ -97,9 +99,13 @@ public class DatasetSpec extends AbstractNcetlSpec {
 
         while (rs.next()) {
             InvDatasetWrapper invDsWrapper = null;
-            InvDataset findDatasetByID = cat.findDatasetByID(rs.getString("NCID"));
+            String ncId = rs.getString(NCID);
+            InvDataset findDatasetByID = cat.findDatasetByID(ncId);
+            String name = rs.getString(NAME.toUpperCase());
             if (findDatasetByID == null) {
-                invDsWrapper = new InvDatasetWrapper("", ""); // name and id are set below
+                invDsWrapper = new InvDatasetWrapper(name, ncId); 
+                InvCatalogModifier invCatalogModifier = new InvCatalogModifier(cat);
+                invCatalogModifier.setDatasets(Lists.asList(invDsWrapper, new InvDataset[0]));
             }
             else {
                 invDsWrapper = new InvDatasetWrapper(findDatasetByID);
@@ -109,8 +115,6 @@ public class DatasetSpec extends AbstractNcetlSpec {
             datasetId = rs.getInt(ID.toUpperCase());
 
             invDsWrapper.setAuthority(rs.getString(AUTHORITY.toUpperCase()));
-
-            invDsWrapper.setName(rs.getString(NAME.toUpperCase()));
 
             int ctId = rs.getInt(COLLECTION_TYPE_ID.toUpperCase());
             CollectionType ctype = CollectionTypeSpec.lookup(ctId, con);

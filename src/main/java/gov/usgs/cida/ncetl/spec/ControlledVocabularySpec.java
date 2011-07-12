@@ -52,7 +52,7 @@ public class ControlledVocabularySpec extends AbstractNcetlSpec {
     }
     
     public static Vocab lookupAndAddText(int id, String text, Connection con) throws SQLException {
-        Spec spec = new ContributorSpec();
+        Spec spec = new ControlledVocabularySpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
