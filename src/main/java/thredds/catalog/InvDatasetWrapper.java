@@ -1,6 +1,7 @@
 package thredds.catalog;
 
 import java.util.LinkedList;
+import java.util.List;
 import thredds.catalog.ThreddsMetadata.Contributor;
 import thredds.catalog.ThreddsMetadata.Source;
 import thredds.catalog.ThreddsMetadata.Vocab;
@@ -75,6 +76,10 @@ public class InvDatasetWrapper extends InvDatasetImpl{
         }
         this.creators.add(source);
         return this;
+    }
+    
+    public void setCreators(List<Source> creators) {
+        this.creators = creators;
     }
 
     public InvDatasetWrapper dataFormatType(String dataFormatType) {

@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
@@ -8,33 +9,20 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
-import thredds.catalog.CollectionType;
+import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
- * @author Ivan Suftin <isuftin@usgs.gov>
+ * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class CollectionTypeSpec extends AbstractNcetlSpec {
+public class KeywordJoinSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
-    //id int, type varchar(32), inserted boolean, updated boolean)
-    private static final String TABLE_NAME = "collection_types";
-    public static final String TYPE = "type";
-    
-    @Override
-    public boolean setupAccess_DELETE() {
-        return false;
-    }
+    private static final String TABLE_NAME = "contributor";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String KEYWORD_ID = "keyword_id";
 
-    @Override
-    public boolean setupAccess_INSERT() {
-        return false;
-    }
-
-    @Override
-    public boolean setupAccess_UPDATE() {
-        return false;
-    }
 
     @Override
     public String setupTableName() {
@@ -45,7 +33,8 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(TYPE, TYPE),
+                    new ColumnMapping(DATASET_ID, DATASET_ID),
+                    new ColumnMapping(KEYWORD_ID, KEYWORD_ID),
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
@@ -55,22 +44,26 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + KEYWORD_ID, KEYWORD_ID, KEYWORD_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
     
-    public static CollectionType lookup(int id, Connection con) throws SQLException {
-        CollectionTypeSpec spec = new CollectionTypeSpec();
+    public static List<Vocab> unmarshal(int datasetId, Connection con) throws SQLException {
+        List<Vocab> result = Lists.newLinkedList();
+        KeywordJoinSpec spec = new KeywordJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
-        String type = null;
-        if (rs.next()) {
-            type = rs.getString(TYPE);
+
+        while (rs.next()) {
+            int contrib_id = rs.getInt(KEYWORD_ID);
+            result.add(KeywordSpec.lookup(contrib_id, con));
         }
-        return CollectionType.getType(type);
+        return result;
     }
+
 }

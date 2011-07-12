@@ -3,6 +3,8 @@ package gov.usgs.cida.ncetl.spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import thredds.catalog.ThreddsMetadata.Source;
 
 /**
  *
@@ -52,4 +54,9 @@ public class CreatorSpec extends AbstractNcetlSpec {
                                       WhereClauseType.equals, null, null, null)
                 };
     }
+    
+    public static Source lookup(int id, Connection con) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

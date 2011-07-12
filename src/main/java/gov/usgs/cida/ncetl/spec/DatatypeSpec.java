@@ -1,8 +1,15 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import ucar.nc2.constants.FeatureType;
 
 /**
  *
@@ -37,5 +44,18 @@ public class DatatypeSpec extends AbstractNcetlSpec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
+    }
+    
+    public static FeatureType lookup(int id, Connection con) throws SQLException {
+        CollectionTypeSpec spec = new CollectionTypeSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        String type = null;
+        if (rs.next()) {
+            type = rs.getString(TYPE);
+        }
+        return FeatureType.getType(type);
     }
 }

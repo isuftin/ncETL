@@ -1,6 +1,7 @@
 package gov.usgs.cida.ncetl.spec;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
@@ -8,20 +9,20 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import thredds.catalog.ThreddsMetadata.Contributor;
+import thredds.catalog.ThreddsMetadata.Range;
+import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
  * @author Jordan Walker <jiwalker@usgs.gov>
  */
-public class ContributorSpec  extends AbstractNcetlSpec {
+public class DateJoinSpec  extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     private static final String TABLE_NAME = "contributor";
-    public static final String ROLE = "role";
-    public static final String TEXT = "text";
+    public static final String DATASET_ID = "dataset_id";
+    public static final String DATE_ID = "date_type_formatted_id";
 
 
     @Override
@@ -33,8 +34,8 @@ public class ContributorSpec  extends AbstractNcetlSpec {
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(ROLE, ROLE),
-                    new ColumnMapping(TEXT, TEXT),
+                    new ColumnMapping(DATASET_ID, DATASET_ID),
+                    new ColumnMapping(DATE_ID, DATE_ID),
                     new ColumnMapping(INSERTED, null),
                     new ColumnMapping(UPDATED, null)
                 };
@@ -44,28 +45,27 @@ public class ContributorSpec  extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + ROLE, ROLE, ROLE, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TEXT, TEXT, TEXT, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + DATASET_ID, DATASET_ID, DATASET_ID, WhereClauseType.equals, null, null, null),
+            new SearchMapping("s_" + DATE_ID, DATE_ID, DATE_ID, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
     }
     
-    public static Contributor lookup(int id, Connection con) throws SQLException {
-        ContributorSpec spec = new ContributorSpec();
-        Map<String, String[]> params = new HashMap<String, String[]>(1);
-        params.put("s_" + ID, new String[] { "" + id });
-        Spec.loadParameters(spec, params);
-        ResultSet rs = Spec.getResultSet(spec, con);
-
-        if (rs.next()) {
-            String name = rs.getString(TEXT);
-            String role = rs.getString(ROLE);
-            return new Contributor(name, role);
-        }
-        else {
-            return null;
-        }
-    }
+//    public static Range unmarshal(int datasetId, Connection con) throws SQLException {
+//        List<Range> result = Lists.newLinkedList();
+//        DateJoinSpec spec = new DateJoinSpec();
+//        Map<String, String[]> params = Maps.newHashMap();
+//        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
+//        Spec.loadParameters(spec, params);
+//        ResultSet rs = Spec.getResultSet(spec, con);
+//
+//        while (rs.next()) {
+//            int contrib_id = rs.getInt(DATE_ID);
+//            new Range(datasetId, datasetId, datasetId, ID)
+//            result.add(DateTypeFormattedSpec.lookup(contrib_id, con));
+//        }
+//        return result;
+//    }
 
 }

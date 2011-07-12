@@ -3,6 +3,8 @@ package gov.usgs.cida.ncetl.spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import thredds.catalog.ThreddsMetadata.Vocab;
 
 /**
  *
@@ -14,7 +16,7 @@ public class KeywordSpec  extends AbstractNcetlSpec {
     private static final String TABLE_NAME = "keyword";
     public static final String CONTROLLED_VOCABULARY_ID = "controlled_vocabulary_id";
     public static final String VALUE = "value";
-    
+
     @Override
     public String setupTableName() {
         return TABLE_NAME;
@@ -42,4 +44,8 @@ public class KeywordSpec  extends AbstractNcetlSpec {
         };
     }
 
+    static Vocab lookup(int contrib_id, Connection con) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
 }

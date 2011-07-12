@@ -3,6 +3,7 @@ package gov.usgs.cida.ncetl.spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import ucar.nc2.units.DateType;
 
 /**
  *
@@ -52,4 +53,10 @@ public class DateTypeFormattedSpec extends AbstractNcetlSpec {
                                       WhereClauseType.equals, null, null, null)
                 };
     }
+    
+    
+    public static DateType lookup(int aInt) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

@@ -3,6 +3,8 @@ package gov.usgs.cida.ncetl.spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import thredds.catalog.ThreddsMetadata.GeospatialCoverage;
 
 /**
  *
@@ -46,5 +48,9 @@ public class GeospatialCoverageSpec  extends AbstractNcetlSpec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
+    }
+    
+    public static GeospatialCoverage unmarshal(int datasetId, Connection con) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
