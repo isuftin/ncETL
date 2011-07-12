@@ -4,35 +4,35 @@
 -- Lookup tables, be sure to drop the table before creating it;
 DROP TABLE collection_type;
 CREATE TABLE collection_type 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE data_type;
 CREATE TABLE data_type 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE data_format;
 CREATE TABLE data_format 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE documentation_type;
 CREATE TABLE documentation_type 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE service_type;
 CREATE TABLE service_type 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE date_type_enum;
 CREATE TABLE date_type_enum 
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), token varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
     
 DROP TABLE spatial_range_type;    
 CREATE TABLE spatial_range_type
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(32), PRIMARY KEY (id));
 
 DROP TABLE up_down_type;
 CREATE TABLE up_down_type
-    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(4), inserted boolean DEFAULT false, updated boolean DEFAULT false, PRIMARY KEY (id));
+    (id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(4), PRIMARY KEY (id));
 
 -- This is an append table, users define their own vocabularies;      
 CREATE TABLE controlled_vocabulary 

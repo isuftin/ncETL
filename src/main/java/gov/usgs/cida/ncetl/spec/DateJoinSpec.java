@@ -9,6 +9,7 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Range;
@@ -53,7 +54,7 @@ public class DateJoinSpec  extends AbstractNcetlSpec {
         };
     }
     
-    public static List<DateType> unmarshal(int datasetId, Connection con) throws SQLException {
+    public static List<DateType> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
         List<DateType> result = Lists.newLinkedList();
         DateJoinSpec spec = new DateJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();

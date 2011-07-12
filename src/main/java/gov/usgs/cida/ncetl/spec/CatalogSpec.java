@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class CatalogSpec extends AbstractNcetlSpec {
     }
     
     public static InvCatalog unmarshal(URI location, Connection con)
-            throws SQLException, NamingException, ClassNotFoundException {
+            throws SQLException, NamingException, ClassNotFoundException, ParseException {
         InvCatalog cat = CatalogHelper.readCatalog(location);
         InvCatalogModifier modifyCat = new InvCatalogModifier(cat);
         CatalogSpec spec = new CatalogSpec();

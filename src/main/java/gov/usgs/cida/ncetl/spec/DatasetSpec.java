@@ -1,6 +1,7 @@
 package gov.usgs.cida.ncetl.spec;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
@@ -89,7 +90,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
                                              Connection con) throws SQLException, ParseException {
         List<InvDataset> result = Lists.newLinkedList();
         DatasetSpec spec = new DatasetSpec();
-        Map<String, String[]> params = new HashMap<String, String[]>(1);
+        Map<String, String[]> params = Maps.newHashMap();
         params.put("s_catalog_id", new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);

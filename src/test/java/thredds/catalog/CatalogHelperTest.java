@@ -1,5 +1,9 @@
 package thredds.catalog;
 
+import java.text.ParseException;
+import java.util.Map;
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.cida.ncetl.spec.CatalogSpec;
 import org.junit.After;
 import java.util.Date;
@@ -49,13 +53,15 @@ public class CatalogHelperTest {
         Statement stmt = null;
         try {
             connection = SqlUtils.getConnection("");
-            stmt = connection.createStatement();
-            String sql = "INSERT INTO catalog (location, name) VALUES ('" + 
-                    tempLocation.toURI() + "', 'testName')";
-            stmt.execute(sql);
+            CatalogSpec spec = new CatalogSpec();
+            Map<String, String[]> params = Maps.newHashMap();
+            params.put(CatalogSpec.NAME, new String[] { "testName" });
+            params.put(CatalogSpec.LOCATION, new String[] { tempLocation.toURI().toString() });
+            params.put(CatalogSpec.VERSION, new String[] { "1.0.1" });
+            Spec.loadParameters(spec, params);
+            Spec.insertRow(spec, connection);
         }
         finally {
-            stmt.close();
             SqlUtils.closeConnection(connection);
         }
     }
@@ -175,7 +181,7 @@ public class CatalogHelperTest {
     }
     
     @Test
-    public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException, SQLException, NamingException, ClassNotFoundException {
+    public void testLoadCatalog() throws URISyntaxException, FileNotFoundException, IOException, SQLException, NamingException, ClassNotFoundException, ParseException {
         CatalogHelper.createNewCatalog(knownName, tempLocation.getPath());
         InvCatalog cat = CatalogHelper.readCatalog(tempLocation.toURI());
         assertThat(cat.getName(), is(equalTo(knownName)));
