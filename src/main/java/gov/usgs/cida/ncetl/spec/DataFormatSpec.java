@@ -1,8 +1,16 @@
 package gov.usgs.cida.ncetl.spec;
 
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import thredds.catalog.DataFormatType;
+import thredds.catalog.ThreddsMetadata.Contributor;
 
 /**
  *
@@ -37,5 +45,19 @@ public class DataFormatSpec extends AbstractNcetlSpec {
             new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
             new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
         };
+    }
+    
+    public static DataFormatType lookup(int id, Connection con) throws SQLException {
+        DataFormatSpec spec = new DataFormatSpec();
+        Map<String, String[]> params = new HashMap<String, String[]>(1);
+        params.put("s_" + ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+
+        String type = null;
+        if (rs.next()) {
+            type = rs.getString(TYPE);
+        }
+        return DataFormatType.getType(type);
     }
 }

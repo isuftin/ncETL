@@ -1,8 +1,15 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Map;
 import ucar.nc2.units.DateType;
 
 /**
@@ -55,8 +62,21 @@ public class DateTypeFormattedSpec extends AbstractNcetlSpec {
     }
     
     
-    public static DateType lookup(int aInt) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public static DateType lookup(int id, Connection con) throws SQLException, ParseException {
+        DateTypeFormattedSpec spec = new DateTypeFormattedSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        DateType dt = null;
+        if (rs.next()) {
+            String format = rs.getString(FORMAT);
+            String value = rs.getString(VALUE);
+            String type = DateTypeEnumSpec.lookup(rs.getInt(DATE_TYPE_ENUM_ID), con);
+            
+            dt = new DateType(value, format, type);
+        }
+        return dt;
     }
 
 }

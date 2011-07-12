@@ -1,8 +1,15 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Map;
+import thredds.catalog.SpatialRangeType;
 
 /**
  *
@@ -38,9 +45,7 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(TYPE, TYPE),
-                    new ColumnMapping(INSERTED, null),
-                    new ColumnMapping(UPDATED, null)
+                    new ColumnMapping(TYPE, TYPE)
                 };
     }
 
@@ -48,9 +53,20 @@ public class SpatialRangeTypeSpec extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
+            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null)
         };
+    }
+    
+    public static SpatialRangeType lookup(int id, Connection con) throws SQLException {
+        CollectionTypeSpec spec = new CollectionTypeSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + ID, new String[] { "" + id });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+        String type = null;
+        if (rs.next()) {
+            type = rs.getString(TYPE);
+        }
+        return SpatialRangeType.getType(type);
     }
 }

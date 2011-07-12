@@ -18,7 +18,7 @@ import ucar.nc2.constants.FeatureType;
 public class DatatypeSpec extends AbstractNcetlSpec {
     private static final long serialVersionUID = 1L;
     
-    private static final String TABLE_NAME = "data_types";
+    private static final String TABLE_NAME = "data_type";
     public static final String TYPE = "type";
 
     @Override
@@ -27,12 +27,25 @@ public class DatatypeSpec extends AbstractNcetlSpec {
     }
     
     @Override
+    public boolean setupAccess_DELETE() {
+        return false;
+    }
+
+    @Override
+    public boolean setupAccess_INSERT() {
+        return false;
+    }
+
+    @Override
+    public boolean setupAccess_UPDATE() {
+        return false;
+    }
+    
+    @Override
     public ColumnMapping[] setupColumnMap() {
         return new ColumnMapping[] {
                     new ColumnMapping(ID, ID),
-                    new ColumnMapping(TYPE, TYPE),
-                    new ColumnMapping(INSERTED, null),
-                    new ColumnMapping(UPDATED, null)
+                    new ColumnMapping(TYPE, TYPE)
                 };
     }
 
@@ -40,9 +53,7 @@ public class DatatypeSpec extends AbstractNcetlSpec {
     public SearchMapping[] setupSearchMap() {
         return new SearchMapping[] {
             new SearchMapping(ID, ID, null, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + INSERTED, INSERTED, INSERTED, WhereClauseType.equals, null, null, null),
-            new SearchMapping("s_" + UPDATED, UPDATED, UPDATED, WhereClauseType.equals, null, null, null)
+            new SearchMapping("s_" + TYPE, TYPE, TYPE, WhereClauseType.equals, null, null, null)
         };
     }
     

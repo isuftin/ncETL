@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Range;
 import thredds.catalog.ThreddsMetadata.Vocab;
+import ucar.nc2.units.DateType;
 
 /**
  *
@@ -52,20 +53,19 @@ public class DateJoinSpec  extends AbstractNcetlSpec {
         };
     }
     
-//    public static Range unmarshal(int datasetId, Connection con) throws SQLException {
-//        List<Range> result = Lists.newLinkedList();
-//        DateJoinSpec spec = new DateJoinSpec();
-//        Map<String, String[]> params = Maps.newHashMap();
-//        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
-//        Spec.loadParameters(spec, params);
-//        ResultSet rs = Spec.getResultSet(spec, con);
-//
-//        while (rs.next()) {
-//            int contrib_id = rs.getInt(DATE_ID);
-//            new Range(datasetId, datasetId, datasetId, ID)
-//            result.add(DateTypeFormattedSpec.lookup(contrib_id, con));
-//        }
-//        return result;
-//    }
+    public static List<DateType> unmarshal(int datasetId, Connection con) throws SQLException {
+        List<DateType> result = Lists.newLinkedList();
+        DateJoinSpec spec = new DateJoinSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+
+        while (rs.next()) {
+            int dtf_id = rs.getInt(DATE_ID);
+            result.add(DateTypeFormattedSpec.lookup(dtf_id, con));
+        }
+        return result;
+    }
 
 }

@@ -8,6 +8,7 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
     }
 
     public static List<InvDataset> unmarshal(int id, InvCatalog cat,
-                                             Connection con) throws SQLException {
+                                             Connection con) throws SQLException, ParseException {
         List<InvDataset> result = Lists.newLinkedList();
         DatasetSpec spec = new DatasetSpec();
         Map<String, String[]> params = new HashMap<String, String[]>(1);

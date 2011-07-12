@@ -1,5 +1,7 @@
 package gov.usgs.cida.ncetl.utils;
 
+import gov.usgs.cida.ncetl.spec.IngestControlSpec;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -90,6 +92,8 @@ public final class FTPIngestTask extends TimerTask {
 
         if (everythingIsGood) {
             lastSuccessfulRun = new DateTime();
+//            IngestControlSpec spec = new IngestControlSpec();
+//            Spec.updateRow(spec, con);
         }
     }
 
