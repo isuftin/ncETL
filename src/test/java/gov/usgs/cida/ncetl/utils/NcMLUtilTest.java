@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.utils;
 
+import thredds.server.metadata.util.ThreddsTranslatorUtil;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -85,6 +86,25 @@ public class NcMLUtilTest {
         File test = NcMLUtil.createNcML(destinationFile);
         assertThat(test, is(notNullValue()));
         assertThat(test.length(), is(not(new Long(0))));
-        
+    }
+    
+    @Test
+    public void testTransformNCMLtoHTML() throws ThreddsUtilitiesException, IOException {
+       File ncmlFile = NcMLUtil.createNcML(destinationFile);
+       String _xsltMetadataAssessmentToHTML = NcMLUtilTest.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
+       File htmlFile = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToHTML, ncmlFile.getCanonicalPath(), destination + "output.html");
+       htmlFile.deleteOnExit();
+       assertThat(htmlFile.exists(), is(true));
+       assertThat(htmlFile.length(), is(not(new Long(0))));
+    }
+    
+        @Test
+    public void testTransformNCMLtoXML() throws ThreddsUtilitiesException, IOException {
+       File ncmlFile = NcMLUtil.createNcML(destinationFile);
+        String _xsltMetadataAssessmentToXML = NcMLUtilTest.class.getClassLoader().getResource("UnidataDDCount-xml.xsl").getPath();
+        File xmlFile = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToXML, ncmlFile.getCanonicalPath(), destination + "output.xml");
+       xmlFile.deleteOnExit();
+       assertThat(xmlFile.exists(), is(true));
+       assertThat(xmlFile.length(), is(not(new Long(0))));
     }
 }
