@@ -60,7 +60,7 @@ public class ServiceTypeSpec extends AbstractNcetlSpec {
     public static ServiceType lookup(int id, Connection con) throws SQLException {
         Spec spec = new ServiceTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         String type = null;
