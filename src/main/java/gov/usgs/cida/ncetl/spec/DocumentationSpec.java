@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.InvDocumentation;
-import thredds.catalog2.ThreddsMetadata.Documentation;
 
 /**
  *
