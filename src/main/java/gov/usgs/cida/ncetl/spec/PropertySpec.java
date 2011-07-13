@@ -1,8 +1,21 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+import javax.xml.transform.Source;
+import thredds.catalog2.Property;
+import thredds.catalog2.simpleImpl.PropertyImplBuilder;
+//import thredds.catalog2.simpleImpl.PropertyImpl;
 
 /**
  *
@@ -45,5 +58,22 @@ public class PropertySpec  extends AbstractNcetlSpec {
         };
     }
     
-    // TODO unmarshal this and add to Dataset
+        public static List<Property> unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
+        List<Property> result = Lists.newLinkedList();
+        Spec spec = new PublisherJoinSpec();
+        Map<String, String[]> params = Maps.newHashMap();
+        params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
+        Spec.loadParameters(spec, params);
+        ResultSet rs = Spec.getResultSet(spec, con);
+
+        while (rs.next()) {
+            String name = rs.getString(NAME);
+            String value = rs.getString(VALUE);
+            PropertyImplBuilder propertyImpl = new PropertyImplBuilder(NAME, VALUE);
+            Property property = propertyImpl.build();
+            result.add(property);
+        }
+        
+        return result;
+    }
 }
