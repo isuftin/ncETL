@@ -61,7 +61,7 @@ public class DateTypeEnumSpec extends AbstractNcetlSpec {
     public static String lookup(int id, Connection con) throws SQLException {
         Spec spec = new DateTypeEnumSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         String type = null;
