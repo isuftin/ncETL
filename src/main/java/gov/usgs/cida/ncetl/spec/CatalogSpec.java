@@ -1,5 +1,6 @@
 package gov.usgs.cida.ncetl.spec;
 
+import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.routing.ActionType;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
@@ -11,11 +12,9 @@ import gov.usgs.webservices.jdbc.spec.validator.Validator;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,13 +96,13 @@ public class CatalogSpec extends AbstractNcetlSpec {
                    ParseException {
         InvCatalog cat = CatalogHelper.readCatalog(location);
         InvCatalogModifier modifyCat = new InvCatalogModifier(cat);
-        CatalogSpec spec = new CatalogSpec();
-        Map<String, String[]> params = new HashMap<String, String[]>(1);
+        Spec spec = new CatalogSpec();
+        Map<String, String[]> params = Maps.newHashMap();
         params.put("s_location", new String[] { location.toString() });
         Spec.loadParameters(spec, params);
         ResultSet result = Spec.getResultSet(spec, con);
 
-        ResultSetMetaData metaData = result.getMetaData();
+//        ResultSetMetaData metaData = result.getMetaData();
         int catalog_id = -1;
         if (result.next()) {
             catalog_id = result.getInt(ID);
