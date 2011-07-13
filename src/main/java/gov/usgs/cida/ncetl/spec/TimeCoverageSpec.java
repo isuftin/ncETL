@@ -62,7 +62,7 @@ public class TimeCoverageSpec  extends AbstractNcetlSpec {
     }
 
     public static DateRange unmarshal(int datasetId, Connection con) throws SQLException, ParseException {
-        TimeCoverageSpec spec = new TimeCoverageSpec();
+        Spec spec = new TimeCoverageSpec();
         Map<String, String[]> params = new HashMap<String, String[]>(1);
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
