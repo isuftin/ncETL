@@ -65,7 +65,7 @@ public class DateTypeFormattedSpec extends AbstractNcetlSpec {
     public static DateType lookup(int id, Connection con) throws SQLException, ParseException {
         Spec spec = new DateTypeFormattedSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         DateType dt = null;
