@@ -1,13 +1,9 @@
 package gov.usgs.cida.ncetl.spec;
 
-import com.google.common.collect.Maps;
-import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.SearchMapping;
 import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.util.Map;
 import thredds.catalog.InvAccess;
 
 /**
@@ -56,17 +52,6 @@ public class AccessSpec extends AbstractNcetlSpec {
     }
     
     public static InvAccess unmarshal(int datasetId, Connection con) {
-//        Spec spec = new AccessSpec();
-//        Map<String, String[]> params = Maps.newHashMap();
-//        params.put("s_" + DATASET_ID, new String[] { "" + id });
-//        Spec.loadParameters(spec, params);
-//        ResultSet rs = Spec.getResultSet(spec, con);
-//        
-//        if (rs.next())
-        
-        
-        // Leaving this unimplemented for now, it's complicated
-        // may need to do this after all.
         return null;
     }
 }
