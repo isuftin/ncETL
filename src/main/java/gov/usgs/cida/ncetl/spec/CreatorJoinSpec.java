@@ -51,7 +51,7 @@ public class CreatorJoinSpec  extends AbstractNcetlSpec {
     
     public static List<Source> unmarshal(int datasetId, Connection con) throws SQLException {
         List<Source> result = Lists.newLinkedList();
-        CreatorJoinSpec spec = new CreatorJoinSpec();
+        Spec spec = new CreatorJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
