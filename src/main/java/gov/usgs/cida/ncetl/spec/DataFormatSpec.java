@@ -49,7 +49,7 @@ public class DataFormatSpec extends AbstractNcetlSpec {
     public static DataFormatType lookup(int id, Connection con) throws SQLException {
         Spec spec = new DataFormatSpec();
         Map<String, String[]> params = new HashMap<String, String[]>(1);
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 
