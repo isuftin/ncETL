@@ -71,7 +71,7 @@ public class PublisherSpec extends AbstractNcetlSpec {
         Map<String, String[]> params = Maps.newHashMap();
         Source source = null;
         
-        params.put("s_" + ID, new String[] { "" + datasetId });
+        params.put(ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         
