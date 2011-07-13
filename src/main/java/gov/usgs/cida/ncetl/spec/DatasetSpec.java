@@ -10,11 +10,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import thredds.catalog.CollectionType;
-import thredds.catalog.DataFormatType;
 import thredds.catalog.InvCatalog;
 import thredds.catalog.InvCatalogModifier;
 import thredds.catalog.InvDataset;
@@ -33,7 +31,6 @@ import ucar.nc2.units.DateRange;
 public class DatasetSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
-    // id int, catalog_id int, collection_type_id int, data_type_id int, name varchar(64), ncid varchar(128), authority varchar(64), inserted boolean, updated boolean
     private static final String TABLE_NAME = "dataset";
     public static final String CATALOG_ID = "catalog_id";
     public static final String COLLECTION_TYPE_ID = "collection_type_id";
@@ -91,7 +88,7 @@ public class DatasetSpec extends AbstractNcetlSpec {
     public static List<InvDataset> unmarshal(int id, InvCatalog cat,
                                              Connection con) throws SQLException, ParseException {
         List<InvDataset> result = Lists.newLinkedList();
-        DatasetSpec spec = new DatasetSpec();
+        Spec spec = new DatasetSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + CATALOG_ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
