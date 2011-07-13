@@ -35,8 +35,8 @@ public class GenerateRubricServlet extends HttpServlet {
                                   HttpServletResponse response)
             throws ServletException, IOException {
 
-        String _xsltMetadataAssessmentUrl = "http://www.ngdc.noaa.gov/metadata/published/xsl/UnidataDDCount-HTML.xsl";
-        //String xslt = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML1_1.xsl").getPath();
+        // TODO: This is a 404 
+//        String _xsltMetadataAssessmentUrl = "http://www.ngdc.noaa.gov/metadata/published/xsl/UnidataDDCount-HTML.xsl";
         PrintWriter out = response.getWriter();
 
 
@@ -64,19 +64,28 @@ public class GenerateRubricServlet extends HttpServlet {
                         "Requested file doesn't exist, can't be read, or isn't a file at all");
                 return;
             }
-            //NetcdfFileWriteable netCDFfile = NetcdfFileWriteable.openExisting("/home/scratch/ncrfc2000.nc");
-            File ncmlFile = NcMLUtil.createNcML(filename);
-
-            // in NCISO directory/waf we need to have NCML, HTML and XML
             
-            // always recreate html
+            File ncmlFile = NcMLUtil.createNcML(filename);
+            
+            // in NCISO directory/waf we need to have NCML, HTML and XML
+            String _xsltMetadataAssessmentToHTML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
+            String _xsltMetadataAssessmentToXML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-xml.xsl").getPath();
+
             String htmlFile = filename + ".html";
-            File html = ThreddsTranslatorUtil.transform(
-                    _xsltMetadataAssessmentUrl, ncmlFile.getCanonicalPath(),
-                                                        htmlFile);
+            String xmlFile = filename + ".xml";
+            File html = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToHTML, ncmlFile.getCanonicalPath(), htmlFile);
+            File xml = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToXML, ncmlFile.getCanonicalPath(), xmlFile);
+            
             if ("ncml".equalsIgnoreCase(output)) {
                 response.setContentType("text/xml;charset=UTF-8");
                 reader = new BufferedReader(new FileReader(ncmlFile));
+            }
+//            else if ("html".equalsIgnoreCase(output)) {
+//              Is this taken care of by "rubric"?
+//            }
+            else if ("xml".equalsIgnoreCase(output)) {
+                response.setContentType("text/xml;charset=UTF-8");
+                reader = new BufferedReader(new FileReader(xml));
             }
             else if ("rubric".equalsIgnoreCase(output)) {
                 response.setContentType("text/html;charset=UTF-8");
