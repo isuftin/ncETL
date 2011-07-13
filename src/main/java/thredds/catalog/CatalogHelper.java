@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import thredds.catalog2.builder.CatalogBuilder;
 
 /**
  *
@@ -14,6 +17,7 @@ import org.apache.commons.io.IOUtils;
  */
 public final class CatalogHelper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CatalogHelper.class);
     private static final String DEFAULT_CATALOG_FILENAME = "catalog.xml";
     private static final String DEFAULT_CATALOG_LOCATION = FileHelper.dirAppend(
             FileHelper.getDatasetsDirectory(), DEFAULT_CATALOG_FILENAME);
@@ -106,5 +110,22 @@ public final class CatalogHelper {
 
     public static String getDefaultCatalogName() {
         return DEFAULT_CATALOG_NAME;
+    }
+    
+    public static URI setupDatasetDirectory(String datasetName) {
+        URI catalogUri = null;
+        try {
+            File dsDir = FileHelper.createDatasetDirectory(datasetName);
+            File catalogFile = new File(dsDir.getPath() + File.separator + "catalog.xml");
+            setupCatalog(catalogFile);
+            catalogUri = catalogFile.toURI();
+        }
+        catch (IOException ex) {
+            LOG.debug("unable to setup dataset directory", ex);
+        }
+        catch (URISyntaxException ex) {
+            LOG.debug("file specified incorrectly", ex);
+        }
+        return catalogUri;
     }
 }
