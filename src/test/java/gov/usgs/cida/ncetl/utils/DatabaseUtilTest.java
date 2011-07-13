@@ -30,7 +30,7 @@ import thredds.catalog.InvCatalog;
  * @author Ivan Suftin <isuftin@usgs.gov>
  */
 public class DatabaseUtilTest {
-    private String DB_LOCATION = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
+    private static String DB_LOCATION = FileHelper.getTempDirectory() +  "test_delete_me" + File.separator;
     private String createDb = null;
     private String destroyDb = null;
     private Connection connection;
@@ -40,15 +40,24 @@ public class DatabaseUtilTest {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+        try {
+            FileUtils.forceDelete(new File(DB_LOCATION));
+        }catch(IOException ioe) {}
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
+        try {
+            FileUtils.forceDelete(new File(DB_LOCATION));
+        }catch(IOException ioe) {}
+            
     }
     
     @Before
     public void setUp() throws IOException {
-        FileUtils.forceMkdir(new File(DB_LOCATION));
+        try {
+            FileUtils.forceDelete(new File(DB_LOCATION));
+        }catch(IOException ioe) {}
         
     }
     
@@ -61,7 +70,9 @@ public class DatabaseUtilTest {
             DatabaseUtil.shutdownDatabase(destroyDb);
         }
         
-        FileUtils.forceDelete(new File(DB_LOCATION));
+        try {
+            FileUtils.forceDelete(new File(DB_LOCATION));
+        }catch(IOException ioe) {}
     }
 
     @Test
