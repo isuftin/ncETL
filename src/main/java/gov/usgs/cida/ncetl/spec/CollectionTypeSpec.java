@@ -18,7 +18,6 @@ import thredds.catalog.CollectionType;
 public class CollectionTypeSpec extends AbstractNcetlSpec {
 
     private static final long serialVersionUID = 1L;
-    //id int, type varchar(32)
     private static final String TABLE_NAME = "collection_type";
     public static final String TYPE = "type";
 
@@ -64,7 +63,7 @@ public class CollectionTypeSpec extends AbstractNcetlSpec {
             SQLException {
         Spec spec = new CollectionTypeSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
 
