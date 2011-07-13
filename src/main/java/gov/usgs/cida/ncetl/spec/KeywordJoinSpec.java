@@ -51,7 +51,7 @@ public class KeywordJoinSpec  extends AbstractNcetlSpec {
     
     public static List<Vocab> unmarshal(int datasetId, Connection con) throws SQLException {
         List<Vocab> result = Lists.newLinkedList();
-        KeywordJoinSpec spec = new KeywordJoinSpec();
+        Spec spec = new KeywordJoinSpec();
         Map<String, String[]> params = Maps.newHashMap();
         params.put("s_" + DATASET_ID, new String[] { "" + datasetId });
         Spec.loadParameters(spec, params);
