@@ -19,7 +19,7 @@
     <!-- #################### SERVLET CONFIGURATION #################### -->
     <servlet>
         <servlet-name>IngestControlServlet</servlet-name>
-        <servlet-class>gov.usgs.cida.ncetl.servlet.IngestControlServlet</servlet-class>
+        <servlet-class>gov.usgs.cida.ncetl.utils.IngestController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DecorateServlet</servlet-name>

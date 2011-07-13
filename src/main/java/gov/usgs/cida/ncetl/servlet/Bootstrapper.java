@@ -2,6 +2,7 @@ package gov.usgs.cida.ncetl.servlet;
 
 import gov.usgs.cida.ncetl.utils.DatabaseUtil;
 import gov.usgs.cida.ncetl.utils.FileHelper;
+import gov.usgs.cida.ncetl.utils.IngestController;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.naming.NamingException;
@@ -56,6 +57,17 @@ public class Bootstrapper implements ServletContextListener {
         catch (Exception ex) {
             log.error(
                     "*************** Application could not initialize catalog. The application will not work correctly. Error follows.",
+                    ex);
+            System.setProperty(ERRORS_ENCOUNTERED, TRUE);
+            return;
+        }
+        
+        try {
+            IngestController.setupIngestors();
+        }
+        catch (Exception ex) {
+            log.error(
+                    "*************** Application could not initialize ingestors. The application will not work correctly. Error follows.",
                     ex);
             System.setProperty(ERRORS_ENCOUNTERED, TRUE);
             return;

@@ -92,7 +92,7 @@ public final class FTPIngestTask extends TimerTask {
 
         if (everythingIsGood) {
             lastSuccessfulRun = new DateTime();
-//            IngestControlSpec spec = new IngestControlSpec();
+//    TODO        IngestControlSpec spec = new IngestControlSpec();
 //            Spec.updateRow(spec, con);
         }
     }

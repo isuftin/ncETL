@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import thredds.catalog2.builder.CatalogBuilder;
 
 /**
  *
