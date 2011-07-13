@@ -1,6 +1,5 @@
 package gov.usgs.cida.ncetl.spec;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
@@ -9,7 +8,6 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import thredds.catalog.ThreddsMetadata.Vocab;
 
@@ -59,7 +57,7 @@ public class ProjectSpec extends AbstractNcetlSpec {
     public static Vocab unmarshal(int id, Connection con) throws SQLException {
         Spec spec = new ProjectSpec();
         Map<String, String[]> params = Maps.newHashMap();
-        params.put("s_" + ID, new String[] { "" + id });
+        params.put(ID, new String[] { "" + id });
         Spec.loadParameters(spec, params);
         ResultSet rs = Spec.getResultSet(spec, con);
         
