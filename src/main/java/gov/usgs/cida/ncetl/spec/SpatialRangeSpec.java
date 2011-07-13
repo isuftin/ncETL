@@ -1,6 +1,5 @@
 package gov.usgs.cida.ncetl.spec;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gov.usgs.webservices.jdbc.spec.Spec;
 import gov.usgs.webservices.jdbc.spec.mapping.ColumnMapping;
@@ -9,7 +8,6 @@ import gov.usgs.webservices.jdbc.spec.mapping.WhereClauseType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import thredds.catalog.SpatialRangeType;
 import thredds.catalog.ThreddsMetadata.Range;
