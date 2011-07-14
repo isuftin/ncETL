@@ -1,10 +1,13 @@
 package gov.usgs.cida.ncetl.servlet;
 
+import gov.usgs.cida.ncetl.utils.FileHelper;
 import gov.usgs.cida.ncetl.utils.NcMLUtil;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -35,15 +38,18 @@ public class GlobalAttributeDeaggregationServlet extends HttpServlet {
         OutputStream out = response.getOutputStream();
 
         String directory = request.getParameter("directory");
-        boolean recurse = ("true".equalsIgnoreCase(request.getParameter("recurse")));
+        boolean recurse = ("true".equalsIgnoreCase(request.getParameter(
+                "recurse")));
         final String regex = request.getParameter("regex");
-        
+
         FileFilter filter = new FileFilter() {
+
             private Pattern pattern = null;
 
             @Override
             public boolean accept(File pathname) {
-                pattern = (null != regex) ? Pattern.compile(regex) : Pattern.compile(".*");
+                pattern = (null != regex) ? Pattern.compile(regex) : Pattern.compile(
+                        ".*");
                 Matcher matcher = pattern.matcher(pathname.getName());
                 return matcher.matches();
             }
@@ -59,33 +65,50 @@ public class GlobalAttributeDeaggregationServlet extends HttpServlet {
             addDirectoryContents(file, globals, rootGroup, recurse, filter);
             globals.writeNcML(out, null);
         }
+        catch (Exception ex) {
+            printError(out, "Error getting global attributes from files, try using a regex to refine your search");
+        }
         finally {
             IOUtils.closeQuietly(out);
         }
     }
 
-    private void addDirectoryContents(File directory, WrapperNetcdfFile ncml,
-                                      Group metaGroup, boolean recurse, FileFilter filter) throws
+    private void addDirectoryContents(File fileOrDir, WrapperNetcdfFile ncml,
+                                      Group metaGroup, boolean recurse,
+                                      FileFilter filter) throws
             IOException {
-        if (directory.isDirectory()) {
-            for (File file : directory.listFiles(filter)) {
+        if (fileOrDir.isDirectory()) {
+            for (File file : fileOrDir.listFiles()) {
+
                 if (file.isDirectory() && recurse) {
-                    addDirectoryContents(directory, ncml, metaGroup, recurse, filter);
+                    File recurseDir = new File(FileHelper.dirAppend(fileOrDir.getPath(), file.getName()));
+                    addDirectoryContents(recurseDir, ncml, metaGroup, recurse,
+                                         filter);
                 }
                 else {
-                    addFileContents(file, ncml, metaGroup);
+                    addFileContents(file, filter, ncml, metaGroup);
                 }
             }
         }
         else {
-            addFileContents(directory, ncml, metaGroup);
+            addFileContents(fileOrDir, filter, ncml, metaGroup);
         }
     }
 
-    private void addFileContents(File file, WrapperNetcdfFile globals,
+    private void addFileContents(File file, FileFilter filter, WrapperNetcdfFile globals,
                                  Group metaGroup) throws IOException {
-        Group globalGroup = NcMLUtil.globalAttributesToMeta(file, globals);
-        globals.addGroup(metaGroup, globalGroup);
+        if (filter.accept(file)) {
+            Group globalGroup = NcMLUtil.globalAttributesToMeta(file, globals);
+            globals.addGroup(metaGroup, globalGroup);
+        }
+    }
+    
+    private void printError(OutputStream out, String message) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+        writer.write("<?xml version='1.0' encoding='UTF-8'?>\n");
+        writer.write("<error>" + message + "</error>");
+        writer.flush();
+        IOUtils.closeQuietly(writer);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
