@@ -16,15 +16,17 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.joda.time.DateTime;
-import org.apache.log4j.Logger;
+
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jwalker
  */
 public final class FTPIngestTask extends TimerTask {
-    private static final Logger LOG = Logger.getLogger(FTPIngestTask.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(FTPIngestTask.class.getName());
     public static final long DEFAULT_RESCAN_PERIOD = 1000 * 60 * 60;
     public static final String DEFAULT_PASSWORD = "anonymous";
     public static final String DEFAULT_USER = "anonymous";
@@ -102,6 +104,7 @@ public final class FTPIngestTask extends TimerTask {
         FTPFile[] files = client.listFiles(dir, new ModifiedSinceFilter(
                 lastSuccessfulRun));
         for (FTPFile file : files) {
+            LOG.debug("ingesting file named " + file.getName());
             if (file.isDirectory()) {
                 if (!ingestDirectory(dir + File.separator + file.getName())) {
                     completedSuccessfully = false;
@@ -216,6 +219,7 @@ public final class FTPIngestTask extends TimerTask {
             ingest.lastSuccessfulRun = startDate;
             ingest.username = username;
             ingest.password = password;
+            ingest.active = active;
             return ingest;
         }
     }

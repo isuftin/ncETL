@@ -20,15 +20,13 @@ public class IngestController {
     
     private static final Logger LOG = LoggerFactory.getLogger(
             IngestController.class);
-    private static Map<String, Timer> runningTasks;
+    private static Map<String, Timer> runningTasks = Maps.newTreeMap();
     private static final int TIMER_LENGTH = 60000;
     private static final long serialVersionUID = 1L;
     
     public static void setupIngestors() throws SQLException, NamingException,
                                                ClassNotFoundException,
                                                MalformedURLException {
-        
-        runningTasks = Maps.newTreeMap();
         
         Connection con = DatabaseUtil.getConnection();
         try {
@@ -43,11 +41,16 @@ public class IngestController {
         }
     }
     
-    private static void startIngestTimer(FTPIngestTask task) {
+    protected static void startIngestTimer(FTPIngestTask task) {
         String name = task.getName();
+        Timer t = runningTasks.get(name);
+        if (t != null) {
+            t.cancel();
+        }
         runningTasks.remove(name);
         Timer timer = new Timer(name);
         timer.scheduleAtFixedRate(task, 0L, task.getRescanEvery());
+        LOG.debug("timer started for ingest: " + name);
         runningTasks.put(name, timer);
     }
     
