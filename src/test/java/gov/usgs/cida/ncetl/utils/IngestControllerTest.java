@@ -37,9 +37,9 @@ public class IngestControllerTest {
      */
     @Test
     public void testStartIngestTimer() throws MalformedURLException, InterruptedException {
-        FTPIngestTask ingest = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110710/").rescanEvery(5 * 1000).fileRegex(".*").active(true).build();
-        IngestController.startIngestTimer(ingest);
-        Thread.sleep(1000 * 15);
+        //FTPIngestTask ingest = new FTPIngestTask.Builder("test", "ftp://ftp.hpc.ncep.noaa.gov/npvu/rfcqpe/20110710/").rescanEvery(5 * 1000).fileRegex(".*").active(true).build();
+        //IngestController.startIngestTimer(ingest);
+        //Thread.sleep(1000 * 15);
         
         // TODO review the generated test code and remove the default call to fail.
 
