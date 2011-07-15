@@ -1,14 +1,17 @@
 package gov.usgs.cida.ncetl.utils;
-import java.io.FileNotFoundException;
 import org.jdom.JDOMException;
 import thredds.server.metadata.bean.Extent;
 import thredds.server.metadata.exception.ThreddsUtilitiesException;
 import thredds.server.metadata.util.ThreddsTranslatorUtil;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -39,11 +42,22 @@ public final class NcMLUtil {
      * @param outfile output netCDF file
      * @throws IOException 
      */
-    public static void writeNetCDFFile(InputStream ncmlIn, String outfile)
-            throws IOException {
+    public static File writeNetCDFFile(InputStream ncmlIn, String outfile) throws IOException {
+        if (StringUtils.isBlank(outfile)) {
+            throw new IllegalArgumentException("outfile cannot be blank or null");
+        }
+        
         NetcdfDataset dataset = NcMLReader.readNcML(ncmlIn, null);
-        // catch file too big?
-        NetcdfFileWriteable file = NetcdfFileWriteable.createNew(outfile);
+        NetcdfFile referencedFile = dataset.getReferencedFile();
+        NetcdfFileWriteable netcdfFileWriteable = NetcdfFileWriteable.createNew(outfile);
+        
+//        netcdfFileWriteable.
+        
+        File result = new File(outfile);
+//        NetcdfFile netCdfFile = NetcdfFileWriteable.
+//        
+//        file.writeNcML(new FileOutputStream(result), outfile);
+        return result;
     }
 
     /**
