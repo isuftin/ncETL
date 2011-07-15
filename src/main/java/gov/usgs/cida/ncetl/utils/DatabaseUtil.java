@@ -213,10 +213,12 @@ public final class DatabaseUtil {
         System.setProperty("dburl", shutdown);
         Connection myConn = null;
         try {
+            LOG.debug("Attempting to shut down the derby database.");
             myConn = SqlUtils.getConnection(JNDI_CONTEXT);
         }
         catch (SQLNonTransientConnectionException ex) {
             // Derby throws this if database succeeds in shutting down
+            LOG.debug("The derby database has been shut down.");
             return true;
         } finally {
             SqlUtils.closeConnection(myConn);
