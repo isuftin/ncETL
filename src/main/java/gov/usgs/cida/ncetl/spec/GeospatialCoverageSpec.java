@@ -70,11 +70,11 @@ public class GeospatialCoverageSpec  extends AbstractNcetlSpec {
         GeospatialCoverage gc = null;
         if (rs.next()) {
             String name = rs.getString(NAME);
-            int vocab_id = rs.getInt(CONTROLLED_VOCAB_ID);
-            Vocab vocab = ControlledVocabularySpec.lookupAndAddText(vocab_id, name, con);
+            int vocabId = rs.getInt(CONTROLLED_VOCAB_ID);
+            Vocab vocab = ControlledVocabularySpec.lookupAndAddText(vocabId, name, con);
             
-            int z_id = rs.getInt(ZPOSITIVE_ID);
-            String upOrDown = UpDownTypeSpec.lookup(z_id, con);
+            int zId = rs.getInt(ZPOSITIVE_ID);
+            String upOrDown = UpDownTypeSpec.lookup(zId, con);
             
             int id = rs.getInt(ID);
             Map<SpatialRangeType, Range> ranges = SpatialRangeSpec.unmarshal(id, con);

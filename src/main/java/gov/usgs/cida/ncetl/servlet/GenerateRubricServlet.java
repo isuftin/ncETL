@@ -68,13 +68,13 @@ public class GenerateRubricServlet extends HttpServlet {
             File ncmlFile = NcMLUtil.createNcML(filename);
             
             // in NCISO directory/waf we need to have NCML, HTML and XML
-            String _xsltMetadataAssessmentToHTML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
-            String _xsltMetadataAssessmentToXML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-xml.xsl").getPath();
+            String xsltMetadataAssessmentToHTML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-HTML.xsl").getPath();
+            String xsltMetadataAssessmentToXML = GenerateRubricServlet.class.getClassLoader().getResource("UnidataDDCount-xml.xsl").getPath();
 
             String htmlFile = filename + ".html";
             String xmlFile = filename + ".xml";
-            File html = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToHTML, ncmlFile.getCanonicalPath(), htmlFile);
-            File xml = ThreddsTranslatorUtil.transform(_xsltMetadataAssessmentToXML, ncmlFile.getCanonicalPath(), xmlFile);
+            File html = ThreddsTranslatorUtil.transform(xsltMetadataAssessmentToHTML, ncmlFile.getCanonicalPath(), htmlFile);
+            File xml = ThreddsTranslatorUtil.transform(xsltMetadataAssessmentToXML, ncmlFile.getCanonicalPath(), xmlFile);
             
             if ("ncml".equalsIgnoreCase(output)) {
                 response.setContentType("text/xml;charset=UTF-8");

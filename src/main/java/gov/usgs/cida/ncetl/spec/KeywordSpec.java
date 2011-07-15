@@ -59,8 +59,8 @@ public class KeywordSpec  extends AbstractNcetlSpec {
         Vocab vocab = null;
         if (rs.next()) {
             String value = rs.getString(VALUE);
-            int vocab_id = rs.getInt(CONTROLLED_VOCABULARY_ID);
-            vocab = ControlledVocabularySpec.lookupAndAddText(vocab_id, value, con);
+            int vocabId = rs.getInt(CONTROLLED_VOCABULARY_ID);
+            vocab = ControlledVocabularySpec.lookupAndAddText(vocabId, value, con);
         }
         return vocab;
     }

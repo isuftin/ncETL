@@ -58,8 +58,8 @@ public class ProjectJoinSpec  extends AbstractNcetlSpec {
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int proj_id = rs.getInt(PROJECT_ID);
-            result.add(ProjectSpec.unmarshal(proj_id, con));
+            int projId = rs.getInt(PROJECT_ID);
+            result.add(ProjectSpec.unmarshal(projId, con));
         }
         return result;
     }

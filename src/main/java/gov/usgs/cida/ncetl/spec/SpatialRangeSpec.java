@@ -77,8 +77,8 @@ public class SpatialRangeSpec  extends AbstractNcetlSpec {
             String units = rs.getString(UNITS);
             Range range = new Range(start, size, resolution, units);
             
-            int type_id = rs.getInt(SPATIAL_RANGE_TYPE_ID);
-            SpatialRangeType type = SpatialRangeTypeSpec.unmarshal(type_id, con);
+            int typeId = rs.getInt(SPATIAL_RANGE_TYPE_ID);
+            SpatialRangeType type = SpatialRangeTypeSpec.unmarshal(typeId, con);
             ranges.put(type, range);
         }
         return ranges;

@@ -58,8 +58,8 @@ public class KeywordJoinSpec  extends AbstractNcetlSpec {
         ResultSet rs = Spec.getResultSet(spec, con);
 
         while (rs.next()) {
-            int key_id = rs.getInt(KEYWORD_ID);
-            result.add(KeywordSpec.unmarshal(key_id, con));
+            int keyId = rs.getInt(KEYWORD_ID);
+            result.add(KeywordSpec.unmarshal(keyId, con));
         }
         return result;
     }
