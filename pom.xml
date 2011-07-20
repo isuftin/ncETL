@@ -37,7 +37,7 @@
         </license>
     </licenses>
 
-    <repositories>
+<!--    <repositories>
         <repository>
             <id>cida-gdp-thirdparty</id>
             <name>CIDA GDP Third-party</name>
@@ -53,7 +53,7 @@
             <name>CIDA GDP Development</name>
             <url>http://igsarmewfsbbl.er.usgs.gov:8081/nexus/content/groups/cida-gdp-development</url>
         </repository>
-    </repositories>
+    </repositories>-->
     
     <scm>
         <connection>scm:svn:https://cida-svn.er.usgs.gov/repos/dev/usgs/dcpt/trunk</connection>
